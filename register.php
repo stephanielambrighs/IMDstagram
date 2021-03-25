@@ -1,7 +1,17 @@
 <?php
 
+include_once(__DIR__ . "/classes/User.php");
 
+$user1 = new User();
 
+/*check if form is empty or not*/
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $user1->setEmail($_POST['email']);
+    $user1->setUsername($_POST['username']);
+    $user1->setPassword($_POST['password']);
+    $user1->setPasswordConf($_POST['password-conf']);
+    $user1->registerUser();
+}
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -22,10 +32,10 @@
                 <option value="Dutch (Belgium)" name="2">Dutch (Belgium)</option>
             </select>
             <a class="a-logo" href="#"><img id="logo" src="images/logo-02.svg" alt="logo-legato"></a>
-            <input type="text" class="f-text" placeholder="email">
-            <input type="text" class="f-text" placeholder="username">
-            <input type="text" class="f-text" placeholder="password">
-            <input type="text" class="f-text" placeholder="confirm password">
+            <input type="text" class="f-text" placeholder="email" name="email">
+            <input type="text" class="f-text" placeholder="username" name="username">
+            <input type="text" class="f-text" placeholder="password" name="password">
+            <input type="text" class="f-text" placeholder="confirm password" name="password-conf">
             <input type="submit" name="btn-signup" id="btn-signup" class="f-m-btn" value="Sign Up">
             <p class="p-msg">Having trouble creating an account? <span><a href="#">Get help.</a></span></p>
             <hr>
