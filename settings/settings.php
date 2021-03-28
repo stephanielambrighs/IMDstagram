@@ -6,6 +6,7 @@
     'DB_DATABASE'=>'legato',
     'DB_PORT' => '13306',
     'DB_TEST' => 'test',
-    'DB_TEST' => 'test'
+    'DB_TEST' => 'test',
+    'DB_TEST' => 'qsdfsqdfdsqdfqds'
     );
 ?>
