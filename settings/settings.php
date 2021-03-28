@@ -4,6 +4,7 @@
     'DB_USERNAME'=>'legato',
     'DB_PASSWORD'=>'94CbkEBEoFy4MP',
     'DB_DATABASE'=>'legato',
-    'DB_PORT' => '13306'
+    'DB_PORT' => '13306',
+    'DB_TEST' => 'test'
     );
 ?>
