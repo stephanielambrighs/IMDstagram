@@ -125,7 +125,7 @@ class User
         $username = $this->getUsername();
         $password = $this->getPassword();
         $passwordConf = $this->getPasswordConf();
-        var_dump("😎" . $email . " " . $username . " " . $password . " " . $passwordConf);
+       
 
 
        // UIT IF($_POST) HALEN
