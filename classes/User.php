@@ -125,16 +125,15 @@ class User
         $username = $this->getUsername();
         $password = $this->getPassword();
         $passwordConf = $this->getPasswordConf();
-        var_dump("😎" . $email . " " . $username . " " . $password . " " . $passwordConf);
-
-
        
+
+
+       // UIT IF($_POST) HALEN
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $statement = $conn->prepare("insert into users (email, username, password, password_conf) values(:email, :username, :password, :password_conf)");
+            $statement = $conn->prepare("insert into users (email, username, password) values(:email, :username, :password)");
             $statement->bindValue(":email", $email);
             $statement->bindValue(":username", $username);
             $statement->bindValue(":password", $password);
-            $statement->bindValue(":password_conf", $passwordConf);
             $statement->execute();
 
         }
