@@ -15,7 +15,18 @@
 </head>
 <body>
 <?php include_once("inc/nav.inc.php"); ?>
-    
+
+<div class="container">
+  <div class="row">
+    <div class="col-9">
+        <img src="https://images.pexels.com/photos/908602/pexels-photo-908602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="user_image">
+        <h2>user_name released new Track</h2>
+        <p>data</p>
+    </div>
+    <div class="col-4">.col-4<br>Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one contiguous unit.</div>
+    <div class="col-6">.col-6<br>Subsequent columns continue along the new line.</div>
+  </div>
+</div>
 
 <?php include_once("inc/footer.inc.php");?>
 </body>

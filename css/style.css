@@ -18,3 +18,30 @@ footer.bg-dark p {
     color: white;
     text-align: center;
 }
+
+.container {
+    display: grid;
+    justify-content: center;
+}
+div.col-9 {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    grid-template-rows: 30%;
+}
+
+div.col-9 img {
+    width: 80px;
+    height: 80px;
+    border-radius: 85%;
+    justify-self: center;
+}
+
+div.col-9 h2 {
+    justify-self: start;
+}
+
+div.col-9 p {
+    justify-self: start;
+    grid-row-start: -1;
+    grid-column-end: 3;
+}
