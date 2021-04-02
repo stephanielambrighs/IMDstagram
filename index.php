@@ -23,8 +23,14 @@
         <h2>user_name released new Track</h2>
         <p>data</p>
     </div>
-    <div class="col-4">.col-4<br>Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one contiguous unit.</div>
-    <div class="col-6">.col-6<br>Subsequent columns continue along the new line.</div>
+    <div class="col-4">
+        <img src="https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="feed"> 
+    </div>
+    <div class="col-6">
+        <h3>Title</h3>
+        <h4>artist_name</h4>
+        <p>Discription</p>
+    </div>
   </div>
 </div>
 
