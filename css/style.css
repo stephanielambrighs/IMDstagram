@@ -1,0 +1,16 @@
+body{
+    box-sizing: border-box;
+}
+
+.navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav {
+    color: white;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: white;
+}
+
+.navbar-light .navbar-brand {
+    color: white;
+}
+
