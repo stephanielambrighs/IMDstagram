@@ -33,8 +33,8 @@
     </div>
     <div class="col-3">
         <button type="button" class="btn btn-info"><img src="/images/like_image.png" alt="Likes">300 Likes</button>
-        <button type="button" class="btn btn-info"><img src="/images/like_image.png" alt="Likes">5 comment</button>
-        <button type="button" class="btn btn-info"><img src="/images/like_image.png" alt="Likes">15 shares</button>
+        <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Likes">5 comment</button>
+        <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Likes">15 shares</button>
     </div>
   </div>
 </div>
