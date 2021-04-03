@@ -15,6 +15,10 @@ body{
     color: white;
 }
 
+.container-fluid img {
+    width: 100px;
+}
+
 /* footer */
 footer.bg-dark p {
     color: white;
