@@ -31,6 +31,11 @@
         <h4>artist_name</h4>
         <p>Discription</p>
     </div>
+    <div class="col-3">
+        <button type="button" class="btn btn-info"><img src="/images/like_image.png" alt="Likes">300 Likes</button>
+        <button type="button" class="btn btn-info"><img src="/images/like_image.png" alt="Likes">5 comment</button>
+        <button type="button" class="btn btn-info"><img src="/images/like_image.png" alt="Likes">15 shares</button>
+    </div>
   </div>
 </div>
 
