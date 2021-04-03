@@ -16,6 +16,10 @@
 <body>
 <?php include_once("inc/nav.inc.php"); ?>
 
+<div>
+    <button type="button" class="btn btn-info"><img src="/images/plus_image.png" alt="Likes"></button>
+</div>
+
 <div class="container">
   <div class="row">
     <div class="col-9">
@@ -33,8 +37,8 @@
     </div>
     <div class="col-3">
         <button type="button" class="btn btn-info"><img src="/images/like_image.png" alt="Likes">300 Likes</button>
-        <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Likes">5 comment</button>
-        <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Likes">15 shares</button>
+        <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comment</button>
+        <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
     </div>
   </div>
 </div>
