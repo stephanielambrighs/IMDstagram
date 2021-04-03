@@ -27,9 +27,10 @@ footer.bg-dark p {
 
 /* user feed */
 .container {
+    width: 100%;
     display: grid;
     justify-content: center;
-    grid-template-columns: 55% auto;
+    grid-template-columns: 50% auto;
     margin-top: 5%;
     margin-bottom: 5%;
 }
@@ -116,4 +117,21 @@ div.col-3 {
     background-color: #961E9A;
     color: white;
     border-color: #961E9A;
+}
+
+
+/* add feed button */
+
+.add-feed {
+    text-align: center;
+    width: 100%;
+}
+
+#btn-feed {
+    width: 50px;
+    border-radius: 100%;
+}
+
+#btn-feed img {
+    width: 23px; 
 }

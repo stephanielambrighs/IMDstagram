@@ -16,8 +16,8 @@
 <body>
 <?php include_once("inc/nav.inc.php"); ?>
 
-<div>
-    <button type="button" class="btn btn-info"><img src="/images/plus_image.png" alt="Likes"></button>
+<div class="add-feed">
+    <button id="btn-feed" type="button" class="btn btn-info"><img src="/images/plus_image.png" alt="add"></button>
 </div>
 
 <div class="container">
