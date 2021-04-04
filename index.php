@@ -20,7 +20,7 @@
     <button id="btn-feed" type="button" class="btn btn-info"><img src="/images/plus_image.png" alt="add"></button>
 </div>
 
-<div class="form-feed">
+<form class="form-feed" action="#" method="POST">
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Title</label>
         <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Title...">
@@ -35,10 +35,10 @@
     </div>
     <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" type="text"></textarea>
     </div>
-    <button type="button" class="btn btn-info">Bericht</button>
-</div>
+    <button type="submit" value="submit" class="btn btn-info">Bericht</button>
+</form>
 
 <div class="container">
   <div class="row">
