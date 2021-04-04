@@ -20,6 +20,25 @@
     <button id="btn-feed" type="button" class="btn btn-info"><img src="/images/plus_image.png" alt="add"></button>
 </div>
 
+<!-- <div class="form-feed">
+    <div class="mb-3">
+        <label for="formFile" class="form-label">Default file input example</label>
+        <input class="form-control" type="file" id="formFile">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Email address</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Title">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Email address</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Gerne">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+    </div>
+</div> -->
+
 <div class="container">
   <div class="row">
     <div class="col-9">
@@ -27,13 +46,15 @@
         <h2>user_name released new Track</h2>
         <p>data</p>
     </div>
-    <div class="col-4">
-        <img src="https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="feed"> 
-    </div>
-    <div class="col-6">
-        <h3>Title</h3>
-        <h4>artist_name</h4>
-        <p>Discription</p>
+    <div class="feed">
+        <div class="col-4">
+            <img src="https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="feed"> 
+        </div>
+        <div class="col-6">
+            <h3>Title</h3>
+            <h4>artist_name</h4>
+            <p>Discription</p>
+        </div>
     </div>
     <div class="col-3">
         <button type="button" class="btn btn-info"><img src="/images/like_image.png" alt="Likes">300 Likes</button>

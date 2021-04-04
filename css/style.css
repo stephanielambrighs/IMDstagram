@@ -35,13 +35,19 @@ footer.bg-dark p {
     margin-bottom: 5%;
 }
 
+div.row{
+    width: 100%;
+    display: grid;
+    justify-content: center;
+}
+
 h2,p,h3,h4 {
     color: white;
 }
 
 div.col-9 {
     display: grid;
-    grid-template-columns: 20% 95%;
+    grid-template-columns: 25% 95%;
     grid-template-rows: 30%;
 }
 
@@ -55,7 +61,7 @@ div.col-9 img {
 div.col-9 h2 {
     justify-self: start;
     margin-left: 5%;
-    font-size: 1.5em;
+    font-size: 1.8em;
 }
 
 div.col-9 p {
@@ -65,14 +71,20 @@ div.col-9 p {
     grid-column-end: 3;
 }
 
+.feed {
+    display: grid;
+    width: 98%;
+    grid-template-columns: 50% 50%;
+    background-color: #5E1161;
+    margin-left: 12px;
+    padding: 0.5em 0.5em;
+    border-radius: 3%;
+}
 
 div.col-4 {
     display:grid;
     width: 300px;
     grid-template-columns: 100%;
-    background-color: #5E1161;
-    margin-left: 12px;
-    padding: 0.5em 0.5em;
     border-radius: 3%;
 }
 
@@ -83,7 +95,7 @@ div.col-4 img {
 
 div.col-6 {
     display:grid;
-    width: 240px;
+    width: 250px;
     grid-template-columns: 100%;
     grid-template-rows: 25% 25% 25%;
     background-color: #5E1161;
@@ -106,8 +118,8 @@ div.col-6 p {
 
 div.col-3 {
     display:grid;
+    width: 600px;
     grid-template-columns: 33% 33% 33%;
-    width: 540px;
     background-color: #961E9A;
     border-radius: 5px;
     margin-left: 13px;
@@ -135,4 +147,8 @@ div.col-3 {
 
 #btn-feed img {
     width: 23px; 
+}
+
+.form-feed {
+    display: grid;
 }
