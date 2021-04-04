@@ -20,24 +20,25 @@
     <button id="btn-feed" type="button" class="btn btn-info"><img src="/images/plus_image.png" alt="add"></button>
 </div>
 
-<!-- <div class="form-feed">
+<div class="form-feed">
     <div class="mb-3">
-        <label for="formFile" class="form-label">Default file input example</label>
+        <label for="exampleFormControlInput1" class="form-label">Title</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Title...">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Genre</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Genre...">
+    </div>
+    <div class="mb-3">
+        <label for="formFile" class="form-label">Upload file</label>
         <input class="form-control" type="file" id="formFile">
     </div>
     <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Email address</label>
-        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Title">
-    </div>
-    <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Email address</label>
-        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Gerne">
-    </div>
-    <div class="mb-3">
-        <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+        <label for="exampleFormControlTextarea1" class="form-label">Description</label>
         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
     </div>
-</div> -->
+    <button type="button" class="btn btn-info">Bericht</button>
+</div>
 
 <div class="container">
   <div class="row">
@@ -58,7 +59,7 @@
     </div>
     <div class="col-3">
         <button type="button" class="btn btn-info"><img src="/images/like_image.png" alt="Likes">300 Likes</button>
-        <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comment</button>
+        <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
         <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
     </div>
   </div>
