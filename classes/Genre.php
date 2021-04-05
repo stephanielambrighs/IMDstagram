@@ -11,6 +11,12 @@ class Genre {
         $this->name = $name;
     }
 
+    // function __construct()
+    // {
+    //     // $this->id = $id;
+    //     // $this->name = $name;
+    // }
+
     public function getId()
     {
             return $this->id;

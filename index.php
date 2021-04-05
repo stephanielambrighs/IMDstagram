@@ -1,6 +1,10 @@
 <?php
 
+require_once("autoload.php");
 
+$db_con = Db::getConnection();
+
+// var_dump(Db::getAllGenres());
 
 ?><!DOCTYPE html>
 <!-- LEGATO INDEX (FEED) -->
@@ -29,9 +33,11 @@
         <label for="exampleFormControlInput1" class="form-label">Genre</label>
         <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
             <option selected>-</option>
-            <option value="1">Pop</option>
-            <option value="2">Rock</option>
-            <option value="3">Metal</option>
+        <?php 
+        $allGenres = Db::getAllGenres();
+        for($i = 0; $i < count($allGenres); $i++):?>
+            <option value="<?php echo $i?>"><?php echo $allGenres[$i]->name; ?></option>
+        <?php endfor; ?>
         </select>
     </div>
     <div class="mb-3">

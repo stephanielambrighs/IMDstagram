@@ -33,7 +33,7 @@ class Db
         $genreList = [];
 
         foreach($result as $db_genre){
-            $genre = new Genre($result['id'], $result['name']);
+            $genre = new Genre($db_genre['id'], $db_genre['name']);
             array_push($genreList, $genre);
         }
         return $genreList;
