@@ -2,9 +2,22 @@
 
 require_once("autoload.php");
 
-$db_con = Db::getConnection();
 
-// var_dump(Db::getAllGenres());
+if(!empty($_POST['title']) 
+&& !empty($_POST['description'] ) 
+&& !empty($_POST['genre_id'] )){
+    try{
+        $post = new Post();
+        $post->setTitle($_POST['title']);
+        $post->setDescription($_POST['description']);
+        $post->setGenre_id($_POST['genre_id']);
+        $result = Db::insertPost($post);
+    }
+    catch(Exception $e){
+        $error = $e->getMessage();
+    }
+}
+
 
 ?><!DOCTYPE html>
 <!-- LEGATO INDEX (FEED) -->
@@ -27,28 +40,28 @@ $db_con = Db::getConnection();
 <form class="form-feed" action="#" method="POST">
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Title</label>
-        <input type="text" class="form-control" id="title" placeholder="Title...">
+        <input type="text" name="title" class="form-control" id="title" placeholder="Title...">
     </div>
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Genre</label>
-        <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+        <select class="form-select" name="genre_id" id="inputGroupSelect04" aria-label="Example select with button addon">
             <option selected>-</option>
         <?php 
         $allGenres = Db::getAllGenres();
         for($i = 0; $i < count($allGenres); $i++):?>
-            <option value="<?php echo $i?>"><?php echo $allGenres[$i]->name; ?></option>
+            <option value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
         <?php endfor; ?>
         </select>
     </div>
     <div class="mb-3">
         <label for="formFile" class="form-label">Upload file</label>
-        <input class="form-control" type="file" id="formFile">
+        <input class="form-control" name="file" type="file" id="formFile">
     </div>
     <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" type="text"></textarea>
+        <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" type="text"></textarea>
     </div>
-    <button type="submit" value="submit" class="btn btn-info">Bericht</button>
+    <button type="submit" value="submit" class="btn btn-info">Submit</button>
 </form>
 
 <div class="container">
