@@ -1,4 +1,5 @@
 <?php
+require_once("autoload.php");
 
 class Db
 {
@@ -9,17 +10,33 @@ class Db
     {
         include_once(__DIR__ . "/../settings/settings.php");
         $host = $config['DB_HOST'];
-        var_dump($host);
+        // var_dump($host);
         $dbname = $config['DB_DATABASE'];
-        var_dump($dbname);
+        // var_dump($dbname);
         $port = $config['DB_PORT'];
         if (self::$conn === null) {
             self::$conn = new PDO("mysql:host=$host;dbname=$dbname;port=$port",$config['DB_USERNAME'],$config['DB_PASSWORD']);
             $status = self::$conn->getAttribute(PDO::ATTR_CONNECTION_STATUS);
-            var_dump($status);
+            // var_dump($status);
             return self::$conn;
         } else {
             return self::$conn;
         }
     }
+
+    public static function getAllGenres(){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("SELECT id, name FROM genre");
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        $genreList = [];
+
+        foreach($result as $db_genre){
+            $genre = new Genre($result['id'], $result['name']);
+            array_push($genreList, $genre);
+        }
+        return $genreList;
+    }
+
 }
