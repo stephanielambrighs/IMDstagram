@@ -23,11 +23,16 @@
 <form class="form-feed" action="#" method="POST">
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Title</label>
-        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Title...">
+        <input type="text" class="form-control" id="title" placeholder="Title...">
     </div>
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Genre</label>
-        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Genre...">
+        <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+            <option selected>-</option>
+            <option value="1">Pop</option>
+            <option value="2">Rock</option>
+            <option value="3">Metal</option>
+        </select>
     </div>
     <div class="mb-3">
         <label for="formFile" class="form-label">Upload file</label>
