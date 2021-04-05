@@ -2,29 +2,35 @@
 
 
 class Post {
-    public $id;
-    public $title;
-    public $description;
-    public $genre_id;
-    public $upload_date;
-    public $user_id;
-    public $type_id;
-    public $file_path;
+    private $id = 0;
+    private $title = "";
+    private $description = "";
+    private $genre_id = 0;
+    private $upload_date = 0;
+    private $user_id = 0;
+    private $type_id = 0;
+    private $file_path = "";
 
-    function __construct($id, $title, $description, $genre_id, $upload_date, $user_id, $type_id, $file_path)
+
+
+    // function __construct($id, $title, $description, $genre_id, $upload_date, $user_id, $type_id, $file_path)
+    // {
+    //     $this->id = $id;
+    //     $this->title = $title;
+    //     $this->description = $description;
+    //     $this->genre_id = $genre_id;
+    //     $this->upload_date = $upload_date;
+    //     $this->user_id = $user_id;
+    //     $this->type_id = $type_id;
+    //     $this->file_path = $file_path;
+
+    // }
+
+    function __construct()
     {
-        $this->id = $id;
-        $this->title = $title;
-        $this->description = $description;
-        $this->genre_id = $genre_id;
-        $this->upload_date = $upload_date;
-        $this->user_id = $user_id;
-        $this->type_id = $type_id;
-        $this->file_path = $file_path;
-
     }
 
-        public function getId()
+    public function getId()
         {
                 return $this->id;
         }
