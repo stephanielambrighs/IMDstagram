@@ -1,23 +1,23 @@
 <?php
-    //var_dump(§_POST);
-    function login($username, $password){
-        if($username === "Morgane" && $password === "12345"){
-            return true;
-        }else{
-            return false;
-        }
+function login($username, $password){
+    if($username === "Morgane" && $password === "12345"){
+        return true;
+    }else{
+        return false;
     }
+}
 
-    if(!empty($_POST)){
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+if(!empty($_POST)){
+    $username = $_POST["username"];
+    $password = $_POST["password"];
 
-        if(login($username, $password === true)){
+    if (login($username, $password)){
 
-        }else{
-            $error = true;
-        }
+    }else{
+        $error = true;
     }
+}
+  
     
 ?>
 <!DOCTYPE html>
@@ -32,9 +32,12 @@
 <body>
     <main>
         <div class="mb-3">
-            <form action="login.php" action="" method="post">
+            <form action="login.php" method="post">
                 <a class="a-logo" href="#"><img id="logo" src="images/logo-02.svg" alt="logo-legato"></a>
-                <input type="text" class="f-text" placeholder="email" name="email">
+                <?php if(isset($error)): ?>
+                <div class="error">The username or password is incorrect. Please try again.</div>
+                <?php endif; ?>
+                <input type="text" class="f-text" placeholder="username" name="username">
                 <input type="text" class="f-text" placeholder="password" name="password">
                 <input type="submit" name="btn-signin" id="btn-signin" class="f-m-btn" value="Sign In">
             </form>
