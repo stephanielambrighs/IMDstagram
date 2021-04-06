@@ -30,7 +30,6 @@ class FileManager {
 
         // upload
         $target_dir = self::getLocation();
-        // $target_file = $target_dir . "/" . rand(1111,9999) . basename($fileName);
         $target_file = $target_dir . "/" . self::generateName($fileName, $fileType);
 
         // var_dump($target_file);
@@ -53,14 +52,14 @@ class FileManager {
             );
         }
 
-        
+        self::compressImage($fileTmpName, $target_file, 40);
     
        
-        if ( move_uploaded_file($fileTmpName, $target_file)) {
-            var_dump("The file ". htmlspecialchars($fileTmpName) . " has been uploaded.");
-        } else {
-            var_dump("Sorry, there was an error uploading your file.");
-        }
+        // if ( move_uploaded_file($fileTmpName, $target_file)) {
+        //     var_dump("The file ". htmlspecialchars($fileTmpName) . " has been uploaded.");
+        // } else {
+        //     var_dump("Sorry, there was an error uploading your file.");
+        // }
     
         return array (
             "success" => true,
@@ -74,6 +73,22 @@ class FileManager {
         $now = new DateTime('now');
         $new_file_name = date_format($now, 'Y-m-d-H-i-s') ."-". substr(base64_encode($file_name), 0,8) . "." . $file_type;
         return $new_file_name;
+    }
+
+
+    private static function compressImage($source, $destination, $quality){
+        $info = getimagesize($source);
+
+        if ($info['mime'] == 'image/jpeg') 
+        $image = imagecreatefromjpeg($source);
+
+        elseif ($info['mime'] == 'image/gif') 
+        $image = imagecreatefromgif($source);
+
+        elseif ($info['mime'] == 'image/png') 
+        $image = imagecreatefrompng($source);
+
+        imagejpeg($image, $destination, $quality);
     }
 
     }

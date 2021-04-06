@@ -80,7 +80,7 @@ if(!empty($_POST['title'])
         <label for="exampleFormControlTextarea1" class="form-label">Description</label>
         <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" type="text"></textarea>
     </div>
-    <button type="submit" value="submit" class="btn btn-info">Submit</button>
+    <button type="submit" value="Upload" class="btn btn-info">Submit</button>
 </form>
 
 <div class="container">
