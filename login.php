@@ -1,5 +1,24 @@
 <?php
-    var_dump(§_POST);
+    //var_dump(§_POST);
+    function login($username, $password){
+        if($username === "Morgane" && $password === "12345"){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    if(!empty($_POST)){
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        if(login($username, $password === true)){
+
+        }else{
+            $error = true;
+        }
+    }
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
