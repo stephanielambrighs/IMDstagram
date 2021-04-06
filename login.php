@@ -1,5 +1,5 @@
 <?php
-    
+    var_dump(§_POST);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +13,7 @@
 <body>
     <main>
         <div class="mb-3">
-            <form action="f-login" action="" method="">
+            <form action="login.php" action="" method="post">
                 <a class="a-logo" href="#"><img id="logo" src="images/logo-02.svg" alt="logo-legato"></a>
                 <input type="text" class="f-text" placeholder="email" name="email">
                 <input type="text" class="f-text" placeholder="password" name="password">
