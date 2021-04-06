@@ -12,7 +12,8 @@ if(!empty($_POST)){
     $password = $_POST["password"];
 
     if (login($username, $password)){
-
+        session_start();
+        $_SESSION["username"] = $username;
     }else{
         $error = true;
     }
