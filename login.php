@@ -37,7 +37,7 @@ if(!empty($_POST)){
         <div class="mb-3">
         <a href="logout.php">Log out?</a>
             <form class="form" action="login.php" method="post">
-                <a class="a-logo" href="#"><img id="logo" src="images/logo-02 .svg" alt="logo-legato"></a>
+                <a class="a-logo" href="#"><img id="logo" src="images/logo-02.svg" alt="logo-legato"></a>
                 <?php if(isset($error)): ?>
                 <div class="error">The username or password is incorrect. Please try again.</div>
                 <?php endif; ?>
