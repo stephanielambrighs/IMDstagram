@@ -1,1 +1,5 @@
-settings/settings.php
+settings*
+.docker*
+docker-compose*
+test.php
+data*
