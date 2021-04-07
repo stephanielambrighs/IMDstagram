@@ -1,17 +1,22 @@
 <?php
 
-include_once(__DIR__ . "/classes/User.php");
+    include_once(__DIR__ . "/autoload.php");
 
-$user1 = new User();
+    $user = new User();
 
-/*check if form is empty or not*/
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user1->setEmail($_POST['email']);
-    $user1->setUsername($_POST['username']);
-    $user1->setPassword($_POST['password']);
-    $user1->setPasswordConf($_POST['password-conf']);
-    $user1->registerUser();
-}
+    if (!empty($_POST)) {
+        var_dump($_POST);
+
+        $user->setEmail($_POST['email']);
+        $user->setUsername($_POST['username']);
+        $user->setPassword($_POST['password']);
+        $user->setAvatar("DUMMY");
+        $user->setFirstname($_POST['firstname']);
+        $user->setLastname($_POST['lastname']);
+        $user->setBio("DUMMY");
+        $user->setDateOfBirth($_POST['date_of_birth']);
+        $user->register();
+    }
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -22,26 +27,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <?php include_once(__DIR__ . "/inc/links.inc.php") ?>
 
-    <title>Register</title>
+    <title>Welcome - Register</title>
 </head>
-<body>
-    <main>
-        <form id="f-register" action="" method="POST">
-            <select name="language" id="s-language">
+<body id="r-body">
+    <main id="r-main">
+        <form method="POST" id="r-register" enctype="multipart/form-data">
+            <select class="form-control form-control-sm" name="language" id="s-language">
                 <option value="English (United States)" name="1">English (United States)</option>
                 <option value="Dutch (Belgium)" name="2">Dutch (Belgium)</option>
             </select>
-            <a class="a-logo" href="#"><img id="logo" src="images/logo-02.svg" alt="logo-legato"></a>
-            <input type="text" class="f-text" placeholder="email" name="email">
-            <input type="text" class="f-text" placeholder="username" name="username">
-            <input type="text" class="f-text" placeholder="password" name="password">
-            <input type="text" class="f-text" placeholder="confirm password" name="password-conf">
-            <input type="submit" name="btn-signup" id="btn-signup" class="f-m-btn" value="Sign Up">
-            <p class="p-msg">Having trouble creating an account? <span><a href="#">Get help.</a></span></p>
-            <hr>
-            <p class="p-msg">Copyright ©2021 - Legato</p>
+            <div class="form-item">
+                <a href="#"><img id="logo" src="images/logo-02.svg" alt="Legato logo"></a>
+            </div>
+            <div class="alert alert-danger" role="alert">
+                This is a danger alert—check it out!
+            </div>
+            <div class="form-group">
+                <!--<label style="visiffbility: hidden;" for="exampleInputEmail1">Email address</label>-->
+                <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email">
+            </div>
+            <div class="form-group">
+                <!--<label style="visibility: hidden;" for="exampleInputEmail1">Email address</label>-->
+                <input type="text" class="form-control" name="firstname" aria-describedby="emailHelp" placeholder="firstname">
+            </div>
+            <div class="form-group">
+                <!--<label style="visibility: hidden;" for="exampleInputEmail1">Email address</label>-->
+                <input type="text" class="form-control" name="lastname" aria-describedby="emailHelp" placeholder="lastname">
+            </div>
+            <div class="form-group">
+                <!--<label style="visibility: hidden;" for="exampleInputEmail1">Email address</label>-->
+                <input type="date" class="form-control" name="date_of_birth" aria-describedby="emailHelp" placeholder="Date of birth">
+            </div>
+            <div class="form-group">
+                <!--<label style="visibility: hidden;" for="exampleInputEmail1">Email address</label>-->
+                <input type="text" class="form-control" name="username" aria-describedby="emailHelp" placeholder="username">
+            </div>
+            <div class="form-group">
+                <!--<label style="visibility: hidden;" for="exampleInputPassword1">Password</label>-->
+                <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="password">
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-sm btn-block">Submit</button>
         </form>
     </main>
     <?php  include_once(__DIR__ . "/inc/footer.inc.php") ?>
 </body>
-</html>
