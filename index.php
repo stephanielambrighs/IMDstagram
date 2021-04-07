@@ -1,5 +1,10 @@
 <?php
-
+    session_start();
+    if(isset($_SESSION["username"])){
+        echo "Welcome ".$_SESSION["username"];
+    }else{
+        header("Location: login.php");
+    }
 
 
 ?><!DOCTYPE html>
@@ -12,6 +17,6 @@
     <title>Legato</title>
 </head>
 <body>
-    
+    <a href="logout.php">Log out?</a>
 </body>
 </html>
