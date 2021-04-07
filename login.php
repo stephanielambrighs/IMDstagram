@@ -3,7 +3,7 @@
     include_once(__DIR__."/classes/Db.php");
 
     function login($username, $password){
-        if($username === "Morgane" && $password === "12345"){
+        if($username === $username && $password === $password){
             return true;
         }else{
             return false;
