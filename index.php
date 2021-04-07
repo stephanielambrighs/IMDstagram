@@ -63,10 +63,6 @@ if(!empty($_POST['title'])
         <?php endfor; ?>
         </select>
     </div>
-
-
-
-   
     <div class="mb-3">
         <label for="formFile" class="form-label">Upload file</label>
         <input class="form-control" name="file" type="file" id="file">
@@ -74,8 +70,6 @@ if(!empty($_POST['title'])
             <div class="alert alert-danger"><?php echo $uploadResult['message']; ?></div>
         <?php endif;?>
     </div>
-    
-
     <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label">Description</label>
         <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" type="text"></textarea>
@@ -85,6 +79,8 @@ if(!empty($_POST['title'])
 
 <div class="container">
   <div class="row">
+  <?php $allPosts = Db::getAllPosts(); 
+    foreach($allPosts as $post): ?>
     <div class="col-9">
         <img src="https://images.pexels.com/photos/908602/pexels-photo-908602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="user_image">
         <h2>user_name released new Track</h2>
@@ -95,9 +91,9 @@ if(!empty($_POST['title'])
             <img src="https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="feed"> 
         </div>
         <div class="col-6">
-            <h3>Title</h3>
-            <h4>artist_name</h4>
-            <p>Discription</p>
+            <h3><?php echo $post->getTitle(); ?></h3>
+            <h4><?php //echo $post['genre_id']; ?></h4>
+            <p><?php //echo $post['description']; ?></p>
         </div>
     </div>
     <div class="col-3">
@@ -105,6 +101,7 @@ if(!empty($_POST['title'])
         <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
         <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
     </div>
+    <?php endforeach; ?> 
   </div>
 </div>
 
