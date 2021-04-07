@@ -66,7 +66,7 @@ class Db {
 
     public static function getAllPosts(){
         $conn = self::getConnection();
-        $statement = $conn->prepare("SELECT * FROM posts");
+        $statement = $conn->prepare("SELECT * FROM posts LIMIT 20");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         // var_dump($statement->errorInfo());
@@ -86,6 +86,20 @@ class Db {
             // var_dump($postList);
         }
         return $postList;
+    }
+
+    public static function getGenreById($genreId){
+        // genre opvragen -> database 
+        // object maken en dit object teruggeven 
+        $conn = self::getConnection();
+        $statement = $conn->prepare("SELECT * FROM `genre` WHERE id = :id");
+        $statement->bindValue(":id", $genreId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        $genre = new Genre($result['id'], $result['name']);
+        // var_dump($genre);
+        return $genre;
     }
 
     // public static function getGenreByName($genre_name){
