@@ -12,7 +12,7 @@
 
     if(!empty($_POST)){
         $username = $_POST["username"];
-        $password = $_POST["password"];
+        $password = password_hash($_POST["password"], );
 
         if (login($username, $password)){
             session_start();
