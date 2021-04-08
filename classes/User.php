@@ -13,7 +13,7 @@ class User
     private $bio;
     private $dateOfBirth;
 
-    private $emailUsedError;
+    private $emailError;
 
     /**
      * Get the value of id
@@ -191,22 +191,23 @@ class User
 
         return $this;
     }
+
     /**
-     * Get the value of emailUsedError
+     * Get the value of emailError
      */ 
-    public function getEmailUsedError()
+    public function getEmailError()
     {
-        return $this->emailUsedError;
+        return $this->emailError;
     }
 
     /**
-     * Set the value of emailUsedError
+     * Set the value of emailError
      *
      * @return  self
      */ 
-    public function setEmailUsedError($emailUsedError)
+    public function setEmailError($emailError)
     {
-        $this->emailUsedError = $emailUsedError;
+        $this->emailError = $emailError;
 
         return $this;
     }
@@ -225,48 +226,38 @@ class User
         $lastname = $this->getLastname();
         $username = $this->getUsername();
         $password = password_hash($this->getPassword(), PASSWORD_BCRYPT);
-        $avatar = $this->getAvatar();
-        $bio = $this->getBio();
         $dateOfBirth = $this->getDateOfBirth();
-       
 
-
-       // UIT IF($_POST) HALEN
-
-       // try catch {
-       //   valid email (db)
-       //   valid date_of_birth (db)
-       //   password hash
-       // } 
-
-            // email validation
+        // email validation
+        try {
             if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $statement = $conn->prepare("select email from users where email = ?");
                 $statement->bindValue(1, $email);
                 $statement->execute();
-
+    
                 if ($statement->rowCount() > 0) {
-                    echo "EMAIL IS ALREADY IN USE";
-                    $this->setEmailUsedError("Email is already in use");
+                    $this->setEmailError("Email is already in use");
+                   // throw new Exception("EMAIL IS ALREADY IN USE"); // email is already in use
+                    
                 } else {
-                    $statement = $conn->prepare("insert into users (email, username, password, img_user_directory, first_name, last_name, bio, date_of_birth) 
-                    values(:email, :username, :password, :avatar, :firstname, :lastname, :bio, :date_of_birth)");
+                    $statement = $conn->prepare("insert into users (email, username, password, firstname, lastname, date_of_birth) 
+                    values(:email, :username, :password, :firstname, :lastname, :date_of_birth)");
                     $statement->bindValue(":email", $email);
                     $statement->bindValue(":username", $username);
                     $statement->bindValue(":password", $password);
-                    $statement->bindValue(":avatar", $avatar);
                     $statement->bindValue(":firstname", $firstname);
                     $statement->bindValue(":lastname", $lastname);
-                    $statement->bindValue(":bio", $bio);
                     $statement->bindValue(":date_of_birth", $dateOfBirth);
                     $statement->execute();
-
+    
                     header('Location: completeProfile.php');
                 }
             } else {
-                echo "NOT A VALID EMAIL";
+                $this->setEmailError("Sorry, this is not a valid email");
             }
-        
+        } catch (Exception $e) {
+            echo $e;
+        }
     }
 
     public function completeProfile()
@@ -275,9 +266,4 @@ class User
 
         
     }
-
-
-    
-
-    
 }
