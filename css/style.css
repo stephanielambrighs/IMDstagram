@@ -58,7 +58,7 @@ footer {
     margin: 2rem 0;
 }
 #r-register {
-    width: 70%;
+    width: 460px;
     border: 1px solid #C3C3C3;
     border-radius: 4px;
     padding: 16px;
@@ -86,4 +86,7 @@ footer {
 .img-thumbnail {
     max-width: 50% !important;
     width: 50%;
+}
+.alert {
+    padding: 0 !important;
 }
