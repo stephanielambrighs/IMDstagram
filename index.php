@@ -3,8 +3,8 @@
 require_once("autoload.php");
 
 if(!empty($_POST['title'])
-//&& !empty($_POST['description']) 
-//&& !empty($_POST['genre_id']) 
+&& !empty($_POST['description']) 
+&& !empty($_POST['genre_id']) 
 && !empty($_FILES['file'])){
     try{
         
