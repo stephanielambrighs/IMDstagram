@@ -30,7 +30,7 @@ class Db {
         $statement = $conn->prepare("SELECT id, name FROM genre");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        var_dump($statement->errorInfo());
+        // var_dump($statement->errorInfo());
 
         $genreList = [];
         foreach($result as $db_genre){
@@ -61,6 +61,45 @@ class Db {
     private static function get_current_time(){
         $now = new DateTime('now');
         return date_format($now, 'Y-m-d H:i:s');
+    }
+
+
+    public static function getAllPosts(){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("SELECT * FROM posts WHERE `upload_date` ORDER BY `upload_date` DESC LIMIT 20");
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        // var_dump($statement->errorInfo());
+
+        $postList = [];
+        foreach($result as $db_post){
+            $post = new Post();
+            $post->setId($db_post['id']);
+            $post->setTitle($db_post['title']);
+            $post->setDescription($db_post['description']);
+            $post->setGenre_id($db_post['genre_id']);
+            $post->setUpload_date($db_post['upload_date']);
+            $post->setUser_id($db_post['user_id']);
+            $post->setType_id($db_post['type_id']);
+            $post->setFile_path($db_post['file_path']);
+            array_push($postList, $post);
+            // var_dump($postList);
+        }
+        return $postList;
+    }
+
+    public static function getGenreById($genreId){
+        // genre opvragen -> database 
+        // object maken en dit object teruggeven 
+        $conn = self::getConnection();
+        $statement = $conn->prepare("SELECT * FROM `genre` WHERE id = :id");
+        $statement->bindValue(":id", $genreId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        $genre = new Genre($result['id'], $result['name']);
+        // var_dump($genre);
+        return $genre;
     }
 
     // public static function getGenreByName($genre_name){

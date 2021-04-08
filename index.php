@@ -2,13 +2,11 @@
 
 require_once("autoload.php");
 
-
 if(!empty($_POST['title']) 
 && !empty($_POST['description'])
 && !empty($_POST['genre_id']) 
 && !empty($_FILES['file'])){
     try{
-
         
         $uploadResult = FileManager::uploadFile($_FILES['file']);
 
@@ -95,19 +93,23 @@ if(!empty($_POST['title'])
 
 <div class="container">
   <div class="row">
+  <?php $allPosts = Db::getAllPosts(); 
+   
+    foreach($allPosts as $post): ?>
     <div class="col-9">
         <img src="https://images.pexels.com/photos/908602/pexels-photo-908602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="user_image">
-        <h2>user_name released new Track</h2>
-        <p>data</p>
+        <h2>user_name</h2>
+        <p><?php echo $post->getUpload_date(); ?></p>
     </div>
     <div class="feed">
         <div class="col-4">
-            <img src="https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="feed"> 
+            <img src="<?php echo $post->getFile_path(); ?>" alt="feed"> 
         </div>
         <div class="col-6">
-            <h3>Title</h3>
-            <h4>artist_name</h4>
-            <p>Discription</p>
+            <h3><?php echo $post->getTitle(); ?></h3>
+            <h4><?php $genre = Db::getGenreById($post->getGenre_id());
+            echo $genre->getName(); ?></h4>
+            <p><?php echo $post->getDescription(); ?></p>
         </div>
     </div>
     <div class="col-3">
@@ -115,6 +117,7 @@ if(!empty($_POST['title'])
         <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
         <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
     </div>
+    <?php endforeach; ?> 
   </div>
 </div>
 
