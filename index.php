@@ -19,8 +19,7 @@ if(!empty($_POST['title'])
             $post->setGenre_id($_POST['genre_id']);
             $post->setFile_path($uploadResult['file_path']);
             $result = Db::insertPost($post);
-
-        }   
+        }
     }
     catch(Exception $e){
         $error = $e->getMessage();
@@ -91,7 +90,7 @@ if(!empty($_POST['title'])
             <div class="alert alert-danger"><?php echo "Sorry, this field cannot be empty."; ?></div>
         <?php endif; ?>
     </div>
-    <button type="submit" value="Upload" class="btn btn-info">Submit</button>
+    <button id="submit" type="submit" value="Upload" class="btn btn-info">Submit</button>
 </form>
 
 <div class="container">
