@@ -2,8 +2,8 @@
 
 require_once("autoload.php");
 
-if(!empty($_POST['title'])
-&& !empty($_POST['description']) 
+if(!empty($_POST['title']) 
+&& !empty($_POST['description'])
 && !empty($_POST['genre_id']) 
 && !empty($_FILES['file'])){
     try{
@@ -17,13 +17,17 @@ if(!empty($_POST['title'])
             $post->setGenre_id($_POST['genre_id']);
             $post->setFile_path($uploadResult['file_path']);
             $result = Db::insertPost($post);
-
-        }   
+        }
     }
     catch(Exception $e){
         $error = $e->getMessage();
         var_dump($error);
     }
+}else{
+    $uploadTitle = false;
+    $uploadGenre = false;
+    $uploadFile = false;
+    $uploadDescription = false;
 }
 
 
@@ -44,10 +48,14 @@ if(!empty($_POST['title'])
 <div class="add-feed">
     <button id="btn-feed" type="button" class="btn btn-info"><img src="/images/plus_image.png" alt="add"></button>
 </div>
-<form class="form-feed" action="#" method="POST" enctype="multipart/form-data">
+
+<form class="form-feed" id="form" action="#" method="POST" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Title</label>
         <input type="text" name="title" class="form-control" id="title" placeholder="Title...">
+        <?php if($uploadTitle == false && isset($uploadTitle)): ?>
+            <div class="alert alert-danger"><?php echo "Sorry, this field cannot be empty."; ?></div>
+        <?php endif; ?>
     </div>
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Genre</label>
@@ -59,6 +67,9 @@ if(!empty($_POST['title'])
             <option value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
         <?php endfor; ?>
         </select>
+        <?php if(isset($uploadGenre)): ?>
+            <div class="alert alert-danger"><?php echo "Sorry, this field cannot be empty."; ?></div>
+        <?php endif; ?>
     </div>
     <div class="mb-3">
         <label for="formFile" class="form-label">Upload file</label>
@@ -66,12 +77,18 @@ if(!empty($_POST['title'])
         <?php if(isset($uploadResult) && $uploadResult['success'] == false): ?>
             <div class="alert alert-danger"><?php echo $uploadResult['message']; ?></div>
         <?php endif;?>
+        <?php if(isset($uploadFile)): ?>
+            <div class="alert alert-danger"><?php echo "Sorry, this field cannot be empty."; ?></div>
+        <?php endif; ?>
     </div>
     <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label">Description</label>
         <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" type="text"></textarea>
+        <?php if(isset($uploadDescription)): ?>
+            <div class="alert alert-danger"><?php echo "Sorry, this field cannot be empty."; ?></div>
+        <?php endif; ?>
     </div>
-    <button type="submit" value="Upload" class="btn btn-info">Submit</button>
+    <button id="submit" type="submit" value="Upload" class="btn btn-info">Submit</button>
 </form>
 
 <div class="container">
@@ -105,5 +122,6 @@ if(!empty($_POST['title'])
 </div>
 
 <?php include_once("inc/footer.inc.php");?>
+<script src="/js/index.js"></script>
 </body>
 </html>

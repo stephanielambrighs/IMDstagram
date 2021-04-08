@@ -54,8 +54,8 @@ class Db {
         $statement->bindValue(':type_id', $post->getType_id());
         $statement->bindValue(':file_path', $post->getFile_path());
         $result = $statement->execute();
-        var_dump($result);
-        var_dump($statement->errorInfo());
+        // var_dump($result);
+        // var_dump($statement->errorInfo());
     }
 
     private static function get_current_time(){
