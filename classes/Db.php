@@ -22,4 +22,21 @@ class Db
             return self::$conn;
         }
     }
+
+    public static function getAllGenres(){
+        echo "🥸";
+        $conn = self::getConnection();
+        var_dump($conn);
+        $statement = $conn->prepare("SELECT id, name FROM genres");
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        var_dump($statement->errorInfo());
+
+        $genreList = [];
+        foreach($result as $db_genre){
+            $genre = new Genre($db_genre['id'], $db_genre['name']);
+            array_push($genreList, $genre);
+        }
+        return $genreList;
+    }
 }
