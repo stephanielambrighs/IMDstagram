@@ -11,12 +11,15 @@
         $user->setFirstname($_POST['firstname']);
         $user->setLastname($_POST['lastname']);
         $user->setDateOfBirth($_POST['date_of_birth']);
-        //$user->setEmailError("pancake");
+        
+        session_start();
+        $_SESSION['email'] = $user->getEmail();
         
         $user->register();
     }
 
     $emailError = $user->getEmailError();
+    $passwordError = $user->getPasswordError();
 
 
 ?><!DOCTYPE html>
@@ -40,13 +43,15 @@
             <div class="form-item">
                 <a href="#"><img id="logo" src="images/logo-02.svg" alt="Legato logo"></a>
             </div>
-            <div class="error alert alert-danger" role="alert">
-                <?php echo $emailError; ?>
-            </div>
             <div class="form-group">
                 <!--<label style="visiffbility: hidden;" for="exampleInputEmail1">Email address</label>-->
                 <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email">
             </div>
+            <?php if (isset($emailError)): ?>
+                <div class="error alert alert-danger" role="alert">
+                    <?php echo $emailError; ?>
+                </div>
+            <?php endif; ?>
             <div class="form-group">
                 <!--<label style="visibility: hidden;" for="exampleInputEmail1">Email address</label>-->
                 <input type="text" class="form-control" name="firstname" aria-describedby="emailHelp" placeholder="firstname">
@@ -67,7 +72,11 @@
                 <!--<label style="visibility: hidden;" for="exampleInputPassword1">Password</label>-->
                 <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="password">
             </div>
-            
+            <?php if (isset($passwordError)): ?>
+                <div class="error alert alert-danger" role="alert">
+                    <?php echo $passwordError; ?>
+                </div>
+            <?php endif; ?>
             <button type="submit" class="btn btn-primary btn-sm btn-block">Submit</button>
         </form>
     </main>
