@@ -52,7 +52,7 @@ if(!empty($_POST['title'])
     <button id="btn-feed" type="button" class="btn btn-info"><img src="/images/plus_image.png" alt="add"></button>
 </div>
 
-<form class="form-feed" action="#" method="POST" enctype="multipart/form-data">
+<form class="form-feed" id="form" action="#" method="POST" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Title</label>
         <input type="text" name="title" class="form-control" id="title" placeholder="Title...">
@@ -120,5 +120,6 @@ if(!empty($_POST['title'])
 </div>
 
 <?php include_once("inc/footer.inc.php");?>
+<script src="/js/index.js"></script>
 </body>
 </html>
