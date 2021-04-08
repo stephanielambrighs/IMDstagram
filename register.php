@@ -5,18 +5,19 @@
     $user = new User();
 
     if (!empty($_POST)) {
-        var_dump($_POST);
-
         $user->setEmail($_POST['email']);
         $user->setUsername($_POST['username']);
         $user->setPassword($_POST['password']);
-        $user->setAvatar("DUMMY");
         $user->setFirstname($_POST['firstname']);
         $user->setLastname($_POST['lastname']);
-        $user->setBio("DUMMY");
         $user->setDateOfBirth($_POST['date_of_birth']);
+        //$user->setEmailError("pancake");
+        
         $user->register();
     }
+
+    $emailError = $user->getEmailError();
+
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -39,8 +40,8 @@
             <div class="form-item">
                 <a href="#"><img id="logo" src="images/logo-02.svg" alt="Legato logo"></a>
             </div>
-            <div class="alert alert-danger" role="alert">
-                This is a danger alert—check it out!
+            <div class="error alert alert-danger" role="alert">
+                <?php echo $emailError; ?>
             </div>
             <div class="form-group">
                 <!--<label style="visiffbility: hidden;" for="exampleInputEmail1">Email address</label>-->
