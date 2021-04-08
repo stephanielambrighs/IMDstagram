@@ -55,7 +55,7 @@ if(!empty($_POST['title'])
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Title</label>
         <input type="text" name="title" class="form-control" id="title" placeholder="Title...">
-        <?php if(isset($uploadTitle)): ?>
+        <?php if($uploadTitle == false && isset($uploadTitle)): ?>
             <div class="alert alert-danger"><?php echo "Sorry, this field cannot be empty."; ?></div>
         <?php endif; ?>
     </div>

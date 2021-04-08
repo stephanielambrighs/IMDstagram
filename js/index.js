@@ -1,7 +1,7 @@
 let button = document.getElementById("btn-feed");
 let form = document.getElementById("form");
-form.style.display = "none";
-let click = false;
+form.style.display = "grid";
+let click = true;
 button.addEventListener("click", function(e) {
     if(click == true){
         console.log("hidden");
