@@ -66,7 +66,7 @@ class Db {
 
     public static function getAllPosts(){
         $conn = self::getConnection();
-        $statement = $conn->prepare("SELECT * FROM posts LIMIT 20");
+        $statement = $conn->prepare("SELECT * FROM posts WHERE `upload_date` ORDER BY `upload_date` DESC LIMIT 20");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         // var_dump($statement->errorInfo());
