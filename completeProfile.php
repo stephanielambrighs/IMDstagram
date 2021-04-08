@@ -1,6 +1,9 @@
 <?php
 
     include_once(__DIR__ . "/autoload.php");
+    
+
+    $user = new User();
 
     $list = array(
         "Pop",
@@ -15,53 +18,33 @@
         "Dance"
     );
 
-    $target_dir = "images/";
-    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
-    // Check if image file is a actual image or fake image
-    if(isset($_POST["submit"])) {
-    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-    if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
-        $uploadOk = 1;
+    session_start();
+    if (isset($_SESSION['email'])) {
+        echo $_SESSION['email'];
+        
     } else {
-        echo "File is not an image.";
-        $uploadOk = 0;
-    }
+        exit;
     }
 
-    // Check if file already exists
-    if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
-    $uploadOk = 0;
+    if (!empty($_POST)) {
+        //$user->setAvatar($_POST['email']);
+        $user->setBio($_POST['bio']);
+        $user->setGenre($_POST['genre1']);
+    
+        $_SESSION['email'] = $user->getEmail();
+        
+        $user->completeProfile();
     }
 
-    // Check file size
-    if ($_FILES["fileToUpload"]["size"] > 500000) { // 62KB
-    echo "Sorry, your file is too large.";
-    $uploadOk = 0;
-    }
+    //function loadGenres() {
+        /*include_once(__DIR__ . "/classes/Db.php");
 
-    // Allow certain file formats
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-    && $imageFileType != "gif" ) {
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-    $uploadOk = 0;
-    }
-
-    // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
-    // if everything is ok, try to upload file
-    } else {
-    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
-    } else {
-        echo "Sorry, there was an error uploading your file.";
-    }
-    }
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("select name from genres");
+        $items = $statement->execute();
+        var_dump($statement);*/
+    //}
+    
 
 
 
@@ -86,9 +69,11 @@
             <div class="form-item">
                 <a href="#"><img id="logo" src="images/logo-02.svg" alt="Legato logo"></a>
             </div>
-            <div class="alert alert-danger" role="alert">
-                This is a danger alert—check it out!
-            </div>
+            <?php if (isset($avatarError)): ?>
+                <div class="error alert alert-danger" role="alert">
+                    <?php echo $avatarError; ?>
+                </div>
+            <?php endif; ?>
             <div class="form-group">
                 <h3>Complete Profile</h3>
                 <h5>Would you like to add some additional information to your profile?</h5>
@@ -104,12 +89,19 @@
             </div>
             <p id="frm-p">What genres are you into?</p>
 
+
+
+
             <div class="form-group" id="genres">
                 <!-- LOOP OVER GENRES -->
                 <select name="genre1" id="genre">
-                    <?php foreach ($list as $key => $l): ?>
-                        <option value="<?php echo $l ?>" name="<?php echo $l ?>"><?php echo $l ?></option> <!-- AUTOFILL PHP -->
-                    <?php endforeach; ?>
+                    <?php include_once(__DIR__ . "/classes/Db.php");
+                        $allGenres = Db::getAllGenres();
+                        var_dump($allGenres);
+                        for($i = 0; $i < count($allGenres); $i++): ?>
+                        <?php var_dump($allGenres[$i]); ?>
+                        <option value="<?php echo $allGenres[$i] ?>" name="<?php echo $allGenres[$i] ?>"><?php $allGenres[$i]->name ?></option> <!-- AUTOFILL PHP -->
+                    <?php endfor; ?>
                 </select>
                 
                 <select name="genre2" id="genre">
