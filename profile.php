@@ -5,12 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/profile.css" rel="stylesheet">
     <title>profile</title>
 </head>
 <body>
+<?php include_once("inc/nav.inc.php"); ?>
 
-<div class="row gutters-sm">
+<div id="showProfile" class="row gutters-sm">
     <div class="main-body">
             <div class="col-md-4 mb-3">
               <div class="card">
@@ -78,7 +79,7 @@
                   </div>
                 </div>
                 <div class="col-md-2">
-                        <input type="submit" class="btn btn-primary" name="btnAddMore" value="Edit Profile"/>
+                    <input id="editProfile" type="submit" class="btn btn-primary" name="btnAddMore" value="Edit Profile"/>
                 </div>
               </div>
             </div>
@@ -88,7 +89,7 @@
 
 <!-- edit profile -->
 
-<div class="container">
+<div id="editFormProfile" class="container">
     <div class="row gutters">
         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
             <div class="card h-100">
@@ -111,7 +112,7 @@
             </div>
         </div>
     </div>
-    <div class="card h-100">
+    <form class="card h-100">
         <div id="editProfile"class="card-body">
             <div class="row gutters" id="rowProfile">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -157,13 +158,16 @@
             <div class="row gutter">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="text-right">
-                        <button type="button" id="submit" name="submit" class="btn btn-secondary">Cancel</button>
-                        <button type="button" id="submit" name="submit" class="btn btn-primary">Update</button>
+                        <button id="cancelProfile" type="button" id="submit" name="submit" class="btn btn-secondary">Cancel</button>
+                        <button id="updateProfile" type="button" id="submit" name="submit" class="btn btn-primary">Update</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
+
+<?php include_once("inc/footer.inc.php");?>
+<script src="/js/profile.js"></script>
 </body>
 </html>
