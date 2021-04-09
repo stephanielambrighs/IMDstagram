@@ -285,24 +285,34 @@ class User
                 } else {
                     $statement = $conn->prepare("insert into users (email, username, password, firstname, lastname, date_of_birth) 
                     values(:email, :username, :password, :firstname, :lastname, :date_of_birth)");
-
-                    if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,}$/', $this->getPassword()))
-                    {
-                        $this->setPasswordError("Password requires min. 8 characters and number(s) (0-9)");
-                    } else {
+                    $password = $this->getPassword();
+                    // $passwordConf = $this->getPasswordConf();
+                    // UIT IF($_POST) HALEN
+                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                        $statement = $conn->prepare("insert into users (email, username, password) values(:email, :username, :password)");
                         $statement->bindValue(":email", $email);
                         $statement->bindValue(":username", $username);
                         $statement->bindValue(":password", $password);
-                        $statement->bindValue(":firstname", $firstname);
-                        $statement->bindValue(":lastname", $lastname);
-                        $statement->bindValue(":date_of_birth", $dateOfBirth);
                         $statement->execute();
-        
-                        header('Location: completeProfile.php');
+
+                        if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,}$/', $this->getPassword()))
+                        {
+                            $this->setPasswordError("Password requires min. 8 characters and number(s) (0-9)");
+                        } else {
+                            $statement->bindValue(":email", $email);
+                            $statement->bindValue(":username", $username);
+                            $statement->bindValue(":password", $password);
+                            $statement->bindValue(":firstname", $firstname);
+                            $statement->bindValue(":lastname", $lastname);
+                            $statement->bindValue(":date_of_birth", $dateOfBirth);
+                            $statement->execute();
+            
+                            header('Location: completeProfile.php');
+                        }       
+                    } else {
+                        $this->setEmailError("Sorry, this is not a valid email");
                     }
                 }
-            } else {
-                $this->setEmailError("Sorry, this is not a valid email");
             }
         } catch (Exception $e) {
             echo $e;

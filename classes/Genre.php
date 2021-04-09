@@ -1,21 +1,32 @@
-<?php
-    class Genre {
-        public $id;
-        public $name;
+<?php 
 
-        function __construct($id, $name)
-        {
-            $this->id = $id;
-            $this->name = $name;
-        }
 
-        public function getId()
-        {
-                return $this->id;
-        }
+class Genre {
+    public $id;
+    public $name;
 
-        public function getName()
-        {
-                return $this->name;
-        }
+    function __construct($id, $name)
+    {
+        $this->id = $id;
+        $this->name = $name;
     }
+
+    // function __construct()
+    // {
+    //     // $this->id = $id;
+    //     // $this->name = $name;
+    // }
+
+    public function getId()
+    {
+            return $this->id;
+    }
+
+    public function getName()
+    {
+            return $this->name;
+    }
+}
+
+
+?>
