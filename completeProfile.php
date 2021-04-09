@@ -1,6 +1,7 @@
 <?php
 
     include_once(__DIR__ . "/autoload.php");
+    include_once(__DIR__ . "/classes/Db.php");
     
 
     $user = new User();
@@ -95,25 +96,27 @@
             <div class="form-group" id="genres">
                 <!-- LOOP OVER GENRES -->
                 <select name="genre1" id="genre">
-                    <?php include_once(__DIR__ . "/classes/Db.php");
-                        $allGenres = Db::getAllGenres();
-                        var_dump($allGenres);
-                        for($i = 0; $i < count($allGenres); $i++): ?>
-                        <?php var_dump($allGenres[$i]); ?>
-                        <option value="<?php echo $allGenres[$i] ?>" name="<?php echo $allGenres[$i] ?>"><?php $allGenres[$i]->name ?></option> <!-- AUTOFILL PHP -->
+                    <option selected>-</option>
+                    <?php $allGenres = Db::getAllGenres();
+                        for($i = 0; $i < count($allGenres); $i++):?>
+                        <option value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
                     <?php endfor; ?>
                 </select>
                 
                 <select name="genre2" id="genre">
-                    <?php foreach ($list as $key => $l): ?>
-                        <option value="<?php echo $l ?>" name="<?php echo $l ?>"><?php echo $l ?></option> <!-- AUTOFILL PHP -->
-                    <?php endforeach; ?>
+                <option selected>-</option>
+                    <?php $allGenres = Db::getAllGenres();
+                        for($i = 0; $i < count($allGenres); $i++):?>
+                        <option value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
+                    <?php endfor; ?>
                 </select>
 
                 <select name="genre3" id="genre">
-                    <?php foreach ($list as $key => $l): ?>
-                        <option value="<?php echo $l ?>" name="<?php echo $l ?>"><?php echo $l ?></option> <!-- AUTOFILL PHP -->
-                    <?php endforeach; ?>
+                <option selected>-</option>
+                    <?php $allGenres = Db::getAllGenres();
+                        for($i = 0; $i < count($allGenres); $i++):?>
+                        <option value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
+                    <?php endfor; ?>
                 </select>
             </div>
             <div class="form-group">

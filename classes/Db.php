@@ -26,11 +26,12 @@ class Db {
     }
 
     public static function getAllGenres(){
+        echo "😎";
         $conn = self::getConnection();
-        $statement = $conn->prepare("SELECT id, name FROM genre");
+        $statement = $conn->prepare("SELECT id, name FROM genres");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        // var_dump($statement->errorInfo());
+        var_dump($statement->errorInfo());
 
         $genreList = [];
         foreach($result as $db_genre){
