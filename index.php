@@ -1,35 +1,37 @@
 <?php
 
-require_once("autoload.php");
+    require_once("autoload.php");
 
-if(!empty($_POST['title']) 
-&& !empty($_POST['description'])
-&& !empty($_POST['genre_id']) 
-&& !empty($_FILES['file'])){
-    try{
-        
-        $uploadResult = FileManager::uploadFile($_FILES['file']);
+    if(!empty($_POST['title']) 
+    && !empty($_POST['description'])
+    && !empty($_POST['genre_id']) 
+    && !empty($_FILES['file'])){
+        try{
+            
+            $uploadResult = FileManager::uploadFile($_FILES['file']);
 
-        if($uploadResult['success'] == true){
-            $post = new Post();
-            $post->setTitle($_POST['title']);
-            $post->setDescription($_POST['description']);
-            $post->setGenre_id($_POST['genre_id']);
-            $post->setFile_path($uploadResult['file_path']);
-            $result = Db::insertPost($post);
+            if($uploadResult['success'] == true){
+                $post = new Post();
+                $post->setTitle($_POST['title']);
+                $post->setDescription($_POST['description']);
+                $post->setGenre_id($_POST['genre_id']);
+                $post->setFile_path($uploadResult['file_path']);
+                $result = Db::insertPost($post);
+            }
         }
+        catch(Exception $e){
+            $error = $e->getMessage();
+            var_dump($error);
+        }
+    }else{
+        $uploadTitle = false;
+        $uploadGenre = false;
+        $uploadFile = false;
+        $uploadDescription = false;
     }
-    catch(Exception $e){
-        $error = $e->getMessage();
-        var_dump($error);
-    }
-}else{
-    $uploadTitle = false;
-    $uploadGenre = false;
-    $uploadFile = false;
-    $uploadDescription = false;
-}
 
+    //Code searchfield hieronder
+    
 
 ?><!DOCTYPE html>
 <!-- LEGATO INDEX (FEED) -->
