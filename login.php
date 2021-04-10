@@ -1,23 +1,16 @@
 <?php
 
     include_once(__DIR__."/classes/Db.php");
-
-    function login($username, $password){
-        if($username === $username && $password === $password){
-            return true;
-        }else{
-            return false;
-        }
-    }
+    include_once(__DIR__."/classes/canLogin.php");
 
     if(!empty($_POST)){
         $username = $_POST["username"];
-        $password = password_hash($_POST["password"], );
+        $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
 
         if (login($username, $password)){
             session_start();
             $_SESSION["username"] = $username;
-            header("Location: index.php");
+            header("Location: index.php");;
         }else{
             $error = true;
         }
