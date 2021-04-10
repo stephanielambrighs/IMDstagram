@@ -1,7 +1,5 @@
 <?php
-
-    include_once(__DIR__."/classes/Db.php");
-    include_once("autoload.php");
+    include_once("./autoload.php");
 
     if(!empty($_POST)){
         $username = $_POST["username"];
