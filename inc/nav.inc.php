@@ -10,6 +10,10 @@
             <a class="nav-link" href="#">Features</a>
             <a class="nav-link" href="#">Pricing</a>
         </div>
+        <form action="">
+            <input type="text" placeholder="Search..." name="search">
+            <button type="submit" class="btn">Search</button>
+        </form>
         </div>
     </div>
 </nav>
