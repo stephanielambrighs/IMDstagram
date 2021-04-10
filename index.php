@@ -31,7 +31,20 @@
     }
 
     //Code searchfield hieronder
-    
+    if(isset($_POST["search"])){
+        $searchQuery = $_POST["search"];
+        $query = mysql_query("select * LIKE '%$searchQuery%'") or die("could not search");
+        $count = mysql_num_rows($query);
+        if($count == 0){
+            $output = "There are no search results";
+        }else{
+            while($row = mysql_fetch_array($query)){
+                $username = $row['username'];
+
+                $output.="<div>".$username."".$post."</div>";
+            }
+        }
+    }
 
 ?><!DOCTYPE html>
 <!-- LEGATO INDEX (FEED) -->
@@ -92,6 +105,8 @@
     </div>
     <button id="submit" type="submit" value="Upload" class="btn btn-info">Submit</button>
 </form>
+
+<?php print("output"); ?>
 
 <div class="container">
   <div class="row">
