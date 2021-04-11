@@ -220,3 +220,42 @@ div.about p {
     border: 0;
     margin-bottom: 1rem;
 }
+
+
+/*feed*/
+.container2 {
+    background-color: #5E1161;
+    /* margin: auto;
+    padding: auto; */
+}
+
+div.col {
+    padding: 1em;
+}
+
+div.row.row-cols-4 {
+    padding: 1em;
+}
+
+.feed-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+button.btn.btn-primary {
+    background-color: #961E9A;
+    border: none;
+    margin: auto;
+    padding: auto;
+}
+
+button.btn.btn-primary:active {
+    background-color: red;
+}
+
+button.btn.btn-primary:hover {
+    background-color: #38BFF0;
+    cursor: pointer;
+}

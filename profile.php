@@ -86,6 +86,9 @@
     </div>
 </div>
 
+<!-- feed -->
+
+
 
 <!-- edit profile -->
 
@@ -167,7 +170,32 @@
     </form>
 </div>
 
+<div class="container2">
+  <div class="row row-cols-4">
+    <div class="col"><a href="https://placeholder.com"><img class="feed-img" src="https://via.placeholder.com/150"></a></div>
+    <div class="col"><a href="https://placeholder.com"><img class="feed-img" src="https://via.placeholder.com/150"></a></div>
+    <div class="col"><a href="https://placeholder.com"><img class="feed-img" src="https://via.placeholder.com/150"></a></div>
+    <div class="col"><a href="https://placeholder.com"><img class="feed-img" src="https://via.placeholder.com/150"></a></div>
+
+    <div class="col"><a href="https://placeholder.com"><img class="feed-img" src="https://via.placeholder.com/150"></a></div>
+    <div class="col"><a href="https://placeholder.com"><img class="feed-img" src="https://via.placeholder.com/150"></a></div>
+    <div class="col"><a href="https://placeholder.com"><img class="feed-img" src="https://via.placeholder.com/150"></a></div>
+    <div class="col"><a href="https://placeholder.com"><img class="feed-img" src="https://via.placeholder.com/150"></a></div>
+
+    <div class="col"><a href="https://placeholder.com"><img class="feed-img" src="https://via.placeholder.com/150"></a></div>
+    <div class="col"><a href="https://placeholder.com"><img class="feed-img" src="https://via.placeholder.com/150"></a></div>
+    <div class="col"><a href="https://placeholder.com"><img class="feed-img" src="https://via.placeholder.com/150"></a></div>
+    <div class="col"><a href="https://placeholder.com"><img class="feed-img" src="https://via.placeholder.com/150"></a></div>
+
+    <button type="button" id="btnAddPosts" class="btn btn-primary">Load more...</button>
+
+  </div>
+</div>
+
+
+
 <?php include_once("inc/footer.inc.php");?>
 <script src="/js/profile.js"></script>
+<script src="/js/post.js"></script>
 </body>
 </html>
