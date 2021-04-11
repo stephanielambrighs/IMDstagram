@@ -139,8 +139,15 @@ class User
         }
     }
 
-
-
+    function login($username, $password){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT * FROM 'users' WHERE username = :username");
+        $statement->bindValue(":username", $username);
+        $statement->execute();
+        $user = $statement->fetch();
+        $hash = $user["password"];
+        die();
+    }
 
 
 
