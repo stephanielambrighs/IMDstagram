@@ -10,7 +10,7 @@
             <a class="nav-link" href="#">Features</a>
             <a class="nav-link" href="#">Pricing</a>
         </div>
-        <form action="index.php" method="post">
+        <form action="search.php" method="post">
             <input type="text" placeholder="Search..." name="search">
             <input type="submit" value="Search">
         </form>
