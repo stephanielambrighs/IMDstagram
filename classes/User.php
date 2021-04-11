@@ -260,7 +260,7 @@ class User
     // =========================================
 
 
-    public function register()
+    public function register($user)
     {
         $conn = Db::getConnection();
 
@@ -269,6 +269,7 @@ class User
         $lastname = $this->getLastname();
         $username = $this->getUsername();
         $password = password_hash($this->getPassword(), PASSWORD_BCRYPT);
+        // $profile_id = $this->getId();
         $dateOfBirth = $this->getDateOfBirth();
 
         // email validation
@@ -283,8 +284,8 @@ class User
                    // throw new Exception("EMAIL IS ALREADY IN USE"); // email is already in use
                     
                 } else {
-                    $statement = $conn->prepare("insert into users (email, username, password, firstname, lastname, profile_id, date_of_birth) 
-                    values(:email, :username, :password, :firstname, :lastname, :profile_id, :date_of_birth)");
+                    $statement = $conn->prepare("insert into users (email, username, password, firstname, lastname, date_of_birth) 
+                    values(:email, :username, :password, :firstname, :lastname, :date_of_birth)");
 
                     if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,}$/', $this->getPassword()))
                     {
@@ -295,9 +296,9 @@ class User
                         $statement->bindValue(":password", $password);
                         $statement->bindValue(":firstname", $firstname);
                         $statement->bindValue(":lastname", $lastname);
-                        $statement->bindValue(":profile_id", "0");
                         $statement->bindValue(":date_of_birth", $dateOfBirth);
                         $statement->execute();
+                        // var_dump($profile_id);
         
                         header('Location: completeProfile.php');
                     }
@@ -310,13 +311,17 @@ class User
         }
     }
 
-    public function completeProfile()
+    public function completeProfile($email)
     {
+        echo "yallah " . $email;
         $conn = Db::getConnection();
-        $statement = $conn->prepare("INSERT INTO profiles (bio, profile_img_path) VALUES (:bio, :avatar);");
+        $statement = $conn->prepare("INSERT INTO profiles (bio, profile_img_path, user_id) VALUES (:bio, :avatar, (SELECT id FROM users WHERE email = :email));");
         $statement->bindValue(":bio", $this->getBio());
         $statement->bindValue(":avatar", $this->getAvatar());
+        $statement->bindValue(":email", $email);
         $statement->execute();
+
+        //header('Location: index.php');
         
     }
 

@@ -15,7 +15,8 @@
         session_start();
         $_SESSION['email'] = $user->getEmail();
         
-        $user->register();
+        //$user->register($user);
+        $result = $user->register($user);
     }
 
     $emailError = $user->getEmailError();

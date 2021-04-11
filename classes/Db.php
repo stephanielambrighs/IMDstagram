@@ -25,8 +25,23 @@ class Db {
         }
     }
 
+    public static function getProfiles() {
+        echo "😎-getProfiles";
+        $conn = self::getConnection();
+        $statement = $conn->prepare("SELECT id, bio FROM profiles");
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        var_dump($statement->errorInfo());
+
+        $profilesList = [];
+        foreach ($result as $db_profile) {
+            $profile = new Profile ($db_profile['id'], $db_profile['bio']);
+            array_push($profilesList, $profile);
+        }
+        return $profilesList;
+    }
+
     public static function getAllGenres(){
-        echo "😎";
         $conn = self::getConnection();
         $statement = $conn->prepare("SELECT id, name FROM genres");
         $statement->execute();

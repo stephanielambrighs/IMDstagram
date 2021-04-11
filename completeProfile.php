@@ -6,22 +6,10 @@
 
     $user = new User();
 
-    $list = array(
-        "Pop",
-        "Rock",
-        "Metal",
-        "Hardstyle",
-        "Hardcore",
-        "Drum and bass",
-        "Orchestra",
-        "Raggae",
-        "Shuffle",
-        "Dance"
-    );
-
     session_start();
     if (isset($_SESSION['email'])) {
-        echo $_SESSION['email'];
+        //echo $_SESSION;
+        //var_dump($_SESSION);
         
     } else {
         exit;
@@ -29,12 +17,14 @@
 
     if (!empty($_POST)) {
         //$user->setAvatar($_POST['email']);
+        $user->setAvatar('dummy');
         $user->setBio($_POST['bio']);
         $user->setGenre($_POST['genre1']);
-    
-        $_SESSION['email'] = $user->getEmail();
+        // $_SESSION['email'] = $user->getEmail();
+
+        $email = $_SESSION['email'];
         
-        $user->completeProfile();
+        $user->completeProfile($email);
     }
 
     //function loadGenres() {
@@ -76,7 +66,7 @@
                 </div>
             <?php endif; ?>
             <div class="form-group">
-                <h3>Complete Profile</h3>
+                <h3 class="r-h3">Complete Profile</h3>
                 <h5>Would you like to add some additional information to your profile?</h5>
             </div>
             <div class="text-center">
