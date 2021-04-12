@@ -180,3 +180,7 @@ div.col-3 {
 }
 
 /* Login */
+.btn-primary{
+    background-color: #961E9A;
+    border-color: #961E9A;
+}
