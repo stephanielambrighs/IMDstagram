@@ -141,11 +141,24 @@ class User
 
     public function login($user){
         $conn = Db::getConnection();
-        $statement = $conn->prepare("SELECT COUNT('username') FROM 'users'");
         $username = $this->getUsername();
         $password = $this->getPassword();
+        $statement = $conn->prepare("SELECT * FROM users WHERE username = :username");
+        $statement->bindValue(":username", $username);
+        $statement->execute();
+        $user = $statement->fetch();
+        if(!$user){
+            return false;
+        }
 
-        var_dump($statement);
+        $hash = $user["password"];
+        if(password_verify($password, $hash)){
+            return true;
+        }else{
+            return false;
+        }
+        
+        /*var_dump($statement);
         /*
         $statement->bindValue(":username", $username);
         $statement->execute();
