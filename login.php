@@ -1,13 +1,12 @@
 <?php
     require_once("autoload.php");
 
+    $user = new User();
 
     if(!empty($_POST)){
-        $username = $_POST["username"];
-        $password = $_POST["password"];
-        $user = new User();
-        $user->getUsername();
-        $user->getPassword();
+        $user->setUsername($_POST["username"]);
+        $user->setPassword($_POST["password"]);
+
 
         /*if(login($username, $password)){
             session_start();
