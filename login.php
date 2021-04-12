@@ -4,17 +4,24 @@
     $user = new User();
 
     if(!empty($_POST)){
+
+        
         $user->setUsername($_POST["username"]);
         $user->setPassword($_POST["password"]);
 
+        /*session_start();
+        $_SESSION["username"] = $username;
+        header("Location: index.php");*/
 
-        /*if(login($username, $password)){
-            session_start();
-            $_SESSION["username"] = $username;
-            header("Location: index.php");
+        $result = $user->login($user);
+        var_dump($result);
+
+        if($result){
+            var_dump("Gelukt!");
         }else{
+            var_dump("..............");
             $error = true;
-        }*/
+        }
     }
 ?>
 <!DOCTYPE html>
