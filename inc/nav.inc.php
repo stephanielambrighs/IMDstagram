@@ -9,6 +9,7 @@
             <a class="nav-link active" aria-current="page" href="#">Home</a>
             <a class="nav-link" href="#">Features</a>
             <a class="nav-link" href="profile.php">Profile</a>
+            <a class="nav-link" href="logout.php">Log out</a>
         </div>
         </div>
     </div>
