@@ -15,22 +15,6 @@
         }else{
             $error = true;
         }
-
-        
-
-        /*session_start();
-        $_SESSION["username"] = $username;
-        header("Location: index.php");*/
-/*
-        $result = $user->login($user);
-        var_dump($result);
-
-        if($result){
-            var_dump("Gelukt!");
-        }else{
-            var_dump("..............");
-            $error = true;
-        }*/
     }
 ?>
 <!DOCTYPE html>
@@ -43,10 +27,10 @@
     <title>Login</title>
 </head>
 <body>
-<img src="./images/logo-02.svg" alt="Legato" class="logo">
-<form class="form-feed" action="login.php" method="post">
+<form class="form-feed form-box" id="form" action="login.php" method="post">
+    <img src="./images/logo-02.svg" alt="Legato" class="logo">
     <?php if (isset($error)): ?>
-        <div class="alert alert-danger" role="alert">Fout</div>
+        <div class="alert alert-danger" role="alert">Incorrect username or password</div>
     <?php endif; ?>
     <div class="mb-3">
         <label for="exampleInputUsername1" class="form-label">Username</label>
