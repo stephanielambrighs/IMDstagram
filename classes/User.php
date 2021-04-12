@@ -139,10 +139,10 @@ class User
         }
     }
 
-    public function login($username, $password){
+    public function login($user){
         $conn = Db::getConnection();
-        $username = $this->getUsername($user);
-        $password = $this->getPassword($user);
+        /*$username = $this->getUsername($user);
+        $password = $this->getPassword($user);*/
         $statement = $conn->prepare("SELECT * FROM 'users' WHERE username = :username");
         $statement->bindValue(":username", $username);
         $statement->execute();
