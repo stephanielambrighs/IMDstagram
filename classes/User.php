@@ -157,31 +157,5 @@ class User
         }else{
             return false;
         }
-        
-        /*var_dump($statement);
-        /*
-        $statement->bindValue(":username", $username);
-        $statement->execute();
-        $user = $statement->fetch();
-        echo $user["password"];
-        die();
-
-        /*
-        $password = $this->getPassword($user);
-        $username = $this->getUsername($user);
-        var_dump($username);
-        /*if($username === ":username"){
-            var_dump("gelukt");
-        }else{
-            var_dump("Niet correct");
-        }
-        /*$statement->bindValue(":username", $username);
-        $statement->execute();
-        $user = $statement->fetch();
-        $hash = $user["password"];
-        die();*/
     }
-
-
-
 }
