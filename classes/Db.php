@@ -43,7 +43,7 @@ class Db {
 
     public static function getAllGenres(){
         $conn = self::getConnection();
-        $statement = $conn->prepare("SELECT id, name FROM genres");
+        $statement = $conn->prepare("SELECT id, name FROM genre");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         var_dump($statement->errorInfo());
@@ -69,6 +69,23 @@ class Db {
         $statement->bindValue(':user_id', $post->getUser_id());
         $statement->bindValue(':type_id', $post->getType_id());
         $statement->bindValue(':file_path', $post->getFile_path());
+        $result = $statement->execute();
+        // var_dump($result);
+        // var_dump($statement->errorInfo());
+    }
+    public static function uploadAvatar($user){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            INSERT INTO posts (`title`, `description`, `genre_id`, `upload_date`, `user_id`, `type_id`, `file_path`) 
+            VALUES (:title, :description, :genre_id, :upload_date, :user_id, :type_id, :file_path);
+        ");
+        $statement->bindValue(':title', $user->getTitle());
+        $statement->bindValue(':description', $user->getDescription());
+        $statement->bindValue(':genre_id', $user->getGenre_id());
+        $statement->bindValue(':upload_date', self::get_current_time());
+        $statement->bindValue(':user_id', $user->getUser_id());
+        $statement->bindValue(':type_id', $user->getType_id());
+        $statement->bindValue(':file_path', $user->getFile_path());
         $result = $statement->execute();
         // var_dump($result);
         // var_dump($statement->errorInfo());

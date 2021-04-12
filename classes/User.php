@@ -12,6 +12,7 @@ class User
     private $avatar;
     private $bio;
     private $dateOfBirth;
+    private $file_path = "";
 
     private $genre;
 
@@ -172,6 +173,25 @@ class User
     public function setBio($bio)
     {
         $this->bio = $bio;
+
+        return $this;
+    }
+    /**
+     * Get the value of file_path
+     */ 
+    public function getFile_path()
+    {
+        return $this->file_path;
+    }
+
+    /**
+     * Set the value of file_path
+     *
+     * @return  self
+     */ 
+    public function setFile_path($file_path)
+    {
+        $this->file_path = $file_path;
 
         return $this;
     }

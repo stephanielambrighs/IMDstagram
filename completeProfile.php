@@ -15,16 +15,34 @@
         exit;
     }
 
-    if (!empty($_POST)) {
-        //$user->setAvatar($_POST['email']);
-        $user->setAvatar('dummy');
+    if(!empty($_POST['bio']) 
+    && !empty($_FILES['file'])){
+        try{
+        
+            $uploadResult = FileManager::uploadFile($_FILES['file']);
+    
+            if($uploadResult['success'] == true){
+                $user->setBio($_POST['bio']);
+                //$user->setAvatar($_POST['avatar']);
+                $user->setFile_path($uploadResult['file_path']);
+                $result = Db::uploadAvatar($user);
+
+                $email = $_SESSION['email'];
+                $user->completeProfile($email);
+            }
+        }
+        catch(Exception $e){
+            $error = $e->getMessage();
+            var_dump($error);
+        }
+
+        /*$user->setAvatar('dummy');
         $user->setBio($_POST['bio']);
         $user->setGenre($_POST['genre1']);
-        // $_SESSION['email'] = $user->getEmail();
 
         $email = $_SESSION['email'];
         
-        $user->completeProfile($email);
+        $user->completeProfile($email);*/
     }
 
     //function loadGenres() {
@@ -72,7 +90,7 @@
             <div class="text-center">
                 <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" id="avatar" class="avatar img-circle img-thumbnail" alt="avatar">
                 <h5>Upload a different photo...</h5>
-                <input type="file" name="fileToUpload" id="fileToUpload" class="text-center center-block file-upload">
+                <input type="file" name="file" id="fileToUpload" class="text-center center-block file-upload">
             </div><hr>
             <div class="form-group">
                 <!--<label style="visibility: hidden;" for="exampleInputPassword1">Password</label>-->
