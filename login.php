@@ -8,7 +8,15 @@
         $user->setUsername($_POST["username"]);
         $user->setPassword($_POST["password"]);
 
-        $user->login($user);
+        if($user->login($user)){
+            session_start();
+            $_SESSION["username"] = $username;
+            header("Location: index.php");
+        }else{
+            $error = true;
+        }
+
+        
 
         /*session_start();
         $_SESSION["username"] = $username;
@@ -37,6 +45,9 @@
 <body>
 <img src="./images/logo-02.svg" alt="Legato" class="logo">
 <form class="form-feed" action="login.php" method="post">
+    <?php if (isset($error)): ?>
+        <div class="alert alert-danger" role="alert">Fout</div>
+    <?php endif; ?>
     <div class="mb-3">
         <label for="exampleInputUsername1" class="form-label">Username</label>
         <input type="text" class="form-control" id="exampleInputUsername1" aria-describedby="usernameHelp" name="username">
