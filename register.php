@@ -32,7 +32,7 @@
 
     <?php include_once(__DIR__ . "/inc/links.inc.php") ?>
 
-    <title>Welcome - Register</title>
+    <title>Legato - Register</title>
 </head>
 <body id="r-body">
     <main id="r-main">

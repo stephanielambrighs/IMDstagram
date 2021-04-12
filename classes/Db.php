@@ -73,23 +73,37 @@ class Db {
         // var_dump($result);
         // var_dump($statement->errorInfo());
     }
-    public static function uploadAvatar($user){
-        $conn = self::getConnection();
-        $statement = $conn->prepare("
-            INSERT INTO posts (`title`, `description`, `genre_id`, `upload_date`, `user_id`, `type_id`, `file_path`) 
-            VALUES (:title, :description, :genre_id, :upload_date, :user_id, :type_id, :file_path);
+
+    public static function completeProfile($user){
+        $conn = self::getConnection();     
+        $statement = $conn->prepare("INSERT INTO profiles (bio, profile_img_path, user_id) VALUES (:bio, :file_path, (SELECT id FROM users WHERE email = :email));
         ");
-        $statement->bindValue(':title', $user->getTitle());
-        $statement->bindValue(':description', $user->getDescription());
-        $statement->bindValue(':genre_id', $user->getGenre_id());
-        $statement->bindValue(':upload_date', self::get_current_time());
-        $statement->bindValue(':user_id', $user->getUser_id());
-        $statement->bindValue(':type_id', $user->getType_id());
+        $statement->bindValue(':bio', $user->getBio());
         $statement->bindValue(':file_path', $user->getFile_path());
-        $result = $statement->execute();
-        // var_dump($result);
-        // var_dump($statement->errorInfo());
+        $statement->bindValue(':email', $_SESSION['email']);
+
+        $result_ = $statement->execute();
+        var_dump($result_);
+        var_dump("file_path->" . $user->getFile_Path());
+        Db::uploadGenres($user);
+
     }
+    public static function uploadGenres($user){
+        for ($i=1; $i < 4; $i++) { 
+            var_dump("AAA-" . $_POST['genre' . $i]);
+
+            $conn = self::getConnection();
+            $statement = $conn->prepare("insert into profile_genre (profile_id, genre_id) values ((select id from profiles where id = (SELECT id FROM users WHERE email = :email)), (select id from genre where id = :genre))");
+
+            $statement->bindValue(":email", $_SESSION['email']);
+            $statement->bindValue(":genre", $_POST['genre' . $i]);
+
+            $result_ = $statement->execute();
+            var_dump($result_);
+        }
+    }
+
+
 
     private static function get_current_time(){
         $now = new DateTime('now');

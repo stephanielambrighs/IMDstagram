@@ -25,10 +25,12 @@
                 $user->setBio($_POST['bio']);
                 //$user->setAvatar($_POST['avatar']);
                 $user->setFile_path($uploadResult['file_path']);
-                $result = Db::uploadAvatar($user);
-
                 $email = $_SESSION['email'];
-                $user->completeProfile($email);
+                $result = Db::completeProfile($user);
+
+                //$email = $_SESSION['email'];
+                //$user->completeProfile($email);
+
             }
         }
         catch(Exception $e){

@@ -331,7 +331,7 @@ class User
         }
     }
 
-    public function completeProfile($email)
+    /*public function completeProfile($email)
     {
         echo "yallah " . $email;
         $conn = Db::getConnection();
@@ -343,7 +343,7 @@ class User
 
         //header('Location: index.php');
         
-    }
+    }*/
 
     public function addProfileGenres()
     {
