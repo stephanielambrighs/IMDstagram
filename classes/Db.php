@@ -83,14 +83,14 @@ class Db {
         $statement->bindValue(':email', $_SESSION['email']);
 
         $result_ = $statement->execute();
-        var_dump($result_);
-        var_dump("file_path->" . $user->getFile_Path());
+        //var_dump($result_);
+        //var_dump("file_path->" . $user->getFile_Path());
         Db::uploadGenres($user);
 
     }
     public static function uploadGenres($user){
         for ($i=1; $i < 4; $i++) { 
-            var_dump("AAA-" . $_POST['genre' . $i]);
+            //var_dump("AAA-" . $_POST['genre' . $i]);
 
             $conn = self::getConnection();
             $statement = $conn->prepare("insert into profile_genre (profile_id, genre_id) values ((select id from profiles where id = (SELECT id FROM users WHERE email = :email)), (select id from genre where id = :genre))");
@@ -99,8 +99,9 @@ class Db {
             $statement->bindValue(":genre", $_POST['genre' . $i]);
 
             $result_ = $statement->execute();
-            var_dump($result_);
+            //var_dump($result_);
         }
+        header('Location: index.php');
     }
 
 

@@ -298,7 +298,7 @@ class User
                 $statement = $conn->prepare("select email from users where email = ?");
                 $statement->bindValue(1, $email);
                 $statement->execute();
-    
+
                 if ($statement->rowCount() > 0) {
                     $this->setEmailError("Email is already in use");
                    // throw new Exception("EMAIL IS ALREADY IN USE"); // email is already in use
