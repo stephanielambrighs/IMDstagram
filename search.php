@@ -4,7 +4,6 @@
     $searchInput = new User();
     $searchInput->setUsername($_POST["search"]);
     $searchInput->searchUser($searchInput);
-    
 
 ?>
 <!DOCTYPE html>
@@ -24,9 +23,7 @@
 <h2>Results (X aantal)</h2>
 
 <div>
-    <?php foreach($searchInput as $username): ?>
-        <p><?php echo $username['username']; ?></p>
-    <?php endforeach; ?>
+    
 </div>
 
 <?php include_once("inc/footer.inc.php");?>
