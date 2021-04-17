@@ -12,7 +12,7 @@
         </div>
         <form action="search.php" method="post">
             <input type="text" placeholder="Search..." name="search">
-            <input type="submit" value="Search">
+            <input type="submit" value="Search" name="searchBTN">
         </form>
         </div>
     </div>
