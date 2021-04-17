@@ -25,12 +25,28 @@ class Db {
         }
     }
 
+    public static function getProfiles() {
+        echo "😎-getProfiles";
+        $conn = self::getConnection();
+        $statement = $conn->prepare("SELECT id, bio FROM profiles");
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        var_dump($statement->errorInfo());
+
+        $profilesList = [];
+        foreach ($result as $db_profile) {
+            $profile = new Profile ($db_profile['id'], $db_profile['bio']);
+            array_push($profilesList, $profile);
+        }
+        return $profilesList;
+    }
+
     public static function getAllGenres(){
         $conn = self::getConnection();
         $statement = $conn->prepare("SELECT id, name FROM genre");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        // var_dump($statement->errorInfo());
+        var_dump($statement->errorInfo());
 
         $genreList = [];
         foreach($result as $db_genre){
@@ -57,6 +73,38 @@ class Db {
         // var_dump($result);
         // var_dump($statement->errorInfo());
     }
+
+    public static function completeProfile($user){
+        $conn = self::getConnection();     
+        $statement = $conn->prepare("INSERT INTO profiles (bio, profile_img_path, user_id) VALUES (:bio, :file_path, (SELECT id FROM users WHERE email = :email));
+        ");
+        $statement->bindValue(':bio', $user->getBio());
+        $statement->bindValue(':file_path', $user->getFile_path());
+        $statement->bindValue(':email', $_SESSION['email']);
+
+        $result_ = $statement->execute();
+        //var_dump($result_);
+        //var_dump("file_path->" . $user->getFile_Path());
+        Db::uploadGenres($user);
+
+    }
+    public static function uploadGenres($user){
+        for ($i=1; $i < 4; $i++) { 
+            //var_dump("AAA-" . $_POST['genre' . $i]);
+
+            $conn = self::getConnection();
+            $statement = $conn->prepare("insert into profile_genre (profile_id, genre_id) values ((select id from profiles where id = (SELECT id FROM users WHERE email = :email)), (select id from genre where id = :genre))");
+
+            $statement->bindValue(":email", $_SESSION['email']);
+            $statement->bindValue(":genre", $_POST['genre' . $i]);
+
+            $result_ = $statement->execute();
+            //var_dump($result_);
+        }
+        header('Location: index.php');
+    }
+
+
 
     private static function get_current_time(){
         $now = new DateTime('now');
