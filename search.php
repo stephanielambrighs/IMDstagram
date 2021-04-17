@@ -1,10 +1,13 @@
 <?php
     require_once("autoload.php");
 
-    $searchInput = new User();
-    $searchInput->setUsername($_POST["search"]);
-    $searchInput->searchUser($searchInput);
+    $searchUserInput = new User();
+    $searchUserInput->setUsername($_POST["search"]);
+    $searchUserOutput = $searchUserInput->searchUser();
 
+    $searchPostInput = new Post();
+    $searchPostInput->setTitle($_POST["search"]);
+    $searchPostOutput = $searchPostInput->searchPost();
 ?>
 <!DOCTYPE html>
 <!-- LEGATO INDEX (FEED) -->
@@ -20,10 +23,18 @@
 <body>
 <?php include_once("inc/nav.inc.php"); ?>
 
-<h2>Results (X aantal)</h2>
-
+<h2>Results</h2>
+<h3>Users</h3>
 <div>
-    
+    <?php foreach($searchUserOutput[0] as $key => $username): ?>
+        <p><?php echo "{$username[0]}\n"; ?></p>
+    <?php endforeach; ?>
+</div>
+<h3>Posts</h3>
+<div>
+    <?php foreach($searchPostOutput[0] as $key => $post): ?>
+        <p><?php echo "{$post[0]}\n"; ?></p>
+    <?php endforeach; ?>
 </div>
 
 <?php include_once("inc/footer.inc.php");?>
