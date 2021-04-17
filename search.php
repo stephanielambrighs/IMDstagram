@@ -1,3 +1,12 @@
+<?php
+    require_once("autoload.php");
+
+    $searchInput = new User();
+    $searchInput->setUsername($_POST["search"]);
+    $searchInput->searchUser($searchInput);
+    
+
+?>
 <!DOCTYPE html>
 <!-- LEGATO INDEX (FEED) -->
 <html lang="en">
@@ -12,12 +21,12 @@
 <body>
 <?php include_once("inc/nav.inc.php"); ?>
 
-<h1>Search page</h1>
+<h2>Results (X aantal)</h2>
 
-<div class="container">
-    <?php
-        $sql = "select * from users"
-    ?>
+<div>
+    <?php foreach($searchInput as $username): ?>
+        <p><?php echo $username['username']; ?></p>
+    <?php endforeach; ?>
 </div>
 
 <?php include_once("inc/footer.inc.php");?>
