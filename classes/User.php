@@ -318,8 +318,8 @@ class User
         // email validation
         try {
             if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $statement = $conn->prepare("select email from users where email = ?");
-                $statement->bindValue(1, $email);
+                $statement = $conn->prepare("select email from users where email = :email");
+                $statement->bindValue(':email', $email);
                 $statement->execute();
 
                 if ($statement->rowCount() > 0) {
@@ -330,6 +330,12 @@ class User
                     $statement = $conn->prepare("insert into users (email, username, password, firstname, lastname, date_of_birth) 
                     values(:email, :username, :password, :firstname, :lastname, :date_of_birth)");
 
+                    /*Between start -> ^
+                        And end -> $
+                        of the string there has to be at least one number -> (?=.*\d)
+                        and at least one letter -> (?=.*[A-Za-z])
+                        and it has to be a number, a letter or one of the following: !@#$% -> [0-9A-Za-z!@#$%]
+                        and there have to be 8-12 characters -> {8,12} */
                     if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,}$/', $this->getPassword()))
                     {
                         $this->setPasswordError("Password requires min. 8 characters and number(s) (0-9)");
