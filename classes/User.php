@@ -298,9 +298,26 @@ class User
         return $this;
     }
 
-    // =========================================
-    //
-    // =========================================
+
+    public function login($user){
+        $conn = Db::getConnection();
+        $username = $this->getUsername();
+        $password = $this->getPassword();
+        $statement = $conn->prepare("SELECT * FROM users WHERE username = :username");
+        $statement->bindValue(":username", $username);
+        $statement->execute();
+        $user = $statement->fetch();
+        if(!$user){
+            return false;
+        }
+
+        $hash = $user["password"];
+        if(password_verify($password, $hash)){
+            return true;
+        }else{
+            return false;
+        }
+
 
 
     public function register($user)
@@ -387,5 +404,6 @@ class User
         $statement->bindValue(":profile_id", $this->getId()); // not correct
         $statement->bindValue(":genre_id", $this->getGenre()); // not correct
         $statement->execute();   
+
     }
 }

@@ -267,6 +267,14 @@ div.col-3 {
     color: white;
 }
 
+/* Login */
+.logo{
+    width: 200px;
+    margin: 1em;
+}
 
-
-
+/* Login */
+.btn-primary{
+    background-color: #961E9A;
+    border-color: #961E9A;
+}
