@@ -145,14 +145,8 @@ class User
         $statement = $conn->prepare("SELECT username FROM users WHERE username LIKE '%$searchInput%'");
         //$statement->bindValue(":username", $searchInput);
         $statement->execute();
-        
         $searchOutput = array();
-        if(mysqli_num_rows($statement) > 0){
-            while($row = mysqli_fetch_assoc($statement)){
-                $searchOutput[] = $row;
-            }
-        }
-        //$searchOutput[] = $statement->fetch();
+        $searchOutput[] = $statement->fetch();
         var_dump($searchOutput);
     }
 
