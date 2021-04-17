@@ -1,6 +1,9 @@
 <?php
 include_once(__DIR__ . "/Db.php");
 
+date_default_timezone_set("Europe/Brussels");
+//echo "The time is " . date("h:i:sa");
+
 class User
 {
     private $id;
@@ -18,6 +21,7 @@ class User
 
     private $emailError;
     private $passwordError;
+    private $ageError;
 
 
     /**
@@ -274,6 +278,25 @@ class User
 
         return $this;
     }
+    /**
+     * Get the value of ageError
+     */ 
+    public function getAgeError()
+    {
+        return $this->ageError;
+    }
+
+    /**
+     * Set the value of ageError
+     *
+     * @return  self
+     */ 
+    public function setAgeError($ageError)
+    {
+        $this->ageError = $ageError;
+
+        return $this;
+    }
 
     // =========================================
     //
@@ -311,16 +334,23 @@ class User
                     {
                         $this->setPasswordError("Password requires min. 8 characters and number(s) (0-9)");
                     } else {
-                        $statement->bindValue(":email", $email);
-                        $statement->bindValue(":username", $username);
-                        $statement->bindValue(":password", $password);
-                        $statement->bindValue(":firstname", $firstname);
-                        $statement->bindValue(":lastname", $lastname);
-                        $statement->bindValue(":date_of_birth", $dateOfBirth);
-                        $statement->execute();
-                        // var_dump($profile_id);
-        
-                        header('Location: completeProfile.php');
+                        // date_of_birth validation
+                        if ($this->checkAge() == true) {
+                            // old enough
+                            $statement->bindValue(":email", $email);
+                            $statement->bindValue(":username", $username);
+                            $statement->bindValue(":password", $password);
+                            $statement->bindValue(":firstname", $firstname);
+                            $statement->bindValue(":lastname", $lastname);
+                            $statement->bindValue(":date_of_birth", $dateOfBirth);
+                            $statement->execute();
+                            // var_dump($profile_id);
+            
+                            header('Location: completeProfile.php');
+                        } else {
+                            // set age error
+                            $this->setAgeError("You must be 13 years or older");
+                        }
                     }
                 }       
             } else {
@@ -330,20 +360,19 @@ class User
             echo $e;
         }
     }
-
-    /*public function completeProfile($email)
-    {
-        echo "yallah " . $email;
-        $conn = Db::getConnection();
-        $statement = $conn->prepare("INSERT INTO profiles (bio, profile_img_path, user_id) VALUES (:bio, :avatar, (SELECT id FROM users WHERE email = :email));");
-        $statement->bindValue(":bio", $this->getBio());
-        $statement->bindValue(":avatar", $this->getAvatar());
-        $statement->bindValue(":email", $email);
-        $statement->execute();
-
-        //header('Location: index.php');
-        
-    }*/
+    public function checkAge() {
+        return true;
+        /*
+        $origin = new DateTime($_POST['date_of_birth']);
+        $target = new DateTime('d-m-Y');
+        $interval = $origin->diff($target);
+        $result = $interval->format('%R%y');
+        if ($result >= 6) {
+            return true;
+        } else {
+            return false;
+        }*/
+    }
 
     public function addProfileGenres()
     {

@@ -1,7 +1,7 @@
 <?php
 
     include_once(__DIR__ . "/autoload.php");
-
+    
     $user = new User();
 
     if (!empty($_POST)) {
@@ -65,6 +65,11 @@
                 <!--<label style="visibility: hidden;" for="exampleInputEmail1">Email address</label>-->
                 <input type="date" class="form-control" name="date_of_birth" aria-describedby="emailHelp" placeholder="Date of birth">
             </div>
+            <?php if (isset($ageError)): ?>
+                <div class="error alert alert-danger" role="alert">
+                    <?php echo $ageError; ?>
+                </div>
+            <?php endif; ?>
             <div class="form-group">
                 <!--<label style="visibility: hidden;" for="exampleInputEmail1">Email address</label>-->
                 <input type="text" class="form-control" name="username" aria-describedby="emailHelp" placeholder="username">
