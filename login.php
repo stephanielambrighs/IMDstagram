@@ -7,10 +7,11 @@
         
         $user->setUsername($_POST["username"]);
         $user->setPassword($_POST["password"]);
+        $user->getEmail();
 
         if($user->login($user)){
             session_start();
-            $_SESSION["username"] = $username;
+            $_SESSION["email"] = $email;
             header("Location: index.php");
         }else{
             $error = true;
