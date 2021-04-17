@@ -125,7 +125,20 @@ class Post {
 
                 return $this;
         }
+
+        public function searchPost(){
+                $conn = Db::getConnection();
+                $searchPostInput = $this->getTitle();
+                $statement = $conn->prepare("SELECT title FROM posts WHERE title LIKE '%$searchPostInput%'");
+                $statement->execute();
+                $searchPostOutput = array();
+                $searchPostOutput[] = $statement->fetchall();
+                return $searchPostOutput;
+        }
 }
+
+
+
 
 
 ?>
