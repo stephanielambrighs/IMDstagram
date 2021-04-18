@@ -22,6 +22,7 @@
                 $user->setFile_path($uploadResult['file_path']);
                 $email = $_SESSION['legato-user']->getEmail();
                 $result = Db::completeProfile($user);
+                header("Location: index.php");
             }
         }
         catch(Exception $e){

@@ -85,7 +85,7 @@ class Db {
         $result_ = $statement->execute();
         //var_dump($result_);
         //var_dump("file_path->" . $user->getFile_Path());
-        Db::uploadGenres($user);
+        self::uploadGenres($user);
 
     }
     public static function uploadGenres($user){
@@ -101,7 +101,7 @@ class Db {
             $result_ = $statement->execute();
             //var_dump($result_);
         }
-        header('Location: index.php');
+        
     }
 
 

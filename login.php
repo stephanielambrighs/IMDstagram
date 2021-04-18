@@ -10,7 +10,6 @@
           if($user->login()){
             session_start();
             $_SESSION["legato-user"] = $user;
-            
             header("Location: index.php");
           }
           else{
