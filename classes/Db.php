@@ -183,4 +183,13 @@ class Db {
         return $user;
     }
 
+
+    public static function insertProfileGenre($profile_id, $genre_id){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("INSERT INTO profile_genre (profile_id, genre_id) VALUES (:profile_id, :genre_id);");
+        $statement->bindValue(":profile_id", $profile_id); // not correct
+        $statement->bindValue(":genre_id", $genre_id); // not correct
+        $statement->execute(); 
+    }
+
 }

@@ -380,6 +380,7 @@ class User
             echo $e;
         }
     }
+    
     public function checkAge() {
         return true;
         /*
@@ -396,11 +397,6 @@ class User
 
     public function addProfileGenres()
     {
-        $conn = Db::getConnection();
-        $statement = $conn->prepare("INSERT INTO profile_genre (profile_id, genre_id) VALUES (:profile_id, :genre_id);");
-        $statement->bindValue(":profile_id", $this->getId()); // not correct
-        $statement->bindValue(":genre_id", $this->getGenre()); // not correct
-        $statement->execute();   
-
+        DB::insertProfileGenre($this->getId(), $this->getGenre());
     }
 }
