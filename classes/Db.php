@@ -25,12 +25,28 @@ class Db {
         }
     }
 
+    public static function getProfiles() {
+        echo "😎-getProfiles";
+        $conn = self::getConnection();
+        $statement = $conn->prepare("SELECT id, bio FROM profiles");
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        var_dump($statement->errorInfo());
+
+        $profilesList = [];
+        foreach ($result as $db_profile) {
+            $profile = new Profile ($db_profile['id'], $db_profile['bio']);
+            array_push($profilesList, $profile);
+        }
+        return $profilesList;
+    }
+
     public static function getAllGenres(){
         $conn = self::getConnection();
         $statement = $conn->prepare("SELECT id, name FROM genre");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        // var_dump($statement->errorInfo());
+        var_dump($statement->errorInfo());
 
         $genreList = [];
         foreach($result as $db_genre){
@@ -57,6 +73,42 @@ class Db {
         // var_dump($result);
         // var_dump($statement->errorInfo());
     }
+
+    public static function completeProfile($user){
+        $conn = self::getConnection();     
+        $statement = $conn->prepare("
+            INSERT INTO profiles (bio, profile_img_path, user_id)
+            VALUES (:bio, :file_path, (SELECT id FROM users WHERE email = :email));
+        ");
+        $statement->bindValue(':bio', $user->getBio());
+        $statement->bindValue(':file_path', $user->getFile_path());
+        $statement->bindValue(':email', $user->getEmail());
+
+        $result_ = $statement->execute();
+        //var_dump($result_);
+        //var_dump("file_path->" . $user->getFile_Path());
+        self::uploadGenres($user);
+
+    }
+    public static function uploadGenres($user){
+        for ($i=1; $i < 4; $i++) {  //hardcoded?
+            //var_dump("AAA-" . $_POST['genre' . $i]);
+
+            $conn = self::getConnection();
+            $statement = $conn->prepare("
+                insert into profile_genre (profile_id, genre_id)
+                values ((select id from profiles where id = (SELECT id FROM users WHERE email = :email)),
+                       (select id from genre where id = :genre))
+            ");
+            $statement->bindValue(":email", $_SESSION['email']);
+            $statement->bindValue(":genre", $_POST['genre' . $i]);
+            $result_ = $statement->execute();
+            //var_dump($result_);
+        }
+        
+    }
+
+
 
     private static function get_current_time(){
         $now = new DateTime('now');
@@ -114,5 +166,64 @@ class Db {
     //     var_dump($statement->errorInfo());
     //     return $genre;
     // }
+
+
+    public static function getUserByEmail($userEmail){
+        // genre opvragen -> database 
+        // object maken en dit object teruggeven 
+        $conn = self::getConnection();
+        $statement = $conn->prepare("SELECT * FROM `users` WHERE email = :email");
+        $statement->bindValue(":email", $userEmail);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $user = new User();
+        $user->setId($result['id']);
+        $user->setEmail($result['email']);
+        $user->setUsername($result['username']);
+        $user->setPassword($result['password']);
+        $user->setFirstname($result['firstname']);
+        $user->setLastname($result['lastname']);
+        $user->setDateOfBirth($result['date_of_birth']);
+        return $user;
+    }
+
+    public static function getUserById($userId){
+        // genre opvragen -> database 
+        // object maken en dit object teruggeven 
+        $conn = self::getConnection();
+        $statement = $conn->prepare("SELECT * FROM `users` WHERE id = :id");
+        $statement->bindValue(":id", $userId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $user = new User();
+        $user->setId($result['id']);
+        $user->setEmail($result['email']);
+        $user->setUsername($result['username']);
+        $user->setPassword($result['password']);
+        $user->setFirstname($result['firstname']);
+        $user->setLastname($result['lastname']);
+        $user->setDateOfBirth($result['date_of_birth']);
+        return $user;
+    }
+
+
+
+    public static function insertProfileGenre($profile_id, $genre_id){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("INSERT INTO profile_genre (profile_id, genre_id) VALUES (:profile_id, :genre_id);");
+        $statement->bindValue(":profile_id", $profile_id); // not correct
+        $statement->bindValue(":genre_id", $genre_id); // not correct
+        $statement->execute(); 
+    }
+
+
+    public static function getProfileImgPath($userId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("SELECT profile_img_path FROM `profiles` WHERE user_id = :user_id");
+        $statement->bindValue(":user_id", $userId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result['profile_img_path'];
+    }
 
 }
