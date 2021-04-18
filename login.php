@@ -1,9 +1,9 @@
 <?php
     require_once("autoload.php");
 
-    $user = new User();
-
+    
     if(!empty($_POST)){
+        $user = new User();
         
         $user->setUsername($_POST["username"]);
         $user->setPassword($_POST["password"]);
