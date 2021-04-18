@@ -15,7 +15,7 @@ class User
     private $avatar;
     private $bio;
     private $dateOfBirth;
-    private $file_path = "";
+    private $file_path = "data/uploads/default.png";
 
     private $genre;
 
