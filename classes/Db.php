@@ -163,4 +163,24 @@ class Db {
     //     return $genre;
     // }
 
+
+    public static function getUserByEmail($userEmail){
+        // genre opvragen -> database 
+        // object maken en dit object teruggeven 
+        $conn = self::getConnection();
+        $statement = $conn->prepare("SELECT * FROM `users` WHERE email = :email");
+        $statement->bindValue(":email", $userEmail);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $user = new User();
+        $user->setId($result['id']);
+        $user->setEmail($result['email']);
+        $user->setUsername($result['username']);
+        $user->setPassword($result['password']);
+        $user->setFirstname($result['firstname']);
+        $user->setLastname($result['lastname']);
+        $user->setDateOfBirth($result['date_of_birth']);
+        return $user;
+    }
+
 }
