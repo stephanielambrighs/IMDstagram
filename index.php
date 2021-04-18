@@ -116,7 +116,7 @@ if(isset($_SESSION["legato-user"])){
     <div class="col-9">
         <!-- <img src="https://images.pexels.com/photos/908602/pexels-photo-908602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="user_image"> -->
         <img src="<?php echo $post_user_file_path; ?>" alt="user_image">
-        <h2>user_name</h2>
+        <h2><?php echo Db::getUserById($post->getUser_id())->getUsername(); ?></h2>
         <p><?php echo $post->getUpload_date(); ?></p>
     </div>
     <div class="feed">

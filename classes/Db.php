@@ -187,6 +187,26 @@ class Db {
         return $user;
     }
 
+    public static function getUserById($userId){
+        // genre opvragen -> database 
+        // object maken en dit object teruggeven 
+        $conn = self::getConnection();
+        $statement = $conn->prepare("SELECT * FROM `users` WHERE id = :id");
+        $statement->bindValue(":id", $userId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $user = new User();
+        $user->setId($result['id']);
+        $user->setEmail($result['email']);
+        $user->setUsername($result['username']);
+        $user->setPassword($result['password']);
+        $user->setFirstname($result['firstname']);
+        $user->setLastname($result['lastname']);
+        $user->setDateOfBirth($result['date_of_birth']);
+        return $user;
+    }
+
+
 
     public static function insertProfileGenre($profile_id, $genre_id){
         $conn = self::getConnection();
