@@ -11,6 +11,10 @@
             <a class="nav-link" href="profile.php">Profile</a>
             <a class="nav-link" href="logout.php">Log out</a>
         </div>
+        <form action="search.php" method="post">
+            <input type="text" placeholder="Search..." name="search">
+            <input type="submit" value="Search" name="searchBTN">
+        </form>
         </div>
     </div>
 </nav>

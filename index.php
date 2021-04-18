@@ -1,5 +1,6 @@
 <?php
 
+
 require_once("autoload.php");
 session_start();
 
@@ -18,14 +19,16 @@ if(isset($_SESSION["legato-user"])){
             // update file
             $uploadResult = FileManager::uploadFile($_FILES['file']);
            
+
             if($uploadResult['success'] == true){
                 $post = new Post();
                 $post->setTitle($_POST['title']);
                 $post->setDescription($_POST['description']);
                 $post->setGenre_id($_POST['genre_id']);
                 $post->setFile_path($uploadResult['file_path']);
-                $post->setUser_id($userId);
-                $result = Db::insertPost($post);
+
+                //$post->setUser_id($userId);
+                //$result = Db::insertPost($post);
             }
         }
         catch(Exception $e){
@@ -39,6 +42,21 @@ if(isset($_SESSION["legato-user"])){
         $uploadDescription = false;
     }
 
+    //Code searchfield hieer
+    if(isset($_POST["search"])){
+        $searchQuery = $_POST["search"];
+        $query = mysql_query("select * LIKE '%$searchQuery%'") or die("could not search");
+        $count = mysql_num_rows($query);
+        if($count == 0){
+            $output = "There are no search results";
+        }else{
+            while($row = mysql_fetch_array($query)){
+                $username = $row['username'];
+
+                $output.="<div>".$username."".$post."</div>";
+            }
+        }
+    }
 }
 
 ?><!DOCTYPE html>
@@ -100,6 +118,8 @@ if(isset($_SESSION["legato-user"])){
     </div>
     <button id="submit" type="submit" value="Upload" class="btn btn-info">Submit</button>
 </form>
+
+<?php print("output"); ?>
 
 <div class="container">
   <div class="row">
