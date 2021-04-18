@@ -8,7 +8,7 @@ class Post {
     private $genre_id = 0;
     private $upload_date = 0;
     private $user_id = 0;
-    private $type_id = 0;
+    private $type_id = 1;
     private $file_path = "";
 
 
