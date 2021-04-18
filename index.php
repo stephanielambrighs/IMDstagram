@@ -1,35 +1,45 @@
 <?php
 
 require_once("autoload.php");
+session_start();
 
-if(!empty($_POST['title']) 
-&& !empty($_POST['description'])
-&& !empty($_POST['genre_id']) 
-&& !empty($_FILES['file'])){
-    try{
-        
-        $uploadResult = FileManager::uploadFile($_FILES['file']);
+if(isset($_SESSION["legato-user"])){
 
-        if($uploadResult['success'] == true){
-            $post = new Post();
-            $post->setTitle($_POST['title']);
-            $post->setDescription($_POST['description']);
-            $post->setGenre_id($_POST['genre_id']);
-            $post->setFile_path($uploadResult['file_path']);
-            $result = Db::insertPost($post);
+    if(!empty($_POST['title']) 
+    && !empty($_POST['description'])
+    && !empty($_POST['genre_id']) 
+    && !empty($_FILES['file'])){
+        try{
+            // get email from session user
+            $user = $_SESSION['legato-user'];
+            $userEmail = $user->getEmail();
+            $userId =  DB::getUserByEmail($userEmail)->getId();
+
+            // update file
+            $uploadResult = FileManager::uploadFile($_FILES['file']);
+           
+            if($uploadResult['success'] == true){
+                $post = new Post();
+                $post->setTitle($_POST['title']);
+                $post->setDescription($_POST['description']);
+                $post->setGenre_id($_POST['genre_id']);
+                $post->setFile_path($uploadResult['file_path']);
+                $post->setUser_id($userId);
+                $result = Db::insertPost($post);
+            }
         }
+        catch(Exception $e){
+            $error = $e->getMessage();
+            var_dump($error);
+        }
+    }else{
+        $uploadTitle = false;
+        $uploadGenre = false;
+        $uploadFile = false;
+        $uploadDescription = false;
     }
-    catch(Exception $e){
-        $error = $e->getMessage();
-        var_dump($error);
-    }
-}else{
-    $uploadTitle = false;
-    $uploadGenre = false;
-    $uploadFile = false;
-    $uploadDescription = false;
-}
 
+}
 
 ?><!DOCTYPE html>
 <!-- LEGATO INDEX (FEED) -->
