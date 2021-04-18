@@ -7,7 +7,7 @@
         
         $user->setUsername($_POST["username"]);
         $user->setPassword($_POST["password"]);
-        $user->getEmail();
+        $email = $user->getEmail();
 
         if($user->login()){
             session_start();
