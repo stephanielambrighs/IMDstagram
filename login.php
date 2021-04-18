@@ -9,7 +9,7 @@
         $user->setPassword($_POST["password"]);
         $user->getEmail();
 
-        if($user->login($user)){
+        if($user->login()){
             session_start();
             $_SESSION["email"] = $email;
             header("Location: index.php");

@@ -299,7 +299,7 @@ class User
     }
 
 
-    public function login($user){
+    public function login(){
         $conn = Db::getConnection();
         $username = $this->getUsername();
         $password = $this->getPassword();
