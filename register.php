@@ -13,7 +13,7 @@
         $user->setDateOfBirth($_POST['date_of_birth']);
         
         session_start();
-        $_SESSION['email'] = $user->getEmail();
+        $_SESSION['legato-user'] = $user;
         
         //$user->register($user);
         $result = $user->register($user);

@@ -1,22 +1,30 @@
 <?php
     require_once("autoload.php");
-
-    $user = new User();
-
-    if(!empty($_POST)){
-        
-        $user->setUsername($_POST["username"]);
-        $user->setPassword($_POST["password"]);
-        $user->getEmail();
-
-        if($user->login($user)){
+      
+    if(!empty($_POST['email']) && !empty($_POST['password'])){
+        try {
+          $user = new User();
+          $user->setEmail($_POST['email']);     
+          $user->setPassword($_POST['password']);
+  
+          if($user->login()){
             session_start();
-            $_SESSION["email"] = $email;
+            $_SESSION["legato-user"] = $user;
             header("Location: index.php");
-        }else{
+          }
+          else{
             $error = true;
+          }
         }
+        catch(Exception $e){
+          $error = $e->getMessage(); 
+          $error = '<p>Incorrect username or password</p>';
+        }
+      
     }
+    
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,8 +43,8 @@
         <div class="alert alert-danger" role="alert">Incorrect username or password</div>
     <?php endif; ?>
     <div class="mb-3">
-        <label for="exampleInputUsername1" class="form-label">Username</label>
-        <input type="text" class="form-control" id="exampleInputUsername1" aria-describedby="usernameHelp" name="username">
+        <label for="exampleInputUsername1" class="form-label">Email</label>
+        <input type="text" class="form-control" id="exampleInputUsername1" aria-describedby="usernameHelp" name="email">
     </div>
     <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Password</label>

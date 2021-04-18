@@ -1,35 +1,45 @@
 <?php
 
 require_once("autoload.php");
+session_start();
 
-if(!empty($_POST['title']) 
-&& !empty($_POST['description'])
-&& !empty($_POST['genre_id']) 
-&& !empty($_FILES['file'])){
-    try{
-        
-        $uploadResult = FileManager::uploadFile($_FILES['file']);
+if(isset($_SESSION["legato-user"])){
 
-        if($uploadResult['success'] == true){
-            $post = new Post();
-            $post->setTitle($_POST['title']);
-            $post->setDescription($_POST['description']);
-            $post->setGenre_id($_POST['genre_id']);
-            $post->setFile_path($uploadResult['file_path']);
-            $result = Db::insertPost($post);
+    if(!empty($_POST['title']) 
+    && !empty($_POST['description'])
+    && !empty($_POST['genre_id']) 
+    && !empty($_FILES['file'])){
+        try{
+            // get email from session user
+            $user = $_SESSION['legato-user'];
+            $userEmail = $user->getEmail();
+            $userId =  DB::getUserByEmail($userEmail)->getId();
+
+            // update file
+            $uploadResult = FileManager::uploadFile($_FILES['file']);
+           
+            if($uploadResult['success'] == true){
+                $post = new Post();
+                $post->setTitle($_POST['title']);
+                $post->setDescription($_POST['description']);
+                $post->setGenre_id($_POST['genre_id']);
+                $post->setFile_path($uploadResult['file_path']);
+                $post->setUser_id($userId);
+                $result = Db::insertPost($post);
+            }
         }
+        catch(Exception $e){
+            $error = $e->getMessage();
+            var_dump($error);
+        }
+    }else{
+        $uploadTitle = false;
+        $uploadGenre = false;
+        $uploadFile = false;
+        $uploadDescription = false;
     }
-    catch(Exception $e){
-        $error = $e->getMessage();
-        var_dump($error);
-    }
-}else{
-    $uploadTitle = false;
-    $uploadGenre = false;
-    $uploadFile = false;
-    $uploadDescription = false;
-}
 
+}
 
 ?><!DOCTYPE html>
 <!-- LEGATO INDEX (FEED) -->
@@ -95,15 +105,23 @@ if(!empty($_POST['title'])
   <div class="row">
   <?php $allPosts = Db::getAllPosts(); 
    
-    foreach($allPosts as $post): ?>
+    foreach($allPosts as $post):
+    $post_user_file_path =  Db::getProfileImgPath($post->getUser_id());
+    // $post_user_file_path =  $post->getFile_path();
+    if (!$post_user_file_path) {
+        $post_user_file_path = "data/uploads/default.png";
+    }
+    // var_dump($post_user_file_path);
+    ?>
     <div class="col-9">
-        <img src="https://images.pexels.com/photos/908602/pexels-photo-908602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="user_image">
-        <h2>user_name</h2>
+        <!-- <img src="https://images.pexels.com/photos/908602/pexels-photo-908602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="user_image"> -->
+        <img src="<?php echo $post_user_file_path; ?>" alt="user_image">
+        <h2><?php echo Db::getUserById($post->getUser_id())->getUsername(); ?></h2>
         <p><?php echo $post->getUpload_date(); ?></p>
     </div>
     <div class="feed">
         <div class="col-4">
-            <img src="<?php echo $post->getFile_path(); ?>" alt="feed"> 
+        <img src="<?php echo $post->getFile_path(); ?>" alt="feed"> 
         </div>
         <div class="col-6">
             <h3><?php echo $post->getTitle(); ?></h3>

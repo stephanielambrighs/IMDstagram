@@ -15,7 +15,7 @@ class User
     private $avatar;
     private $bio;
     private $dateOfBirth;
-    private $file_path = "";
+    private $file_path = "data/uploads/default.png";
 
     private $genre;
 
@@ -299,24 +299,21 @@ class User
     }
 
 
-    public function login($user){
-        $conn = Db::getConnection();
-        $username = $this->getUsername();
-        $password = $this->getPassword();
-        $statement = $conn->prepare("SELECT * FROM users WHERE username = :username");
-        $statement->bindValue(":username", $username);
-        $statement->execute();
-        $user = $statement->fetch();
-        if(!$user){
+    public function login(){
+        // get user from database
+        $dbUser = DB::getUserByEmail($this->getEmail());
+        if(!$dbUser){
             return false;
         }
 
-        $hash = $user["password"];
-        if(password_verify($password, $hash)){
+        // compare database password with current password
+        if(password_verify($this->getPassword(), $dbUser->getPassword())){
             return true;
         }else{
             return false;
         }
+
+    }
 
 
 
@@ -383,6 +380,7 @@ class User
             echo $e;
         }
     }
+    
     public function checkAge() {
         return true;
         /*
@@ -399,11 +397,6 @@ class User
 
     public function addProfileGenres()
     {
-        $conn = Db::getConnection();
-        $statement = $conn->prepare("INSERT INTO profile_genre (profile_id, genre_id) VALUES (:profile_id, :genre_id);");
-        $statement->bindValue(":profile_id", $this->getId()); // not correct
-        $statement->bindValue(":genre_id", $this->getGenre()); // not correct
-        $statement->execute();   
-
+        DB::insertProfileGenre($this->getId(), $this->getGenre());
     }
 }
