@@ -1,9 +1,6 @@
 <?php
     require_once("autoload.php");
 
-    session_start();
-    $_SESSION["email"] = $email;
-
     $searchUserInput = new User();
     $searchUserInput->setUsername($_POST["search"]);
     $searchUserOutput = $searchUserInput->searchUser();
