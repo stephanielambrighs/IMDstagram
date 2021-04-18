@@ -27,26 +27,27 @@
 </head>
 <body>
 <?php include_once("inc/nav.inc.php"); ?>
-
-<h2>Results</h2>
-<div class="searchResult">
-    <h3>Users</h3>
-    <?php foreach($searchUserOutput[0] as $key => $username): ?>
-        <p><?php echo "{$username[0]}\n"; ?></p>
-    <?php endforeach; ?>
-</div>
-<div class="searchResult">
-    <h3>Posts</h3>
-    <?php foreach($searchPostOutput[0] as $key => $post): ?>
-        <p><?php echo "{$post[0]}\n"; ?></p>
-    <?php endforeach; ?>
-</div>
-<div class="searchResult">
-    <h3>Tags</h3>
-    <?php foreach($searchTagOutput[0] as $key => $tag): ?>
-        <p><?php echo "{$tag[0]}\n"; ?></p>
-    <?php endforeach; ?>
-</div>
+<main>
+    <h2 class="h2">Results</h2>
+    <div class="searchResult">
+        <h3>Users</h3>
+        <?php foreach($searchUserOutput[0] as $key => $username): ?>
+            <p><?php echo "{$username[0]}\n"; ?></p>
+        <?php endforeach; ?>
+    </div>
+    <div class="searchResult">
+        <h3>Posts</h3>
+        <?php foreach($searchPostOutput[0] as $key => $post): ?>
+            <p><?php echo "{$post[0]}\n"; ?></p>
+        <?php endforeach; ?>
+    </div>
+    <div class="searchResult">
+        <h3>Tags</h3>
+        <?php foreach($searchTagOutput[0] as $key => $tag): ?>
+            <p><?php echo "{$tag[0]}\n"; ?></p>
+        <?php endforeach; ?>
+    </div>
+</main>
 
 <?php include_once("inc/footer.inc.php");?>
 <script src="/js/index.js"></script>
