@@ -173,3 +173,7 @@ div.col-3 {
     color: white;
 }
 
+/* search */
+.searchResult{
+    padding: 1em;
+}
