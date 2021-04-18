@@ -300,25 +300,22 @@ class User
 
 
     public function login(){
-        $conn = Db::getConnection();
-        $email = $this->getEmail();
-        $password = $this->getPassword();
-        $statement = $conn->prepare("SELECT * FROM users WHERE email = :email");
-        $statement->bindValue(":email", $email);
-        $statement->execute();
-        $user = $statement->fetch();
-        if(!$user){
+        // get user from database
+        $dbUser = DB::getUserByEmail($this->getEmail());
+        if(!$dbUser){
             return false;
         }
 
-        $db_password = $user["password"];
-        if(password_verify($password, $db_password)){
+        // compare database password with current password
+        if(password_verify($this->getPassword(), $dbUser->getPassword())){
             return true;
         }else{
             return false;
         }
 
     }
+
+
 
     public function register($user)
     {
