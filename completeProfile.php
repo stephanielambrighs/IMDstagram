@@ -7,11 +7,7 @@
     $user = new User();
 
     session_start();
-    if (isset($_SESSION['email'])) {
-        //echo $_SESSION;
-        //var_dump($_SESSION);
-        
-    } else {
+    if (! isset($_SESSION['legato-user'])) {
         exit;
     }
 
@@ -23,14 +19,9 @@
     
             if($uploadResult['success'] == true){
                 $user->setBio($_POST['bio']);
-                //$user->setAvatar($_POST['avatar']);
                 $user->setFile_path($uploadResult['file_path']);
-                $email = $_SESSION['email'];
+                $email = $_SESSION['legato-user']->getEmail();
                 $result = Db::completeProfile($user);
-
-                //$email = $_SESSION['email'];
-                //$user->completeProfile($email);
-
             }
         }
         catch(Exception $e){
@@ -38,28 +29,7 @@
             var_dump($error);
         }
 
-        /*$user->setAvatar('dummy');
-        $user->setBio($_POST['bio']);
-        $user->setGenre($_POST['genre1']);
-
-        $email = $_SESSION['email'];
-        
-        $user->completeProfile($email);*/
     }
-
-    //function loadGenres() {
-        /*include_once(__DIR__ . "/classes/Db.php");
-
-        $conn = Db::getConnection();
-        $statement = $conn->prepare("select name from genres");
-        $items = $statement->execute();
-        var_dump($statement);*/
-    //}
-    
-
-
-
-
 
 ?><!DOCTYPE html>
 <html lang="en">
