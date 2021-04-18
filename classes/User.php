@@ -301,18 +301,18 @@ class User
 
     public function login(){
         $conn = Db::getConnection();
-        $username = $this->getUsername();
+        $email = $this->getEmail();
         $password = $this->getPassword();
-        $statement = $conn->prepare("SELECT * FROM users WHERE username = :username");
-        $statement->bindValue(":username", $username);
+        $statement = $conn->prepare("SELECT * FROM users WHERE email = :email");
+        $statement->bindValue(":email", $email);
         $statement->execute();
         $user = $statement->fetch();
         if(!$user){
             return false;
         }
 
-        $hash = $user["password"];
-        if(password_verify($password, $hash)){
+        $db_password = $user["password"];
+        if(password_verify($password, $db_password)){
             return true;
         }else{
             return false;
