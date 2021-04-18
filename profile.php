@@ -1,4 +1,32 @@
-<!DOCTYPE html>
+<?php
+
+    include_once(__DIR__ . "/autoload.php");
+    
+    $user = new User();
+
+    // needs session from register > completeProfile > index > profile
+    // temp. using dummy email
+    $dummyEmail = "mats.thys@gmail.com";
+
+    if (!empty($_POST)) {
+        $user->setNewFirstname($_POST['newFirstname']);
+        $user->setNewLastname($_POST['newLastname']);
+        $user->setNewEmail($_POST['newEmail']);
+        $user->setNewPassword($_POST['newPassword']);
+        $user->setNewUsername($_POST['newUsername']);
+        $user->setNewDateOfBirth($_POST['newDateOfBirth']);
+        $user->setNewBio($_POST['newBio']);
+
+        session_start();
+        //$_SESSION['email'] = $dummyEmail;
+        //$_SESSION['email'] = $user->getEmail();
+
+        var_dump($_SESSION['email']);
+        $result = $user->updateProfile();
+    }
+
+
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -79,7 +107,8 @@
                   </div>
                 </div>
                 <div class="col-md-2">
-                    <input id="editProfile" type="submit" class="btn btn-primary" name="btnAddMore" value="Edit Profile"/>
+                    <!--<input id="editProfile" type="submit" class="btn btn-primary" name="btnAddMore" value="Edit Profile"/>-->
+                    <a href="#" id="editProfile" class="btn btn-primary" name="btnAddMore" value="Edit Profile">Edit Profile</a>
                 </div>
               </div>
             </div>
@@ -112,7 +141,7 @@
             </div>
         </div>
     </div>
-    <form class="card h-100">
+    <form class="card h-100" method="post">
         <div id="editProfile"class="card-body">
             <div class="row gutters" id="rowProfile">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -121,45 +150,51 @@
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
                         <label for="firstName">First name</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="Enter first name">
+                        <input name="newFirstname" type="text" class="form-control" id="firstName" placeholder="Enter first name">
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
                         <label for="lastName">Last name</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="Enter last name">
+                        <input name="newLastname" type="text" class="form-control" id="lastName" placeholder="Enter last name">
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
-                        <label for="eMail">Email</label>
-                        <input type="email" class="form-control" id="eMail" placeholder="Enter email">
+                        <label for="eMail"><?php ?></label>
+                        <input name="newEmail" type="email" class="form-control" id="eMail" placeholder="Enter email">
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="text" class="form-control" id="password" placeholder="Enter your new password">
+                        <input name="newPassword" type="password" class="form-control" id="password" placeholder="Enter your new password">
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input name="newUsername" type="text" class="form-control" id="username" placeholder="Enter your new username">
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
                         <label for="dateOfBirth">Date of birth</label>
-                        <input type="text" class="form-control" id="birth" placeholder="Enter date of birth">
+                        <input type="date" class="form-control" name="newDateOfBirth" aria-describedby="emailHelp" placeholder="Enter your date of birth">
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
                         <label for="password">Bio</label>
-                        <input type="text" class="form-control" id="bio" placeholder="Enter bio">
+                        <input name="newBio" type="text" class="form-control" id="bio" placeholder="Enter bio">
                     </div>
                 </div>
             </div>
             <div class="row gutter">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="text-right">
-                        <button id="cancelProfile" type="button" id="submit" name="submit" class="btn btn-secondary">Cancel</button>
-                        <button id="updateProfile" type="button" id="submit" name="submit" class="btn btn-primary">Update</button>
+                        <a id="cancelProfile" name="cancel" class="btn btn-secondary" href="profile.php">Cancel</a>
+                        <button id="upateProfile" type="submit" id="submit" name="submit" class="btn btn-primary">Update</button>
                     </div>
                 </div>
             </div>

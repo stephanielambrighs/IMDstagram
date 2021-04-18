@@ -19,6 +19,14 @@ class User
 
     private $genre;
 
+    private $newEmail;
+    private $newPassword;
+    private $newFirstname;
+    private $newLastname;
+    private $newUsername;
+    private $newDateOfBirth;
+    private $newBio;
+
     private $emailError;
     private $passwordError;
     private $ageError;
@@ -298,6 +306,146 @@ class User
         return $this;
     }
 
+    //             new profile info
+    /**
+     * Get the value of newEmail
+     */ 
+    public function getNewEmail()
+    {
+        return $this->newEmail;
+    }
+
+    /**
+     * Set the value of newEmail
+     *
+     * @return  self
+     */ 
+    public function setNewEmail($newEmail)
+    {
+        $this->newEmail = $newEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of newPassword
+     */ 
+    public function getNewPassword()
+    {
+        return $this->newPassword;
+    }
+
+    /**
+     * Set the value of newPassword
+     *
+     * @return  self
+     */ 
+    public function setNewPassword($newPassword)
+    {
+        $this->newPassword = $newPassword;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of newFirstname
+     */ 
+    public function getNewFirstname()
+    {
+        return $this->newFirstname;
+    }
+
+    /**
+     * Set the value of newFirstname
+     *
+     * @return  self
+     */ 
+    public function setNewFirstname($newFirstname)
+    {
+        $this->newFirstname = $newFirstname;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of newLastname
+     */ 
+    public function getNewLastname()
+    {
+        return $this->newLastname;
+    }
+
+    /**
+     * Set the value of newLastname
+     *
+     * @return  self
+     */ 
+    public function setNewLastname($newLastname)
+    {
+        $this->newLastname = $newLastname;
+
+        return $this;
+    }
+    /**
+     * Get the value of newUsername
+     */ 
+    public function getNewUsername()
+    {
+        return $this->newUsername;
+    }
+
+    /**
+     * Set the value of newUsername
+     *
+     * @return  self
+     */ 
+    public function setNewUsername($newUsername)
+    {
+        $this->newUsername = $newUsername;
+
+        return $this;
+    }
+    /**
+     * Get the value of newDateOfBirth
+     */ 
+    public function getNewDateOfBirth()
+    {
+        return $this->newDateOfBirth;
+    }
+
+    /**
+     * Set the value of newDateOfBirth
+     *
+     * @return  self
+     */ 
+    public function setNewDateOfBirth($newDateOfBirth)
+    {
+        $this->newDateOfBirth = $newDateOfBirth;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of newBio
+     */ 
+    public function getNewBio()
+    {
+        return $this->newBio;
+    }
+
+    /**
+     * Set the value of newBio
+     *
+     * @return  self
+     */ 
+    public function setNewBio($newBio)
+    {
+        $this->newBio = $newBio;
+
+        return $this;
+    }
+
+  
 
     public function login(){
         // get user from database
@@ -398,5 +546,33 @@ class User
     public function addProfileGenres()
     {
         DB::insertProfileGenre($this->getId(), $this->getGenre());
+    }
+
+    public function updateProfile() {
+        $conn = Db::getConnection();
+
+        $newFirstname = $this->getNewFirstname();
+        $newLastname = $this->getNewLastname();
+        $newEmail = $this->getNewEmail();
+        $newUsername = $this->getNewUsername();
+        $newPassword = password_hash($this->getNewPassword(), PASSWORD_BCRYPT);
+        $newDateOfBirth = $this->getNewDateOfBirth();
+        // $newBio = $this->getNewBio();
+
+        $statement = $conn->prepare("UPDATE users
+        SET email=COALESCE(NULLIF(:newEmail, ''), email), username=COALESCE(NULLIF(:newUsername, ''), username), 
+        password=COALESCE(NULLIF(:newPassword, ''), password), firstname=COALESCE(NULLIF(:newFirstname, ''), firstname), 
+        lastname=COALESCE(NULLIF(:newLastname, ''), lastname), date_of_birth=COALESCE(NULLIF(:newDateOfBirth, ''), date_of_birth) 
+        where id = 1;");
+
+        $statement->bindValue(":newEmail", $newEmail);
+        $statement->bindValue(":newUsername", $newUsername);
+        $statement->bindValue(":newPassword", $newPassword);
+        $statement->bindValue(":newFirstname", $newFirstname);
+        $statement->bindValue(":newLastname", $newLastname);
+        $statement->bindValue(":newDateOfBirth", $newDateOfBirth);
+
+        $statement->execute();
+
     }
 }
