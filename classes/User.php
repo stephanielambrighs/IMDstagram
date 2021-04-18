@@ -318,7 +318,7 @@ class User
             return false;
         }
 
-
+    }
 
     public function register($user)
     {
