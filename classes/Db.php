@@ -76,11 +76,13 @@ class Db {
 
     public static function completeProfile($user){
         $conn = self::getConnection();     
-        $statement = $conn->prepare("INSERT INTO profiles (bio, profile_img_path, user_id) VALUES (:bio, :file_path, (SELECT id FROM users WHERE email = :email));
+        $statement = $conn->prepare("
+            INSERT INTO profiles (bio, profile_img_path, user_id)
+            VALUES (:bio, :file_path, (SELECT id FROM users WHERE email = :email));
         ");
         $statement->bindValue(':bio', $user->getBio());
         $statement->bindValue(':file_path', $user->getFile_path());
-        $statement->bindValue(':email', $_SESSION['email']);
+        $statement->bindValue(':email', $user->getEmail());
 
         $result_ = $statement->execute();
         //var_dump($result_);
@@ -89,15 +91,17 @@ class Db {
 
     }
     public static function uploadGenres($user){
-        for ($i=1; $i < 4; $i++) { 
+        for ($i=1; $i < 4; $i++) {  //hardcoded?
             //var_dump("AAA-" . $_POST['genre' . $i]);
 
             $conn = self::getConnection();
-            $statement = $conn->prepare("insert into profile_genre (profile_id, genre_id) values ((select id from profiles where id = (SELECT id FROM users WHERE email = :email)), (select id from genre where id = :genre))");
-
+            $statement = $conn->prepare("
+                insert into profile_genre (profile_id, genre_id)
+                values ((select id from profiles where id = (SELECT id FROM users WHERE email = :email)),
+                       (select id from genre where id = :genre))
+            ");
             $statement->bindValue(":email", $_SESSION['email']);
             $statement->bindValue(":genre", $_POST['genre' . $i]);
-
             $result_ = $statement->execute();
             //var_dump($result_);
         }
@@ -190,6 +194,16 @@ class Db {
         $statement->bindValue(":profile_id", $profile_id); // not correct
         $statement->bindValue(":genre_id", $genre_id); // not correct
         $statement->execute(); 
+    }
+
+
+    public static function getProfileImgPath($userId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("SELECT profile_img_path FROM `profiles` WHERE user_id = :user_id");
+        $statement->bindValue(":user_id", $userId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result['profile_img_path'];
     }
 
 }
