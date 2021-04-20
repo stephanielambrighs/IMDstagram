@@ -5,9 +5,9 @@ session_start();
 
 if(isset($_SESSION["legato-user"])){
 
-    if(!empty($_POST['title']) 
+    if(!empty($_POST['title'])
     && !empty($_POST['description'])
-    && !empty($_POST['genre_id']) 
+    && !empty($_POST['genre_id'])
     && !empty($_FILES['file'])){
         try{
             // get email from session user
@@ -17,7 +17,7 @@ if(isset($_SESSION["legato-user"])){
 
             // update file
             $uploadResult = FileManager::uploadFile($_FILES['file']);
-           
+
             if($uploadResult['success'] == true){
                 $post = new Post();
                 $post->setTitle($_POST['title']);
@@ -49,6 +49,7 @@ if(isset($_SESSION["legato-user"])){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link href="/css/index.css" rel="stylesheet">
     <title>Legato</title>
 </head>
@@ -71,7 +72,7 @@ if(isset($_SESSION["legato-user"])){
         <label for="exampleFormControlInput1" class="form-label">Genre</label>
         <select class="form-select" name="genre_id" id="inputGroupSelect04" aria-label="Example select with button addon">
             <option selected>-</option>
-        <?php 
+        <?php
         $allGenres = Db::getAllGenres();
         for($i = 0; $i < count($allGenres); $i++):?>
             <option value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
@@ -103,8 +104,8 @@ if(isset($_SESSION["legato-user"])){
 
 <div class="container">
   <div class="row">
-  <?php $allPosts = Db::getAllPosts(); 
-   
+  <?php $allPosts = Db::getAllPosts();
+
     foreach($allPosts as $post):
     $post_user_file_path =  Db::getProfileImgPath($post->getUser_id());
     // $post_user_file_path =  $post->getFile_path();
@@ -112,16 +113,27 @@ if(isset($_SESSION["legato-user"])){
         $post_user_file_path = "data/uploads/default.png";
     }
     // var_dump($post_user_file_path);
+    $postUniqueName = "post-" . $post->getId();
     ?>
-    <div class="col-9">
+    <div class="col-9 <?php echo $postUniqueName; ?>">
         <!-- <img src="https://images.pexels.com/photos/908602/pexels-photo-908602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="user_image"> -->
         <img src="<?php echo $post_user_file_path; ?>" alt="user_image">
         <h2><?php echo Db::getUserById($post->getUser_id())->getUsername(); ?></h2>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                </svg>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <button class="dropdown-item btn-report" id="<?php echo $postUniqueName; ?>" >Report</button>
+            </div>
+        </div>
         <p><?php echo $post->getUpload_date(); ?></p>
     </div>
-    <div class="feed">
+    <div class="feed <?php echo $postUniqueName; ?>">
         <div class="col-4">
-        <img src="<?php echo $post->getFile_path(); ?>" alt="feed"> 
+        <img src="<?php echo $post->getFile_path(); ?>" alt="feed">
         </div>
         <div class="col-6">
             <h3><?php echo $post->getTitle(); ?></h3>
@@ -130,16 +142,19 @@ if(isset($_SESSION["legato-user"])){
             <p><?php echo $post->getDescription(); ?></p>
         </div>
     </div>
-    <div class="col-3">
+    <div class="col-3 <?php echo $postUniqueName; ?>">
         <button type="button" class="btn btn-info"><img src="/images/like_image.png" alt="Likes">300 Likes</button>
         <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
         <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
     </div>
-    <?php endforeach; ?> 
+    <?php endforeach; ?>
   </div>
 </div>
 
 <?php include_once("inc/footer.inc.php");?>
 <script src="/js/index.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
 </body>
 </html>
