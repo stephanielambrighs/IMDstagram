@@ -103,7 +103,7 @@ if(isset($_SESSION["legato-user"])){
 
 <div class="container">
   <div class="row">
-  <?php $allPosts = Db::getAllPosts();
+  <?php $allPosts = Db::getAllPosts(2);
 
     foreach($allPosts as $post):
     $post_user_file_path =  Db::getProfileImgPath($post->getUser_id());

@@ -59,7 +59,7 @@ class Db {
     public static function insertPost($post){
         $conn = self::getConnection();
         $statement = $conn->prepare("
-            INSERT INTO posts (`title`, `description`, `genre_id`, `upload_date`, `user_id`, `type_id`, `file_path`) 
+            INSERT INTO posts (`title`, `description`, `genre_id`, `upload_date`, `user_id`, `type_id`, `file_path`)
             VALUES (:title, :description, :genre_id, :upload_date, :user_id, :type_id, :file_path);
         ");
         $statement->bindValue(':title', $post->getTitle());
@@ -75,7 +75,7 @@ class Db {
     }
 
     public static function completeProfile($user){
-        $conn = self::getConnection();     
+        $conn = self::getConnection();
         $statement = $conn->prepare("
             INSERT INTO profiles (bio, profile_img_path, user_id)
             VALUES (:bio, :file_path, (SELECT id FROM users WHERE email = :email));
@@ -105,7 +105,7 @@ class Db {
             $result_ = $statement->execute();
             //var_dump($result_);
         }
-        
+
     }
 
 
@@ -116,9 +116,16 @@ class Db {
     }
 
 
-    public static function getAllPosts(){
+    public static function getAllPosts($limit){
         $conn = self::getConnection();
-        $statement = $conn->prepare("SELECT * FROM posts WHERE `upload_date` ORDER BY `upload_date` DESC LIMIT 20");
+        $statement = $conn->prepare("
+            SELECT *
+            FROM posts
+            WHERE inappropriate_count < 3
+            ORDER BY upload_date DESC
+            LIMIT :limit
+        ");
+        $statement->bindValue(":limit", $limit, PDO::PARAM_INT);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         // var_dump($statement->errorInfo());
@@ -141,8 +148,8 @@ class Db {
     }
 
     public static function getGenreById($genreId){
-        // genre opvragen -> database 
-        // object maken en dit object teruggeven 
+        // genre opvragen -> database
+        // object maken en dit object teruggeven
         $conn = self::getConnection();
         $statement = $conn->prepare("SELECT * FROM `genre` WHERE id = :id");
         $statement->bindValue(":id", $genreId);
@@ -169,8 +176,8 @@ class Db {
 
 
     public static function getUserByEmail($userEmail){
-        // genre opvragen -> database 
-        // object maken en dit object teruggeven 
+        // genre opvragen -> database
+        // object maken en dit object teruggeven
         $conn = self::getConnection();
         $statement = $conn->prepare("SELECT * FROM `users` WHERE email = :email");
         $statement->bindValue(":email", $userEmail);
@@ -188,8 +195,8 @@ class Db {
     }
 
     public static function getUserById($userId){
-        // genre opvragen -> database 
-        // object maken en dit object teruggeven 
+        // genre opvragen -> database
+        // object maken en dit object teruggeven
         $conn = self::getConnection();
         $statement = $conn->prepare("SELECT * FROM `users` WHERE id = :id");
         $statement->bindValue(":id", $userId);
@@ -213,7 +220,7 @@ class Db {
         $statement = $conn->prepare("INSERT INTO profile_genre (profile_id, genre_id) VALUES (:profile_id, :genre_id);");
         $statement->bindValue(":profile_id", $profile_id); // not correct
         $statement->bindValue(":genre_id", $genre_id); // not correct
-        $statement->execute(); 
+        $statement->execute();
     }
 
 
