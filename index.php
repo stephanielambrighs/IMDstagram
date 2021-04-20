@@ -5,16 +5,18 @@ session_start();
 
 if(isset($_SESSION["legato-user"])){
 
+    // get email from session user
+    $user = $_SESSION['legato-user'];
+    $userEmail = $user->getEmail();
+    $userId =  DB::getUserByEmail($userEmail)->getId();
+
+
+    // if a post is done, add it to the db
     if(!empty($_POST['title'])
     && !empty($_POST['description'])
     && !empty($_POST['genre_id'])
     && !empty($_FILES['file'])){
         try{
-            // get email from session user
-            $user = $_SESSION['legato-user'];
-            $userEmail = $user->getEmail();
-            $userId =  DB::getUserByEmail($userEmail)->getId();
-
             // update file
             $uploadResult = FileManager::uploadFile($_FILES['file']);
 
@@ -115,6 +117,7 @@ if(isset($_SESSION["legato-user"])){
     // var_dump($post_user_file_path);
     $postUniqueName = "post-" . $post->getId();
     ?>
+
     <div class="col-9 <?php echo $postUniqueName; ?>">
         <!-- <img src="https://images.pexels.com/photos/908602/pexels-photo-908602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="user_image"> -->
         <img src="<?php echo $post_user_file_path; ?>" alt="user_image">
@@ -126,7 +129,7 @@ if(isset($_SESSION["legato-user"])){
                 </svg>
             </button>
             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                <button class="dropdown-item btn-report" id="<?php echo $postUniqueName; ?>" >Report</button>
+            <button class="dropdown-item btn-report" id="<?php echo $postUniqueName; ?>" >Report</button>
             </div>
         </div>
         <p><?php echo $post->getUpload_date(); ?></p>
@@ -152,6 +155,9 @@ if(isset($_SESSION["legato-user"])){
 </div>
 
 <?php include_once("inc/footer.inc.php");?>
+<script type="text/javascript">
+    var userId = '<?php echo $userId; ?>';
+</script>
 <script src="/js/index.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
