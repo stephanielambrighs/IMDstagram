@@ -5,9 +5,9 @@ session_start();
 
 if(isset($_SESSION["legato-user"])){
 
-    if(!empty($_POST['title']) 
+    if(!empty($_POST['title'])
     && !empty($_POST['description'])
-    && !empty($_POST['genre_id']) 
+    && !empty($_POST['genre_id'])
     && !empty($_FILES['file'])){
         try{
             // get email from session user
@@ -17,7 +17,7 @@ if(isset($_SESSION["legato-user"])){
 
             // update file
             $uploadResult = FileManager::uploadFile($_FILES['file']);
-           
+
             if($uploadResult['success'] == true){
                 $post = new Post();
                 $post->setTitle($_POST['title']);
@@ -71,7 +71,7 @@ if(isset($_SESSION["legato-user"])){
         <label for="exampleFormControlInput1" class="form-label">Genre</label>
         <select class="form-select" name="genre_id" id="inputGroupSelect04" aria-label="Example select with button addon">
             <option selected>-</option>
-        <?php 
+        <?php
         $allGenres = Db::getAllGenres();
         for($i = 0; $i < count($allGenres); $i++):?>
             <option value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
@@ -103,8 +103,8 @@ if(isset($_SESSION["legato-user"])){
 
 <div class="container">
   <div class="row">
-  <?php $allPosts = Db::getAllPosts(); 
-   
+  <?php $allPosts = Db::getAllPosts();
+
     foreach($allPosts as $post):
     $post_user_file_path =  Db::getProfileImgPath($post->getUser_id());
     // $post_user_file_path =  $post->getFile_path();
@@ -121,7 +121,7 @@ if(isset($_SESSION["legato-user"])){
     </div>
     <div class="feed">
         <div class="col-4">
-        <img src="<?php echo $post->getFile_path(); ?>" alt="feed"> 
+        <img src="<?php echo $post->getFile_path(); ?>" alt="feed">
         </div>
         <div class="col-6">
             <h3><?php echo $post->getTitle(); ?></h3>
@@ -135,8 +135,12 @@ if(isset($_SESSION["legato-user"])){
         <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
         <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
     </div>
-    <?php endforeach; ?> 
+    <?php endforeach; ?>
   </div>
+</div>
+
+<div class="load-btn">
+    <button id="btn-load-more" type="button" class="btn btn-info">Load more...</button>
 </div>
 
 <?php include_once("inc/footer.inc.php");?>
