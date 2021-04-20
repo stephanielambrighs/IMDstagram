@@ -152,7 +152,7 @@ div.col-3 {
 }
 
 #btn-feed img {
-    width: 23px; 
+    width: 23px;
 }
 
 /* form feed  */
@@ -172,3 +172,10 @@ div.col-3 {
     color: white;
 }
 
+.load-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 160px;
+    margin-bottom: 3em;
+}
