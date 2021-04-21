@@ -23,35 +23,11 @@ postReportButtons.forEach(function(reportButton) {
 
         postId = reportButton.id.replace("post-", "");
 
-        // increate counter of the post in the database
-        increatePostCounter(postId);
-
         // add the user and post to the reports table
         addEntryToReportsTable(postId);
 
     });
 });
-
-
-function increatePostCounter(postId){
-    myBody = new FormData();
-    myBody.append("postId", postId);
-
-    fetch("increaseInappropriateCounter.php", {
-        method: "POST",
-        body: myBody,
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Success: ", data);
-        if (data['count'] >= 3) {
-            hidePost(postId);
-        }
-    })
-    .catch((error) => {
-        console.log("Error: ", error);
-    });
-};
 
 
 function hidePost(postId){
@@ -62,5 +38,19 @@ function hidePost(postId){
 
 
 function addEntryToReportsTable(postId){
-    alert("postId: " + postId + " ; userId: " + userId);
+    myBody = new FormData();
+    myBody.append("postId", postId);
+    myBody.append("userId", userId);
+
+    fetch("addEntryToReportsTable.php", {
+        method: "POST",
+        body: myBody,
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Success: ", data);
+    })
+    .catch((error) => {
+        console.log("Error: ", error);
+    });
 };
