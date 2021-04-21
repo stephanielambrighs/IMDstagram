@@ -258,4 +258,19 @@ class Db {
         return $statement->execute();
     }
 
+    public static function getReportsCount($postId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            SELECT COUNT(*) AS reportcount
+            FROM `reports`
+            WHERE post_id = :post_id
+        ");
+        $statement->bindValue(':post_id', $postId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        // var_dump($result['reportcount']);
+        return $result['reportcount'];
+    }
+
+
 }
