@@ -24,10 +24,33 @@ postReportButtons.forEach(function(reportButton) {
         postId = reportButton.id.replace("post-", "");
 
         // add the user and post to the reports table
+        // only unique combinations of userId and postId will be added
         addEntryToReportsTable(postId);
 
     });
 });
+
+
+function checkReportCount(postId){
+    myBody = new FormData();
+    myBody.append("postId", postId);
+
+    fetch("getReportsCount.php", {
+        method: "POST",
+        body: myBody,
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Success: ", data);
+        let reportcount = data['reportcount'];
+        if (data['reportcount'] >= 3){
+            hidePost(postId);
+        }
+    })
+    .catch((error) => {
+        console.log("Error: ", error);
+    });
+};
 
 
 function hidePost(postId){
@@ -49,6 +72,8 @@ function addEntryToReportsTable(postId){
     .then(response => response.json())
     .then(data => {
         console.log("Success: ", data);
+        // check current report count for this postId and hide if needed
+        checkReportCount(postId);
     })
     .catch((error) => {
         console.log("Error: ", error);
