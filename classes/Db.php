@@ -226,4 +226,51 @@ class Db {
         return $result['profile_img_path'];
     }
 
+    public static function checkIfReportExists($postId, $userId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            SELECT id
+            FROM reports
+            WHERE user_id = :user_id
+            AND post_id = :post_id
+        ");
+        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':post_id', $postId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        // var_dump($result);
+        if (!$result) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    public static function addReport($postId, $userId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            INSERT INTO reports (`user_id`, `post_id`)
+            VALUES (:user_id, :post_id);
+        ");
+        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':post_id', $postId);
+        return $statement->execute();
+    }
+
+    public static function getReportCount($postId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            SELECT COUNT(*) AS reportcount
+            FROM `reports`
+            WHERE post_id = :post_id
+        ");
+        $statement->bindValue(':post_id', $postId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        // var_dump($result['reportcount']);
+        return $result['reportcount'];
+    }
+
+
 }
