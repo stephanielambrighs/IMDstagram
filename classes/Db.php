@@ -226,28 +226,6 @@ class Db {
         return $result['profile_img_path'];
     }
 
-    public static function getInappropriateCount($postId){
-        $conn = self::getConnection();
-        $statement = $conn->prepare("SELECT inappropriate_count FROM posts WHERE id = :id");
-        $statement->bindValue(":id", $postId);
-        $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
-        return $result['inappropriate_count'];
-    }
-
-    public static function updateInappropriateCount($postId, $inappropriateCount){
-        $conn = self::getConnection();
-        $statement = $conn->prepare("
-            UPDATE posts
-            SET inappropriate_count = :count
-            WHERE id = :id
-        ");
-        $statement->bindValue(":id", $postId);
-        $statement->bindValue(":count", $inappropriateCount);
-        return $statement->execute();
-    }
-
-
     public static function checkIfReportExists($postId, $userId){
         $conn = self::getConnection();
         $statement = $conn->prepare("
