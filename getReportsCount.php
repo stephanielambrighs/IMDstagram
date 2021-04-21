@@ -5,7 +5,7 @@ require_once("autoload.php");
 if(!empty($_POST)){
     $postId = $_POST['postId'];
 
-    $reportCount = Db::getReportsCount($postId);
+    $reportCount = Db::getReportCount($postId);
     $response = [
         'reportcount' => $reportCount
     ];

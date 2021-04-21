@@ -258,7 +258,7 @@ class Db {
         return $statement->execute();
     }
 
-    public static function getReportsCount($postId){
+    public static function getReportCount($postId){
         $conn = self::getConnection();
         $statement = $conn->prepare("
             SELECT COUNT(*) AS reportcount
