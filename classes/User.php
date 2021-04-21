@@ -529,6 +529,16 @@ class User
         }
     }
     
+
+    public function searchUser(){
+        $conn = Db::getConnection();
+        $searchUserInput = $this->getUsername();
+        $statement = $conn->prepare("SELECT username FROM users WHERE username LIKE '%$searchUserInput%'");
+        $statement->execute();
+        $searchUserOutput = array();
+        $searchUserOutput[] = $statement->fetchall();
+        return $searchUserOutput;
+
     public function checkAge() {
         return true;
         /*
@@ -546,6 +556,7 @@ class User
     public function addProfileGenres()
     {
         DB::insertProfileGenre($this->getId(), $this->getGenre());
+
     }
 
     public function updateProfile() {

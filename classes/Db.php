@@ -110,7 +110,7 @@ class Db {
 
 
 
-    private static function get_current_time(){
+    public static function get_current_time(){
         $now = new DateTime('now');
         return date_format($now, 'Y-m-d H:i:s');
     }

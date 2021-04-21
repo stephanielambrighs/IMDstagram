@@ -1,5 +1,6 @@
 <?php
 
+
 require_once("autoload.php");
 session_start();
 
@@ -26,8 +27,9 @@ if(isset($_SESSION["legato-user"])){
                 $post->setDescription($_POST['description']);
                 $post->setGenre_id($_POST['genre_id']);
                 $post->setFile_path($uploadResult['file_path']);
-                $post->setUser_id($userId);
-                $result = Db::insertPost($post);
+
+                //$post->setUser_id($userId);
+                //$result = Db::insertPost($post);
             }
         }
         catch(Exception $e){
@@ -41,6 +43,21 @@ if(isset($_SESSION["legato-user"])){
         $uploadDescription = false;
     }
 
+    //Code searchfield hieer
+    if(isset($_POST["search"])){
+        $searchQuery = $_POST["search"];
+        $query = mysql_query("select * LIKE '%$searchQuery%'") or die("could not search");
+        $count = mysql_num_rows($query);
+        if($count == 0){
+            $output = "There are no search results";
+        }else{
+            while($row = mysql_fetch_array($query)){
+                $username = $row['username'];
+
+                $output.="<div>".$username."".$post."</div>";
+            }
+        }
+    }
 }
 
 ?><!DOCTYPE html>
@@ -104,6 +121,8 @@ if(isset($_SESSION["legato-user"])){
     <button id="submit" type="submit" value="Upload" class="btn btn-info">Submit</button>
 </form>
 
+<?php print("output"); ?>
+
 <div class="container">
   <div class="row">
   <?php $allPosts = Db::getAllPosts();
@@ -132,7 +151,7 @@ if(isset($_SESSION["legato-user"])){
             <button class="dropdown-item btn-report" id="<?php echo $postUniqueName; ?>" >Report</button>
             </div>
         </div>
-        <p><?php echo $post->getUpload_date(); ?></p>
+      <p><?php echo $post->getUploadedTimeAgo(); ?></p>
     </div>
     <div class="feed <?php echo $postUniqueName; ?>">
         <div class="col-4">
