@@ -34,7 +34,7 @@ class User
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId()
     {
         return $this->id;
@@ -44,7 +44,7 @@ class User
      * Set the value of id
      *
      * @return  self
-     */ 
+     */
     public function setId($id)
     {
         $this->id = $id;
@@ -53,7 +53,7 @@ class User
     }
     /**
      * Get the value of email
-     */ 
+     */
     public function getEmail()
     {
         return $this->email;
@@ -63,7 +63,7 @@ class User
      * Set the value of email
      *
      * @return  self
-     */ 
+     */
     public function setEmail($email)
     {
         $this->email = $email;
@@ -73,7 +73,7 @@ class User
 
     /**
      * Get the value of firstname
-     */ 
+     */
     public function getFirstname()
     {
         return $this->firstname;
@@ -83,7 +83,7 @@ class User
      * Set the value of firstname
      *
      * @return  self
-     */ 
+     */
     public function setFirstname($firstname)
     {
         $this->firstname = $firstname;
@@ -93,7 +93,7 @@ class User
 
     /**
      * Get the value of lastname
-     */ 
+     */
     public function getLastname()
     {
         return $this->lastname;
@@ -103,7 +103,7 @@ class User
      * Set the value of lastname
      *
      * @return  self
-     */ 
+     */
     public function setLastname($lastname)
     {
         $this->lastname = $lastname;
@@ -112,7 +112,7 @@ class User
     }
     /**
      * Get the value of username
-     */ 
+     */
     public function getUsername()
     {
         return $this->username;
@@ -122,7 +122,7 @@ class User
      * Set the value of username
      *
      * @return  self
-     */ 
+     */
     public function setUsername($username)
     {
         $this->username = $username;
@@ -132,7 +132,7 @@ class User
 
     /**
      * Get the value of password
-     */ 
+     */
     public function getPassword()
     {
         return $this->password;
@@ -142,7 +142,7 @@ class User
      * Set the value of password
      *
      * @return  self
-     */ 
+     */
     public function setPassword($password)
     {
         $this->password = $password;
@@ -151,7 +151,7 @@ class User
     }
     /**
      * Get the value of avatar
-     */ 
+     */
     public function getAvatar()
     {
         return $this->avatar;
@@ -161,7 +161,7 @@ class User
      * Set the value of avatar
      *
      * @return  self
-     */ 
+     */
     public function setAvatar($avatar)
     {
         $this->avatar = $avatar;
@@ -171,7 +171,7 @@ class User
 
     /**
      * Get the value of bio
-     */ 
+     */
     public function getBio()
     {
         return $this->bio;
@@ -181,7 +181,7 @@ class User
      * Set the value of bio
      *
      * @return  self
-     */ 
+     */
     public function setBio($bio)
     {
         $this->bio = $bio;
@@ -190,7 +190,7 @@ class User
     }
     /**
      * Get the value of file_path
-     */ 
+     */
     public function getFile_path()
     {
         return $this->file_path;
@@ -200,7 +200,7 @@ class User
      * Set the value of file_path
      *
      * @return  self
-     */ 
+     */
     public function setFile_path($file_path)
     {
         $this->file_path = $file_path;
@@ -210,7 +210,7 @@ class User
 
     /**
      * Get the value of dateOfBirth
-     */ 
+     */
     public function getDateOfBirth()
     {
         return $this->dateOfBirth;
@@ -220,7 +220,7 @@ class User
      * Set the value of dateOfBirth
      *
      * @return  self
-     */ 
+     */
     public function setDateOfBirth($dateOfBirth)
     {
         $this->dateOfBirth = $dateOfBirth;
@@ -229,7 +229,7 @@ class User
     }
     /**
      * Get the value of genre
-     */ 
+     */
     public function getGenre()
     {
         return $this->genre;
@@ -239,7 +239,7 @@ class User
      * Set the value of genre
      *
      * @return  self
-     */ 
+     */
     public function setGenre($genre)
     {
         $this->genre = $genre;
@@ -251,7 +251,7 @@ class User
 
     /**
      * Get the value of emailError
-     */ 
+     */
     public function getEmailError()
     {
         return $this->emailError;
@@ -261,7 +261,7 @@ class User
      * Set the value of emailError
      *
      * @return  self
-     */ 
+     */
     public function setEmailError($emailError)
     {
         $this->emailError = $emailError;
@@ -270,7 +270,7 @@ class User
     }
     /**
      * Get the value of passwordError
-     */ 
+     */
     public function getPasswordError()
     {
         return $this->passwordError;
@@ -279,7 +279,7 @@ class User
      * Set the value of passwordError
      *
      * @return  self
-     */ 
+     */
     public function setPasswordError($passwordError)
     {
         $this->passwordError = $passwordError;
@@ -288,7 +288,7 @@ class User
     }
     /**
      * Get the value of ageError
-     */ 
+     */
     public function getAgeError()
     {
         return $this->ageError;
@@ -298,7 +298,7 @@ class User
      * Set the value of ageError
      *
      * @return  self
-     */ 
+     */
     public function setAgeError($ageError)
     {
         $this->ageError = $ageError;
@@ -309,7 +309,7 @@ class User
     //             new profile info
     /**
      * Get the value of newEmail
-     */ 
+     */
     public function getNewEmail()
     {
         return $this->newEmail;
@@ -319,7 +319,7 @@ class User
      * Set the value of newEmail
      *
      * @return  self
-     */ 
+     */
     public function setNewEmail($newEmail)
     {
         $this->newEmail = $newEmail;
@@ -329,7 +329,7 @@ class User
 
     /**
      * Get the value of newPassword
-     */ 
+     */
     public function getNewPassword()
     {
         return $this->newPassword;
@@ -339,7 +339,7 @@ class User
      * Set the value of newPassword
      *
      * @return  self
-     */ 
+     */
     public function setNewPassword($newPassword)
     {
         $this->newPassword = $newPassword;
@@ -349,7 +349,7 @@ class User
 
     /**
      * Get the value of newFirstname
-     */ 
+     */
     public function getNewFirstname()
     {
         return $this->newFirstname;
@@ -359,7 +359,7 @@ class User
      * Set the value of newFirstname
      *
      * @return  self
-     */ 
+     */
     public function setNewFirstname($newFirstname)
     {
         $this->newFirstname = $newFirstname;
@@ -369,7 +369,7 @@ class User
 
     /**
      * Get the value of newLastname
-     */ 
+     */
     public function getNewLastname()
     {
         return $this->newLastname;
@@ -379,7 +379,7 @@ class User
      * Set the value of newLastname
      *
      * @return  self
-     */ 
+     */
     public function setNewLastname($newLastname)
     {
         $this->newLastname = $newLastname;
@@ -388,7 +388,7 @@ class User
     }
     /**
      * Get the value of newUsername
-     */ 
+     */
     public function getNewUsername()
     {
         return $this->newUsername;
@@ -398,7 +398,7 @@ class User
      * Set the value of newUsername
      *
      * @return  self
-     */ 
+     */
     public function setNewUsername($newUsername)
     {
         $this->newUsername = $newUsername;
@@ -407,7 +407,7 @@ class User
     }
     /**
      * Get the value of newDateOfBirth
-     */ 
+     */
     public function getNewDateOfBirth()
     {
         return $this->newDateOfBirth;
@@ -417,7 +417,7 @@ class User
      * Set the value of newDateOfBirth
      *
      * @return  self
-     */ 
+     */
     public function setNewDateOfBirth($newDateOfBirth)
     {
         $this->newDateOfBirth = $newDateOfBirth;
@@ -427,7 +427,7 @@ class User
 
     /**
      * Get the value of newBio
-     */ 
+     */
     public function getNewBio()
     {
         return $this->newBio;
@@ -437,7 +437,7 @@ class User
      * Set the value of newBio
      *
      * @return  self
-     */ 
+     */
     public function setNewBio($newBio)
     {
         $this->newBio = $newBio;
@@ -445,7 +445,7 @@ class User
         return $this;
     }
 
-  
+
 
     public function login(){
         // get user from database
@@ -487,9 +487,9 @@ class User
                 if ($statement->rowCount() > 0) {
                     $this->setEmailError("Email is already in use");
                    // throw new Exception("EMAIL IS ALREADY IN USE"); // email is already in use
-                    
+
                 } else {
-                    $statement = $conn->prepare("insert into users (email, username, password, firstname, lastname, date_of_birth) 
+                    $statement = $conn->prepare("insert into users (email, username, password, firstname, lastname, date_of_birth)
                     values(:email, :username, :password, :firstname, :lastname, :date_of_birth)");
 
                     /*Between start -> ^
@@ -513,14 +513,14 @@ class User
                             $statement->bindValue(":date_of_birth", $dateOfBirth);
                             $statement->execute();
                             // var_dump($profile_id);
-            
+
                             header('Location: completeProfile.php');
                         } else {
                             // set age error
                             $this->setAgeError("You must be 13 years or older");
                         }
                     }
-                }       
+                }
             } else {
                 $this->setEmailError("Sorry, this is not a valid email");
             }
@@ -528,7 +528,7 @@ class User
             echo $e;
         }
     }
-    
+
 
     public function searchUser(){
         $conn = Db::getConnection();
@@ -538,6 +538,8 @@ class User
         $searchUserOutput = array();
         $searchUserOutput[] = $statement->fetchall();
         return $searchUserOutput;
+    }
+
 
     public function checkAge() {
         return true;
@@ -571,9 +573,9 @@ class User
         // $newBio = $this->getNewBio();
 
         $statement = $conn->prepare("UPDATE users
-        SET email=COALESCE(NULLIF(:newEmail, ''), email), username=COALESCE(NULLIF(:newUsername, ''), username), 
-        password=COALESCE(NULLIF(:newPassword, ''), password), firstname=COALESCE(NULLIF(:newFirstname, ''), firstname), 
-        lastname=COALESCE(NULLIF(:newLastname, ''), lastname), date_of_birth=COALESCE(NULLIF(:newDateOfBirth, ''), date_of_birth) 
+        SET email=COALESCE(NULLIF(:newEmail, ''), email), username=COALESCE(NULLIF(:newUsername, ''), username),
+        password=COALESCE(NULLIF(:newPassword, ''), password), firstname=COALESCE(NULLIF(:newFirstname, ''), firstname),
+        lastname=COALESCE(NULLIF(:newLastname, ''), lastname), date_of_birth=COALESCE(NULLIF(:newDateOfBirth, ''), date_of_birth)
         where id = 1;");
 
         $statement->bindValue(":newEmail", $newEmail);
