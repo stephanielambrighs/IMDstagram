@@ -116,7 +116,7 @@ class Db {
     }
 
 
-    public static function getAllPosts(){
+    public static function getAllPosts($limit){
         $conn = self::getConnection();
         $statement = $conn->prepare("
             SELECT *
@@ -127,9 +127,10 @@ class Db {
                 WHERE post_id = posts.id
             ) < 3
             ORDER BY upload_date DESC
-            LIMIT 20
+            LIMIT :limit
         ");
-
+      
+        $statement->bindValue(":limit", $limit, PDO::PARAM_INT);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         // var_dump($statement->errorInfo());

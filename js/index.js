@@ -17,6 +17,22 @@ button.addEventListener("click", function(e) {
 });
 
 
+document.querySelector("#btn-load-more").addEventListener("click", function() {
+    myBody = new FormData();
+    pagePostCount = parseInt(pagePostCount) + parseInt(postsPerPage);
+    myBody.append("pagePostCount", pagePostCount);
+
+    fetch("loadPosts.php", {
+        method: "POST",
+        body: myBody,
+    })
+    .then(response => response.text())
+    .then(data => {
+        document.querySelector(".row").innerHTML = data;
+    });
+});
+
+
 let postReportButtons = document.querySelectorAll(".dropdown-item.btn-report");
 postReportButtons.forEach(function(reportButton) {
     reportButton.addEventListener("click", function() {
@@ -51,6 +67,8 @@ function checkReportCount(postId){
         console.log("Error: ", error);
     });
 };
+
+
 
 
 function hidePost(postId){

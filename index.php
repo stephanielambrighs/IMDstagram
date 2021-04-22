@@ -6,6 +6,7 @@ session_start();
 
 if(isset($_SESSION["legato-user"])){
 
+
     // get email from session user
     $user = $_SESSION['legato-user'];
     $userEmail = $user->getEmail();
@@ -121,56 +122,24 @@ if(isset($_SESSION["legato-user"])){
     <button id="submit" type="submit" value="Upload" class="btn btn-info">Submit</button>
 </form>
 
-<?php print("output"); ?>
 
 <div class="container">
   <div class="row">
-  <?php $allPosts = Db::getAllPosts();
 
-    foreach($allPosts as $post):
-    $post_user_file_path =  Db::getProfileImgPath($post->getUser_id());
-    // $post_user_file_path =  $post->getFile_path();
-    if (!$post_user_file_path) {
-        $post_user_file_path = "data/uploads/default.png";
-    }
-    // var_dump($post_user_file_path);
-    $postUniqueName = "post-" . $post->getId();
-    ?>
+  <?php include 'loadPosts.php';?>
 
-    <div class="col-9 <?php echo $postUniqueName; ?>">
-        <!-- <img src="https://images.pexels.com/photos/908602/pexels-photo-908602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="user_image"> -->
-        <img src="<?php echo $post_user_file_path; ?>" alt="user_image">
-        <h2><?php echo Db::getUserById($post->getUser_id())->getUsername(); ?></h2>
-        <div class="btn-group" role="group">
-            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                </svg>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <button class="dropdown-item btn-report" id="<?php echo $postUniqueName; ?>" >Report</button>
-            </div>
-        </div>
-      <p><?php echo $post->getUploadedTimeAgo(); ?></p>
-    </div>
-    <div class="feed <?php echo $postUniqueName; ?>">
-        <div class="col-4">
-        <img src="<?php echo $post->getFile_path(); ?>" alt="feed">
-        </div>
-        <div class="col-6">
-            <h3><?php echo $post->getTitle(); ?></h3>
-            <h4><?php $genre = Db::getGenreById($post->getGenre_id());
-            echo $genre->getName(); ?></h4>
-            <p><?php echo $post->getDescription(); ?></p>
-        </div>
-    </div>
-    <div class="col-3 <?php echo $postUniqueName; ?>">
-        <button type="button" class="btn btn-info"><img src="/images/like_image.png" alt="Likes">300 Likes</button>
-        <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
-        <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
-    </div>
-    <?php endforeach; ?>
   </div>
+</div>
+
+
+<script type="text/javascript">
+    let pagePostCount = '<?php echo $currentPagePostCount; ?>';
+    let postsPerPage = '<?php echo $postsPerPage; ?>';
+</script>
+
+
+<div class="load-btn">
+    <button id="btn-load-more" type="button" class="btn btn-info">Load more...</button>
 </div>
 
 <?php include_once("inc/footer.inc.php");?>
