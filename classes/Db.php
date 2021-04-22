@@ -129,7 +129,7 @@ class Db {
             ORDER BY upload_date DESC
             LIMIT :limit
         ");
-      
+
         $statement->bindValue(":limit", $limit, PDO::PARAM_INT);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -215,6 +215,7 @@ class Db {
         $user->setFirstname($result['firstname']);
         $user->setLastname($result['lastname']);
         $user->setDateOfBirth($result['date_of_birth']);
+        $user->setAdmin(boolval($result['admin']) ? true : false);
         return $user;
     }
 
@@ -284,5 +285,10 @@ class Db {
         return $result['reportcount'];
     }
 
+
+    public static function isAdmin($userId){
+        $dbUser = self::getUserById($userId);
+        return $dbUser->getAdmin();
+    }
 
 }
