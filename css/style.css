@@ -267,6 +267,20 @@ div.col-3 {
     color: white;
 }
 
+
+/* search */
+.h2{
+    text-align: center;
+    padding-top: 0.5em;
+}
+
+.searchResult{
+    padding: 1em;
+}
+
+main{
+    min-height: calc(100vh - 56px - 24px);
+
 /* Login */
 .logo{
     width: 200px;
@@ -277,4 +291,5 @@ div.col-3 {
 .btn-primary{
     background-color: #961E9A;
     border-color: #961E9A;
+
 }
