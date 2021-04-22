@@ -1,6 +1,5 @@
 <?php
 
-
 require_once("autoload.php");
 session_start();
 
@@ -44,21 +43,25 @@ if(isset($_SESSION["legato-user"])){
         $uploadDescription = false;
     }
 
-    //Code searchfield hieer
-    if(isset($_POST["search"])){
-        $searchQuery = $_POST["search"];
-        $query = mysql_query("select * LIKE '%$searchQuery%'") or die("could not search");
-        $count = mysql_num_rows($query);
-        if($count == 0){
-            $output = "There are no search results";
-        }else{
-            while($row = mysql_fetch_array($query)){
-                $username = $row['username'];
 
-                $output.="<div>".$username."".$post."</div>";
-            }
-        }
-    }
+
+    //Code searchfield hieer
+//     if(isset($_POST["search"])){
+//         $searchQuery = $_POST["search"];
+//         $query = mysql_query("select * LIKE '%$searchQuery%'") or die("could not search");
+//         $count = mysql_num_rows($query);
+//         if($count == 0){
+//             $output = "There are no search results";
+//         }else{
+//             while($row = mysql_fetch_array($query)){
+//                 $username = $row['username'];
+
+//                 $output.="<div>".$username."".$post."</div>";
+//             }
+//         }
+//     }
+
+
 }
 
 ?><!DOCTYPE html>
