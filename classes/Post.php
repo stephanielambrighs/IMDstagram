@@ -136,7 +136,7 @@ class Post {
                 $searchPostOutput[] = $statement->fetchall();
                 return $searchPostOutput;
         }
-}
+
 
 
         public function getUploadedTimeAgo()
