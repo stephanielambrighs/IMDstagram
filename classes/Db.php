@@ -121,7 +121,6 @@ class Db {
         $statement = $conn->prepare("
             SELECT *
             FROM posts
-            WHERE inappropriate_count < 3
             ORDER BY upload_date DESC
             LIMIT :limit
         ");
