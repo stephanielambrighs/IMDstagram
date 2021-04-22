@@ -37,7 +37,7 @@
                 <!-- <img src="https://images.pexels.com/photos/908602/pexels-photo-908602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="user_image"> -->
                 <img src="' . $post_user_file_path . '" alt="user_image">
                 <h2>' .$user->getUsername() . '</h2>
-                <p>' . $post->getUpload_date() .'</p>
+                <p>' . $post->getUploadedTimeAgo() .'</p>
             </div>
 
             <div class="feed">
