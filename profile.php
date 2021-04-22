@@ -63,7 +63,7 @@
                       <h6 class="mb-0">Full Name</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      <?php echo $userProfile["firstname"]; ?>
+                      <?php echo ($userProfile["firstname"] . " " . $userProfile["lastname"]); ?>
                     </div>
                   </div>
                   <hr>

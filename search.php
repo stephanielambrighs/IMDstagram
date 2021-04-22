@@ -1,6 +1,8 @@
 <?php
     require_once("autoload.php");
 
+    session_start();
+
     $searchUserInput = new User();
     $searchUserInput->setUsername($_POST["search"]);
     $searchUserOutput = $searchUserInput->searchUser();
@@ -13,9 +15,6 @@
     $searchTagInput->setTag($_POST["search"]);
     $searchTagOutput = $searchTagInput->searchTag();
 
-    /*$emailTarget = 
-    $userProfile = new Profile();
-    $userProfile->loadProfile($emailTarget);*/
 
 ?>
 <!DOCTYPE html>
@@ -31,13 +30,13 @@
 </head>
 <body>
 <?php include_once("inc/nav.inc.php"); ?>
-<main style="background-color: red;">
+<main style="background-color: #5E1161;">
     <h2 class="h2">Results</h2>
     <div class="searchResult">
         <h3>Users</h3>
         <ul>
         <?php foreach($searchUserOutput[0] as $key => $username): ?>
-            <li><a class="s-item" href="profile.php?email=<?php echo $key ?>"><?php echo "{$username[0]}\n"; ?></a></li>
+            <li><a class="s-item" href="someonesProfile.php?email=<?php echo $username[0] ?>"><?php echo "{$username[0]}\n"; ?></a></li>
         <?php endforeach; ?>
         </ul>
     </div>

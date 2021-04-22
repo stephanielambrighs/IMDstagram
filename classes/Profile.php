@@ -7,11 +7,11 @@
         private $id;
         private $bio;
 
-        function __construct($id, $bio)
+        /*function __construct($id, $bio)
         {
             $this->id = $id;
             $this->bio = $bio;
-        }
+        }*/
 
 
         /**
@@ -34,9 +34,12 @@
         public static function loadProfile ($emailTarget) {
             $conn = Db::getConnection();
 
-            $statement = $conn->prepare("select * from users where email = :email");
-            $statement->bindValue(':email', $emailTarget);
+            $statement = $conn->prepare("select * from users where username = :username");
+            $statement->bindValue(':username', $emailTarget);
             $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+            return $result;
         }
 
         public static function loadMyProfile ($email) {
