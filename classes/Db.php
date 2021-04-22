@@ -110,7 +110,7 @@ class Db {
 
 
 
-    private static function get_current_time(){
+    public static function get_current_time(){
         $now = new DateTime('now');
         return date_format($now, 'Y-m-d H:i:s');
     }
@@ -121,9 +121,15 @@ class Db {
         $statement = $conn->prepare("
             SELECT *
             FROM posts
+            WHERE (
+                SELECT COUNT(id)
+                FROM reports
+                WHERE post_id = posts.id
+            ) < 3
             ORDER BY upload_date DESC
             LIMIT :limit
         ");
+      
         $statement->bindValue(":limit", $limit, PDO::PARAM_INT);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -231,5 +237,52 @@ class Db {
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         return $result['profile_img_path'];
     }
+
+    public static function checkIfReportExists($postId, $userId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            SELECT id
+            FROM reports
+            WHERE user_id = :user_id
+            AND post_id = :post_id
+        ");
+        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':post_id', $postId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        // var_dump($result);
+        if (!$result) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    public static function addReport($postId, $userId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            INSERT INTO reports (`user_id`, `post_id`)
+            VALUES (:user_id, :post_id);
+        ");
+        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':post_id', $postId);
+        return $statement->execute();
+    }
+
+    public static function getReportCount($postId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            SELECT COUNT(*) AS reportcount
+            FROM `reports`
+            WHERE post_id = :post_id
+        ");
+        $statement->bindValue(':post_id', $postId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        // var_dump($result['reportcount']);
+        return $result['reportcount'];
+    }
+
 
 }

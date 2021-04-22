@@ -1,20 +1,24 @@
 <?php
 
+
 require_once("autoload.php");
 session_start();
 
 if(isset($_SESSION["legato-user"])){
 
+
+    // get email from session user
+    $user = $_SESSION['legato-user'];
+    $userEmail = $user->getEmail();
+    $userId =  DB::getUserByEmail($userEmail)->getId();
+
+
+    // if a post is done, add it to the db
     if(!empty($_POST['title'])
     && !empty($_POST['description'])
     && !empty($_POST['genre_id'])
     && !empty($_FILES['file'])){
         try{
-            // get email from session user
-            $user = $_SESSION['legato-user'];
-            $userEmail = $user->getEmail();
-            $userId =  DB::getUserByEmail($userEmail)->getId();
-
             // update file
             $uploadResult = FileManager::uploadFile($_FILES['file']);
 
@@ -24,8 +28,9 @@ if(isset($_SESSION["legato-user"])){
                 $post->setDescription($_POST['description']);
                 $post->setGenre_id($_POST['genre_id']);
                 $post->setFile_path($uploadResult['file_path']);
-                $post->setUser_id($userId);
-                $result = Db::insertPost($post);
+
+                //$post->setUser_id($userId);
+                //$result = Db::insertPost($post);
             }
         }
         catch(Exception $e){
@@ -39,6 +44,21 @@ if(isset($_SESSION["legato-user"])){
         $uploadDescription = false;
     }
 
+    //Code searchfield hieer
+    if(isset($_POST["search"])){
+        $searchQuery = $_POST["search"];
+        $query = mysql_query("select * LIKE '%$searchQuery%'") or die("could not search");
+        $count = mysql_num_rows($query);
+        if($count == 0){
+            $output = "There are no search results";
+        }else{
+            while($row = mysql_fetch_array($query)){
+                $username = $row['username'];
+
+                $output.="<div>".$username."".$post."</div>";
+            }
+        }
+    }
 }
 
 ?><!DOCTYPE html>
@@ -49,6 +69,7 @@ if(isset($_SESSION["legato-user"])){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link href="/css/index.css" rel="stylesheet">
     <title>Legato</title>
 </head>
@@ -102,7 +123,6 @@ if(isset($_SESSION["legato-user"])){
 </form>
 
 
-
 <div class="container">
   <div class="row">
 
@@ -123,6 +143,12 @@ if(isset($_SESSION["legato-user"])){
 </div>
 
 <?php include_once("inc/footer.inc.php");?>
+<script type="text/javascript">
+    var userId = '<?php echo $userId; ?>';
+</script>
 <script src="/js/index.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
 </body>
 </html>
