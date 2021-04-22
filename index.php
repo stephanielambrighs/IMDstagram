@@ -101,43 +101,22 @@ if(isset($_SESSION["legato-user"])){
     <button id="submit" type="submit" value="Upload" class="btn btn-info">Submit</button>
 </form>
 
+
+
 <div class="container">
   <div class="row">
-  <?php $allPosts = Db::getAllPosts(2);
 
-    foreach($allPosts as $post):
-    $post_user_file_path =  Db::getProfileImgPath($post->getUser_id());
-    // $post_user_file_path =  $post->getFile_path();
-    if (!$post_user_file_path) {
-        $post_user_file_path = "data/uploads/default.png";
-    }
-    // var_dump($post_user_file_path);
-    ?>
-    <div class="col-9">
-        <!-- <img src="https://images.pexels.com/photos/908602/pexels-photo-908602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="user_image"> -->
-        <img src="<?php echo $post_user_file_path; ?>" alt="user_image">
-        <h2><?php echo Db::getUserById($post->getUser_id())->getUsername(); ?></h2>
-        <p><?php echo $post->getUpload_date(); ?></p>
-    </div>
-    <div class="feed">
-        <div class="col-4">
-        <img src="<?php echo $post->getFile_path(); ?>" alt="feed">
-        </div>
-        <div class="col-6">
-            <h3><?php echo $post->getTitle(); ?></h3>
-            <h4><?php $genre = Db::getGenreById($post->getGenre_id());
-            echo $genre->getName(); ?></h4>
-            <p><?php echo $post->getDescription(); ?></p>
-        </div>
-    </div>
-    <div class="col-3">
-        <button type="button" class="btn btn-info"><img src="/images/like_image.png" alt="Likes">300 Likes</button>
-        <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
-        <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
-    </div>
-    <?php endforeach; ?>
+  <?php include 'loadPosts.php';?>
+
   </div>
 </div>
+
+
+<script type="text/javascript">
+    let pagePostCount = '<?php echo $currentPagePostCount; ?>';
+    let postsPerPage = '<?php echo $postsPerPage; ?>';
+</script>
+
 
 <div class="load-btn">
     <button id="btn-load-more" type="button" class="btn btn-info">Load more...</button>
