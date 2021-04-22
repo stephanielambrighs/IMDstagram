@@ -538,11 +538,11 @@ class User
         $searchUserOutput = array();
         $searchUserOutput[] = $statement->fetchall();
         return $searchUserOutput;
-
+    }
     public function checkAge() {
         return true;
-        /*
-        $origin = new DateTime($_POST['date_of_birth']);
+        
+        /*$origin = new DateTime($_POST['date_of_birth']);
         $target = new DateTime('d-m-Y');
         $interval = $origin->diff($target);
         $result = $interval->format('%R%y');

@@ -1,5 +1,9 @@
 <?php
-    class Profile {
+
+    include_once(__DIR__ . "/Db.php");
+
+    class Profile 
+    {
         private $id;
         private $bio;
 
@@ -24,5 +28,25 @@
         public function getBio()
         {
                 return $this->bio;
+        }
+        // ======================================
+
+        public static function loadProfile ($emailTarget) {
+            $conn = Db::getConnection();
+
+            $statement = $conn->prepare("select * from users where email = :email");
+            $statement->bindValue(':email', $emailTarget);
+            $statement->execute();
+        }
+
+        public static function loadMyProfile ($email) {
+            $conn = Db::getConnection();
+
+            $statement = $conn->prepare("select * from users where email = 'mats.thys2@gmail.com'");
+            $statement->bindValue(':email', $email);
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+            return $result;
         }
     }

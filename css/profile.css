@@ -2,6 +2,9 @@ body{
     box-sizing: border-box;
     background-color: #220623;
 }
+
+
+
 /* navbar */
 .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav {
     color: white;

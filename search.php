@@ -13,6 +13,10 @@
     $searchTagInput->setTag($_POST["search"]);
     $searchTagOutput = $searchTagInput->searchTag();
 
+    /*$emailTarget = 
+    $userProfile = new Profile();
+    $userProfile->loadProfile($emailTarget);*/
+
 ?>
 <!DOCTYPE html>
 <!-- LEGATO INDEX (FEED) -->
@@ -27,24 +31,28 @@
 </head>
 <body>
 <?php include_once("inc/nav.inc.php"); ?>
-<main>
+<main style="background-color: red;">
     <h2 class="h2">Results</h2>
     <div class="searchResult">
         <h3>Users</h3>
+        <ul>
         <?php foreach($searchUserOutput[0] as $key => $username): ?>
-            <p><?php echo "{$username[0]}\n"; ?></p>
+            <li><a class="s-item" href="profile.php?email=<?php echo $key ?>"><?php echo "{$username[0]}\n"; ?></a></li>
         <?php endforeach; ?>
+        </ul>
     </div>
     <div class="searchResult">
         <h3>Posts</h3>
+        <ul>
         <?php foreach($searchPostOutput[0] as $key => $post): ?>
-            <p><?php echo "{$post[0]}\n"; ?></p>
+            <li><a class="s-item" href="#"><?php echo "{$post[0]}\n"; ?></a></li>
         <?php endforeach; ?>
+        </ul>
     </div>
     <div class="searchResult">
         <h3>Tags</h3>
         <?php foreach($searchTagOutput[0] as $key => $tag): ?>
-            <p><?php echo "{$tag[0]}\n"; ?></p>
+            <li><a class="s-item" href="#"><?php echo "{$tag[0]}\n"; ?></a></li>
         <?php endforeach; ?>
     </div>
 </main>
