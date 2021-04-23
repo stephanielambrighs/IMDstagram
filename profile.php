@@ -47,7 +47,6 @@
                       <h4>John Doe</h4>
                       <p class="text-secondary mb-1">Title -> job</p>
                       <p class="text-muted font-size-sm">Where i life?</p>
-                      <button class="btn btn-primary">Follow</button>
                       
                     </div>
                   </div>

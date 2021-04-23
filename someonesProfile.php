@@ -3,7 +3,6 @@
     include_once(__DIR__ . "/autoload.php");
     
     session_start();
-    //var_dump($_SESSION);
 
     $someonesMail = $_GET["email"];
     var_dump($someonesMail);
@@ -34,10 +33,10 @@
                   <div class="d-flex flex-column align-items-center text-center">
                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
                     <div class="mt-3">
-                      <h4>John Doe</h4>
+                      <h4><?php echo ($someonesProfile["firstname"] . " " . $someonesProfile["lastname"]); ?></h4>
                       <p class="text-secondary mb-1">Title -> job</p>
                       <p class="text-muted font-size-sm">Where i life?</p>
-                      <button class="btn btn-primary">Follow</button>
+                      <button id="btn-follow" class="btn btn-primary">Follow</button>
                       
                     </div>
                   </div>
