@@ -13,7 +13,11 @@
     }
 
     // get posts from db
-    $allPosts = Db::getAllPosts($currentPagePostCount);
+    if ($isAdminPage){
+        $allPosts = Db::getAllReportedPosts();
+    }else{
+        $allPosts = Db::getAllPosts($currentPagePostCount);
+    }
 
     // loop over posts to generate html
     $htmlOutput = '';

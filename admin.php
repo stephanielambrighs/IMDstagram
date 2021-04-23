@@ -14,16 +14,15 @@ if(isset($_SESSION["legato-user"])){
     if (!Db::isAdmin($userId)){
         // if not admin redirect to index.php
         header("Location: index.php");
+    }else{
+        // set admin bool for loadPosts.php
+        $isAdminPage = true;
     }
 
 }else{
     // if not logged in redirect to index.php
     header("Location: index.php");
 }
-
-
-
-
 
 
 ?><!DOCTYPE html>
@@ -47,7 +46,10 @@ if(isset($_SESSION["legato-user"])){
 <div class="container">
   <div class="row">
 
-  <?php include 'loadPosts.php';?>
+  <?php
+
+    include 'loadPosts.php';
+  ?>
 
   </div>
 </div>
