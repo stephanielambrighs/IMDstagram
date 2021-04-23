@@ -1,17 +1,8 @@
 <?php
     require_once("autoload.php");
 
-    $searchUserInput = new User();
-    $searchUserInput->setUsername($_POST["search"]);
-    $searchUserOutput = $searchUserInput->searchUser();
-
-    $searchPostInput = new Post();
-    $searchPostInput->setTitle($_POST["search"]);
-    $searchPostOutput = $searchPostInput->searchPost();
-
-    $searchTagInput = new Tag();
-    $searchTagInput->setTag($_POST["search"]);
-    $searchTagOutput = $searchTagInput->searchTag();
+    $users = User::search($_POST['search']);
+    $post = Post::search($_POST['search']);
 
 ?>
 <!DOCTYPE html>
