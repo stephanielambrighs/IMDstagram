@@ -32,18 +32,9 @@
 
     //Code searchfield hieronder
     if(isset($_POST["search"])){
-        $searchQuery = $_POST["search"];
-        $query = mysql_query("select * LIKE '%$searchQuery%'") or die("could not search");
-        $count = mysql_num_rows($query);
-        if($count == 0){
-            $output = "There are no search results";
-        }else{
-            while($row = mysql_fetch_array($query)){
-                $username = $row['username'];
-
-                $output.="<div>".$username."".$post."</div>";
-            }
-        }
+        $searchQuery = new Search();
+        $searchQuery->setSearch($_POST["search"]);
+        $searchQuery->search($searchQuery);
     }
 
 ?><!DOCTYPE html>
