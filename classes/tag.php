@@ -48,7 +48,8 @@ class Tag
     public function searchTag(){
         $conn = Db::getConnection();
         $searchTagInput = $this->getTag();
-        $statement = $conn->prepare("SELECT tag FROM tags WHERE tag LIKE '%$searchTagInput%'");
+        $statement = $conn->prepare("SELECT tag FROM tags WHERE tag LIKE :searchTagInput");
+        $statement->bindValue(':searchTagInput', $searchTagInput);
         $statement->execute();
         $searchTagOutput = array();
         $searchTagOutput[] = $statement->fetchall();
