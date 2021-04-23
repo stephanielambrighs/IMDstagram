@@ -56,6 +56,9 @@
                 <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
                 <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
             </div>
+            <div class="comments">
+                <input type="text" placeholder=""
+            </div>
         ';
 
     }
