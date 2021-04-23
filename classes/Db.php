@@ -324,4 +324,25 @@ class Db {
         return $dbUser->getAdmin();
     }
 
+
+    public static function removeFromReports($postId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            DELETE FROM reports
+            WHERE post_id = :post_id
+        ");
+        $statement->bindValue(':post_id', $postId);
+        return $statement->execute();
+    }
+
+    public static function deletePost($postId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            DELETE FROM posts
+            WHERE id = :post_id
+        ");
+        $statement->bindValue(':post_id', $postId);
+        return $statement->execute();
+    }
+
 }
