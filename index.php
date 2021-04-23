@@ -27,9 +27,8 @@ if(isset($_SESSION["legato-user"])){
                 $post->setDescription($_POST['description']);
                 $post->setGenre_id($_POST['genre_id']);
                 $post->setFile_path($uploadResult['file_path']);
-
-                //$post->setUser_id($userId);
-                //$result = Db::insertPost($post);
+                $post->setUser_id($userId);
+                $result = Db::insertPost($post);
             }
         }
         catch(Exception $e){
@@ -83,7 +82,7 @@ if(isset($_SESSION["legato-user"])){
     <button id="btn-feed" type="button" class="btn btn-info"><img src="/images/plus_image.png" alt="add"></button>
 </div>
 
-<form class="form-feed" id="form" action="#" method="POST" enctype="multipart/form-data">
+<form class="form-feed" id="form" action="index.php" method="POST" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Title</label>
         <input type="text" name="title" class="form-control" id="title" placeholder="Title...">
