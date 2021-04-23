@@ -152,6 +152,39 @@ class Db {
         return $postList;
     }
 
+    public static function getAllReportedPosts(){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            SELECT *
+            FROM posts
+            WHERE (
+                SELECT COUNT(id)
+                FROM reports
+                WHERE post_id = posts.id
+            ) >= 3
+            ORDER BY upload_date DESC
+        ");
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        // var_dump($statement->errorInfo());
+
+        $postList = [];
+        foreach($result as $db_post){
+            $post = new Post();
+            $post->setId($db_post['id']);
+            $post->setTitle($db_post['title']);
+            $post->setDescription($db_post['description']);
+            $post->setGenre_id($db_post['genre_id']);
+            $post->setUpload_date($db_post['upload_date']);
+            $post->setUser_id($db_post['user_id']);
+            $post->setType_id($db_post['type_id']);
+            $post->setFile_path($db_post['file_path']);
+            array_push($postList, $post);
+            // var_dump($postList);
+        }
+        return $postList;
+    }
+
     public static function getGenreById($genreId){
         // genre opvragen -> database
         // object maken en dit object teruggeven
