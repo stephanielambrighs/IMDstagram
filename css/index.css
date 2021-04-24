@@ -15,6 +15,10 @@ body{
     color: white;
 }
 
+a .bi.bi-gear{
+    width: 70px;
+}
+
 .container-fluid img {
     width: 100px;
 }
@@ -188,4 +192,14 @@ div.col-3 {
     align-items: center;
     height: 160px;
     margin-bottom: 3em;
+}
+
+div.alert.alert-success{
+    display: none;
+    height: 50px;
+}
+
+.alert.alert-danger{
+    display: none;
+    height: 50px;
 }

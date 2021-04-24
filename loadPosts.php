@@ -19,8 +19,17 @@
         $allPosts = Db::getAllPosts($currentPagePostCount);
     }
 
-    // loop over posts to generate html
     $htmlOutput = '';
+
+    // add success/error message block
+    if($isAdminPage){
+        $htmlOutput .= '
+        <div class="alert alert-success" role="alert"></div>
+        <div class="alert alert-danger" role="alert"></div>
+        ';
+    }
+
+    // loop over posts to generate html
     foreach($allPosts as $post){
 
         // get user file path for profile picture
@@ -48,9 +57,24 @@
                         <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                     </svg>
                 </button>
+        ';
+
+        if ($isAdminPage){
+            $htmlOutput .= '
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                <button class="dropdown-item btn-report" id="' . $postUniqueName .'" >Report</button>
+                <button class="dropdown-item btn-remove-strikes" id="btn-remove-strikes-' . $postUniqueName .'" >Remove strikes</button>
+                <button class="dropdown-item btn-delete-post" id="btn-delete-post-' . $postUniqueName .'" >Delete post</button>
                 </div>
+            ';
+        }else{
+            $htmlOutput .= '
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <button class="dropdown-item btn-report" id="btn-report-' . $postUniqueName .'" >Report</button>
+                </div>
+            ';
+        }
+
+        $htmlOutput .= '
             </div>
                 <p>' . $post->getUploadedTimeAgo() .'</p>
             </div>

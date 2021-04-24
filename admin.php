@@ -47,7 +47,6 @@ if(isset($_SESSION["legato-user"])){
   <div class="row">
 
   <?php
-
     include 'loadPosts.php';
   ?>
 
@@ -57,6 +56,7 @@ if(isset($_SESSION["legato-user"])){
 
 
 <?php include_once("inc/footer.inc.php");?>
+<script src="/js/admin.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
