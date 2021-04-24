@@ -19,8 +19,17 @@
         $allPosts = Db::getAllPosts($currentPagePostCount);
     }
 
-    // loop over posts to generate html
     $htmlOutput = '';
+
+    // add success/error message block
+    if($isAdminPage){
+        $htmlOutput .= '
+        <div class="alert alert-success" role="alert"></div>
+        <div class="alert alert-danger" role="alert"></div>
+        ';
+    }
+
+    // loop over posts to generate html
     foreach($allPosts as $post){
 
         // get user file path for profile picture
