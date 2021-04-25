@@ -541,11 +541,10 @@ class User
         return $searchUserOutput;
     }
 
-
     public function checkAge() {
         return true;
-        /*
-        $origin = new DateTime($_POST['date_of_birth']);
+        
+        /*$origin = new DateTime($_POST['date_of_birth']);
         $target = new DateTime('d-m-Y');
         $interval = $origin->diff($target);
         $result = $interval->format('%R%y');
@@ -574,10 +573,11 @@ class User
         // $newBio = $this->getNewBio();
 
         $statement = $conn->prepare("UPDATE users
-        SET email=COALESCE(NULLIF(:newEmail, ''), email), username=COALESCE(NULLIF(:newUsername, ''), username),
-        password=COALESCE(NULLIF(:newPassword, ''), password), firstname=COALESCE(NULLIF(:newFirstname, ''), firstname),
-        lastname=COALESCE(NULLIF(:newLastname, ''), lastname), date_of_birth=COALESCE(NULLIF(:newDateOfBirth, ''), date_of_birth)
-        where id = 1;");
+
+        SET email=COALESCE(NULLIF(:newEmail, ''), email), username=COALESCE(NULLIF(:newUsername, ''), username), 
+        password=COALESCE(NULLIF(:newPassword, ''), password), firstname=COALESCE(NULLIF(:newFirstname, ''), firstname), 
+        lastname=COALESCE(NULLIF(:newLastname, ''), lastname), date_of_birth=COALESCE(NULLIF(:newDateOfBirth, ''), date_of_birth) 
+        where email = :email ");
 
         $statement->bindValue(":newEmail", $newEmail);
         $statement->bindValue(":newUsername", $newUsername);
@@ -585,6 +585,7 @@ class User
         $statement->bindValue(":newFirstname", $newFirstname);
         $statement->bindValue(":newLastname", $newLastname);
         $statement->bindValue(":newDateOfBirth", $newDateOfBirth);
+        $statement->bindValue(":email", $_SESSION['email']);
 
         $statement->execute();
 

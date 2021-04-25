@@ -2,11 +2,13 @@
 
     include_once(__DIR__ . "/autoload.php");
     
-    $user = new User();
+    session_start();
+    var_dump($_SESSION);
 
-    // needs session from register > completeProfile > index > profile
-    // temp. using dummy email
-    $dummyEmail = "mats.thys@gmail.com";
+    $userProfile = Profile::loadMyProfile($_SESSION['email']);
+    var_dump("this- " . $userProfile["email"]);
+
+    $user = new User();
 
     if (!empty($_POST)) {
         $user->setNewFirstname($_POST['newFirstname']);
@@ -16,12 +18,7 @@
         $user->setNewUsername($_POST['newUsername']);
         $user->setNewDateOfBirth($_POST['newDateOfBirth']);
         $user->setNewBio($_POST['newBio']);
-
-        session_start();
-        //$_SESSION['email'] = $dummyEmail;
-        //$_SESSION['email'] = $user->getEmail();
-
-        var_dump($_SESSION['email']);
+        
         $result = $user->updateProfile();
     }
 
@@ -50,7 +47,6 @@
                       <h4>John Doe</h4>
                       <p class="text-secondary mb-1">Title -> job</p>
                       <p class="text-muted font-size-sm">Where i life?</p>
-                      <button class="btn btn-primary">Follow</button>
                       
                     </div>
                   </div>
@@ -66,7 +62,7 @@
                       <h6 class="mb-0">Full Name</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      Kenneth Valdez
+                      <?php echo ($userProfile["firstname"] . " " . $userProfile["lastname"]); ?>
                     </div>
                   </div>
                   <hr>
@@ -75,7 +71,7 @@
                       <h6 class="mb-0">Email</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      fip@jukmuh.al
+                    <?php echo $userProfile["email"]; ?>
                     </div>
                   </div>
                   <hr>
@@ -84,7 +80,7 @@
                       <h6 class="mb-0">Password</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      *********
+                    ********
                     </div>
                   </div>
                   <hr>
@@ -93,7 +89,7 @@
                       <h6 class="mb-0">Date of birth</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      12/04/1980
+                    <?php echo $userProfile["date_of_birth"]; ?>
                     </div>
                   </div>
                   <hr>
@@ -102,7 +98,7 @@
                       <h6 class="mb-0">Bio</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      About myself
+                    <?php echo $user->getBio(); ?>
                     </div>
                   </div>
                 </div>
