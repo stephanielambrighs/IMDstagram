@@ -2,7 +2,7 @@
 
     include_once(__DIR__ . "/autoload.php");
     include_once(__DIR__ . "/classes/Db.php");
-    
+
 
     $user = new User();
 
@@ -10,13 +10,18 @@
     if (! isset($_SESSION['legato-user'])) {
         exit;
     }
+    // get email from session user
+    $sessionUser = $_SESSION['legato-user'];
+    $userEmail = $sessionUser->getEmail();
+    $user = DB::getUserByEmail($userEmail);
+    $userId = $user->getId();
 
-    if(!empty($_POST['bio']) 
+    if(!empty($_POST['bio'])
     && !empty($_FILES['file'])){
         try{
-        
-            $uploadResult = FileManager::uploadFile($_FILES['file']);
-    
+
+            $uploadResult = FileManager::uploadFile($_FILES['file'], $userId);
+
             if($uploadResult['success'] == true){
                 $user->setBio($_POST['bio']);
                 $user->setFile_path($uploadResult['file_path']);
@@ -83,7 +88,7 @@
                         <option value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
                     <?php endfor; ?>
                 </select>
-                
+
                 <select name="genre2" id="genre">
                 <option selected>-</option>
                     <?php $allGenres = Db::getAllGenres();
