@@ -45,7 +45,7 @@
         public static function loadMyProfile ($email) {
             $conn = Db::getConnection();
 
-            $statement = $conn->prepare("select * from users where email = 'mats.thys2@gmail.com'");
+            $statement = $conn->prepare("select * from users where email = :email");
             $statement->bindValue(':email', $email);
             $statement->execute();
             $result = $statement->fetch(PDO::FETCH_ASSOC);

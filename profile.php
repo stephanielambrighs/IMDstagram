@@ -3,7 +3,7 @@
     include_once(__DIR__ . "/autoload.php");
     
     session_start();
-    //var_dump($_SESSION);
+    var_dump($_SESSION);
 
     $userProfile = Profile::loadMyProfile($_SESSION['email']);
     var_dump("this- " . $userProfile["email"]);
