@@ -574,7 +574,7 @@ class User
         SET email=COALESCE(NULLIF(:newEmail, ''), email), username=COALESCE(NULLIF(:newUsername, ''), username), 
         password=COALESCE(NULLIF(:newPassword, ''), password), firstname=COALESCE(NULLIF(:newFirstname, ''), firstname), 
         lastname=COALESCE(NULLIF(:newLastname, ''), lastname), date_of_birth=COALESCE(NULLIF(:newDateOfBirth, ''), date_of_birth) 
-        where id = 1;");
+        where email = :email ");
 
         $statement->bindValue(":newEmail", $newEmail);
         $statement->bindValue(":newUsername", $newUsername);
@@ -582,6 +582,7 @@ class User
         $statement->bindValue(":newFirstname", $newFirstname);
         $statement->bindValue(":newLastname", $newLastname);
         $statement->bindValue(":newDateOfBirth", $newDateOfBirth);
+        $statement->bindValue(":email", $_SESSION['email']);
 
         $statement->execute();
 
