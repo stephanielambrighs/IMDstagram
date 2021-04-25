@@ -194,7 +194,8 @@ class Post {
                 return $timeDelta->s . " second ago";
             }
 
-            return null;
+
+            return "1 second ago";
         }
 
 }

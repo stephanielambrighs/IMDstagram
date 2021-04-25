@@ -37,7 +37,7 @@ let postReportButtons = document.querySelectorAll(".dropdown-item.btn-report");
 postReportButtons.forEach(function(reportButton) {
     reportButton.addEventListener("click", function() {
 
-        postId = reportButton.id.replace("post-", "");
+        postId = reportButton.id.replace("btn-report-post-", "");
 
         // add the user and post to the reports table
         // only unique combinations of userId and postId will be added
