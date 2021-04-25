@@ -1,17 +1,17 @@
 let button = document.getElementById("btn-feed");
 let form = document.getElementById("form");
-form.style.display = "grid";
+form.style.display = "none";
 let click = true;
 button.addEventListener("click", function(e) {
     if(click == true){
-        console.log("hidden");
+        console.log("visible");
         click = false;
-        form.style.display = "none";
+        form.style.display = "grid";
     }
     else{
-        console.log("visible");
+        console.log("hidden");
         click = true;
-        form.style.display= "grid";
+        form.style.display= "none";
     }
     e.preventDefault();
 });
@@ -97,3 +97,12 @@ function addEntryToReportsTable(postId){
         console.log("Error: ", error);
     });
 };
+
+window.addEventListener('load', (event) => {
+    // console.log('page is fully loaded');
+    if(postPlacedSuccess){
+        setTimeout(() => {
+            document.querySelector(".alert.alert-success.feed").style.display = "none";
+        }, 4000);
+    }
+});

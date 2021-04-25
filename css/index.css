@@ -155,24 +155,17 @@ div.col-3 {
 /* add feed button */
 
 .add-feed {
-    text-align: center;
-    width: 100%;
-    margin-top: 1%;
-}
-
-#btn-feed {
-    width: 48px;
-    border-radius: 100%;
-}
-
-#btn-feed img {
-    width: 23px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    margin-bottom: 1em;
 }
 
 /* form feed  */
 
 .form-feed {
-    display: grid;
+    display: none;
     width: 100%;
     justify-content: center;
     grid-template-columns: 30%;
@@ -193,13 +186,29 @@ div.col-3 {
     height: 160px;
     margin-bottom: 3em;
 }
-
+/* admin message */
 div.alert.alert-success{
     display: none;
     height: 50px;
 }
-
+/* admin message */
 .alert.alert-danger{
     display: none;
+    height: 50px;
+}
+/* feed message */
+div.alert.alert-success.feed {
+    display: grid;
+    grid-template-columns: 100% auto;
+    height: 40px;
+    border-color: #D1E7DD;
+    text-align: center;
+    color: #0F5132;
+    background-color: #D1E7DD;
+    border-radius: 2%;
+}
+
+div.alert.alert-danger.form {
+    display: grid;
     height: 50px;
 }
