@@ -77,8 +77,9 @@ class Db {
     public static function completeProfile($user){
         $conn = self::getConnection();
         $statement = $conn->prepare("
-            INSERT INTO profiles (bio, profile_img_path, user_id)
-            VALUES (:bio, :file_path, (SELECT id FROM users WHERE email = :email));
+        update users
+        SET bio = :bio, profile_img_path = :file_path
+        WHERE email = :email;
         ");
         $statement->bindValue(':bio', $user->getBio());
         $statement->bindValue(':file_path', $user->getFile_path());

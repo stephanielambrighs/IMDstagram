@@ -77,7 +77,7 @@
             <div class="form-group" id="genres">
                 <!-- LOOP OVER GENRES -->
                 <select name="genre1" id="genre">
-                    <option selected>-</option>
+                    <option selected>- select</option>
                     <?php $allGenres = Db::getAllGenres();
                         for($i = 0; $i < count($allGenres); $i++):?>
                         <option value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
@@ -85,7 +85,7 @@
                 </select>
                 
                 <select name="genre2" id="genre">
-                <option selected>-</option>
+                <option selected>- select</option>
                     <?php $allGenres = Db::getAllGenres();
                         for($i = 0; $i < count($allGenres); $i++):?>
                         <option value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
@@ -93,7 +93,7 @@
                 </select>
 
                 <select name="genre3" id="genre">
-                <option selected>-</option>
+                <option selected>- select</option>
                     <?php $allGenres = Db::getAllGenres();
                         for($i = 0; $i < count($allGenres); $i++):?>
                         <option value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
