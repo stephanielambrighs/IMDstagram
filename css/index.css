@@ -15,6 +15,10 @@ body{
     color: white;
 }
 
+a .bi.bi-gear{
+    width: 70px;
+}
+
 .container-fluid img {
     width: 100px;
 }
@@ -35,6 +39,9 @@ footer.bg-dark p {
     margin-bottom: 5%;
 }
 
+.container::before {
+    display: none;
+}
 div.row{
     width: 100%;
     display: grid;
@@ -48,9 +55,10 @@ h2,p,h3,h4 {
 }
 
 div.col-9 {
+    margin-top: 10%;
     display: grid;
-    grid-template-columns: 25% 95%;
-    grid-template-rows: 30%;
+    grid-template-columns: 25% 98% 5%;
+    grid-template-rows: 50%;
 }
 
 div.col-9 img {
@@ -99,22 +107,28 @@ div.col-6 {
     display:grid;
     width: 250px;
     grid-template-columns: 100%;
-    grid-template-rows: 25% 25% 25%;
+    grid-template-rows: 35% 30% 30%;
     background-color: #5E1161;
     padding: 0.5em 0.8em;
     border-radius: 3%;
 }
 
 div.col-6 h3 {
+    margin-top: 0;
+    margin-bottom: 1em;
     justify-self: start;
     grid-column-start: 1;
 }
 
 div.col-6 h4 {
+    margin-top: 0;
+    margin-bottom: 1em;
     grid-column-start: 1;
 }
 
 div.col-6 p {
+    margin-top: 0;
+    margin-bottom: 1em;
     grid-column-start: 1;
 }
 
@@ -152,7 +166,7 @@ div.col-3 {
 }
 
 #btn-feed img {
-    width: 23px; 
+    width: 23px;
 }
 
 /* form feed  */
@@ -172,3 +186,20 @@ div.col-3 {
     color: white;
 }
 
+.load-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 160px;
+    margin-bottom: 3em;
+}
+
+div.alert.alert-success{
+    display: none;
+    height: 50px;
+}
+
+.alert.alert-danger{
+    display: none;
+    height: 50px;
+}
