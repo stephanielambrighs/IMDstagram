@@ -1,10 +1,17 @@
-document.querySelector("#btnComment").addEventListener("click", funcrion(){
-    //post id?
-    //Comment text?
-    let postId = this.DataTransferItem.postId;
-    let text = document.querySelector("").value; //Zoeken naar de parent van het huidig object en daarbinnen zoek je het tekstvak
-
-    //Posten naar databank (AJAX)
-
-    //Antwoord ok? => toon comments onderaan
+let button = document.getElementById("btn-feed");
+let form = document.getElementById("form");
+form.style.display = "grid";
+let click = true;
+button.addEventListener("click", function(e) {
+    if(click == true){
+        console.log("hidden");
+        click = false;
+        form.style.display = "none";
+    }
+    else{
+        console.log("visible");
+        click = true;
+        form.style.display= "grid";
+    }
+    e.preventDefault();
 });
