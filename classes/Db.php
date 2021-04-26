@@ -74,7 +74,7 @@ class Db {
         // var_dump($statement->errorInfo());
     }
 
-    
+
     /*public static function uploadGenres($user){
         for ($i=1; $i < 4; $i++) {  //hardcoded?
             //var_dump("AAA-" . $_POST['genre' . $i]);
@@ -302,12 +302,6 @@ class Db {
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         // var_dump($result['reportcount']);
         return $result['reportcount'];
-    }
-
-
-    public static function isAdmin($userId){
-        $dbUser = self::getUserById($userId);
-        return $dbUser->getAdmin();
     }
 
 
