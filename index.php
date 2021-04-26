@@ -44,9 +44,16 @@ if(isset($_SESSION["legato-user"])){
         $uploadDescription = false;
     }
 
+    //Feature 11 ==> Tags uit description halen
 
+    //getDescription() ==> begin + tags halen
+    if(strpos($result, "#")){
+        var_dump($result."Gelukt!");
+    }else{
+        var_dump($result."Niet gelukt...");
+    }
 
-    //Code searchfield hieer
+    //Code searchfield hier
 //     if(isset($_POST["search"])){
 //         $searchQuery = $_POST["search"];
 //         $query = mysql_query("select * LIKE '%$searchQuery%'") or die("could not search");
