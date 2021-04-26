@@ -3,7 +3,7 @@
     include_once(__DIR__ . "/autoload.php");
     
     session_start();
-
+    var_dump($_SESSION['legato-user']);
     $someonesMail = $_GET["email"];
     var_dump($someonesMail);
 
@@ -36,7 +36,7 @@
                       <h4><?php echo ($someonesProfile["firstname"] . " " . $someonesProfile["lastname"]); ?></h4>
                       <p class="text-secondary mb-1">Title -> job</p>
                       <p class="text-muted font-size-sm">Where i life?</p>
-                      <button data-followerid="<?php echo $someonesMail ?>" data-userid="<?php echo $_SESSION['email'] ?>" id="btn-follow" class="btn btn-primary">Follow</button>
+                      <button data-followerid="<?php echo $someonesMail ?>" data-userid="<?php echo $_SESSION['legato-user']->getEmail() ?>" id="btn-follow" class="btn btn-primary">Follow</button>
                       
                     </div>
                   </div>

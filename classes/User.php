@@ -18,6 +18,7 @@ class User
     private $file_path = "data/uploads/default.png";
 
     private $genre;
+    private $followerId;
 
     private $newEmail;
     private $newPassword;
@@ -248,6 +249,25 @@ class User
         return $this;
     }
 
+    /**
+     * Get the value of followerId
+     */ 
+    public function getFollowerId()
+    {
+        return $this->followerId;
+    }
+
+    /**
+     * Set the value of followerId
+     *
+     * @return  self
+     */ 
+    public function setFollowerId($followerId)
+    {
+        $this->followerId = $followerId;
+
+        return $this;
+    }
 
 
     /**
@@ -530,6 +550,37 @@ class User
         }
     }
 
+    public function follow(){
+        echo "Ready for follow 😎";
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("insert into followers (user_id, follower_id) values ((select id from users where email=:userMail), (select id from users where username=:followerMail))");
+
+        $userId = $this->getId();
+        $followerId = $this->getFollowerId();
+
+        var_dump("🥲" . $userId . $followerId);
+        
+        $statement->bindValue(":userMail", $userId);
+        $statement->bindValue(":followerMail", $followerId);
+
+        $result = $statement->execute();
+        return $result;
+    }
+
+    public static function completeProfile($user){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("
+        update users
+        SET bio = :bio, profile_img_path = :file_path
+        WHERE email = :email;
+        ");
+        $statement->bindValue(':bio', $user->getBio());
+        $statement->bindValue(':file_path', $user->getFile_path());
+        $statement->bindValue(':email', $_SESSION['legato-user']->getEmail());
+
+        $result_ = $statement->execute();
+
+    }
 
     public function searchUser(){
         $conn = Db::getConnection();
@@ -585,7 +636,7 @@ class User
         $statement->bindValue(":newFirstname", $newFirstname);
         $statement->bindValue(":newLastname", $newLastname);
         $statement->bindValue(":newDateOfBirth", $newDateOfBirth);
-        $statement->bindValue(":email", $_SESSION['email']);
+        $statement->bindValue(":email", $_SESSION['legato-user']->getEmail());
 
         $statement->execute();
 
@@ -610,4 +661,6 @@ class User
 
         return $this;
     }
+
+    
 }
