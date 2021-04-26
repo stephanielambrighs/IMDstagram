@@ -189,7 +189,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="text-right">
                         <a id="cancelProfile" name="cancel" class="btn btn-secondary" href="profile.php">Cancel</a>
-                        <button id="upateProfile" type="submit" id="submit" name="submit" class="btn btn-primary">Update</button>
+                        <button id="updateProfile" type="submit" id="submit" name="submit" class="btn btn-primary">Update</button>
                     </div>
                 </div>
             </div>
