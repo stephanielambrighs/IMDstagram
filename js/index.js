@@ -97,3 +97,9 @@ function addEntryToReportsTable(postId){
         console.log("Error: ", error);
     });
 };
+
+//Comments
+
+document.querySelector(".btn-comment").addEventListener("click", function(){
+    console.log("Gelukt!");
+});
