@@ -3,9 +3,8 @@
     include_once(__DIR__ . "/autoload.php");
     
     session_start();
-    var_dump($_SESSION);
 
-    $userProfile = Profile::loadMyProfile($_SESSION['email']);
+    $userProfile = Profile::loadMyProfile($_SESSION['legato-user']->getEmail());
     var_dump("this- " . $userProfile["email"]);
 
     $user = new User();
@@ -44,7 +43,7 @@
                   <div class="d-flex flex-column align-items-center text-center">
                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
                     <div class="mt-3">
-                      <h4>John Doe</h4>
+                      <h4><?php echo ($userProfile["firstname"] . " " . $userProfile["lastname"]); ?></h4>
                       <p class="text-secondary mb-1">Title -> job</p>
                       <p class="text-muted font-size-sm">Where i life?</p>
                       

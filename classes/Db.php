@@ -1,6 +1,6 @@
 <?php
 
-require_once("autoload.php");
+require_once(__DIR__ . "/../autoload.php");
 
 class Db {
 
@@ -74,24 +74,8 @@ class Db {
         // var_dump($statement->errorInfo());
     }
 
-    public static function completeProfile($user){
-        $conn = self::getConnection();
-        $statement = $conn->prepare("
-        update users
-        SET bio = :bio, profile_img_path = :file_path
-        WHERE email = :email;
-        ");
-        $statement->bindValue(':bio', $user->getBio());
-        $statement->bindValue(':file_path', $user->getFile_path());
-        $statement->bindValue(':email', $user->getEmail());
-
-        $result_ = $statement->execute();
-        //var_dump($result_);
-        //var_dump("file_path->" . $user->getFile_Path());
-        self::uploadGenres($user);
-
-    }
-    public static function uploadGenres($user){
+    
+    /*public static function uploadGenres($user){
         for ($i=1; $i < 4; $i++) {  //hardcoded?
             //var_dump("AAA-" . $_POST['genre' . $i]);
 
@@ -107,7 +91,7 @@ class Db {
             //var_dump($result_);
         }
 
-    }
+    }*/
 
 
 
