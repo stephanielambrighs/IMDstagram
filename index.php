@@ -149,8 +149,8 @@ if(isset($_SESSION["legato-user"])){
 <script type="text/javascript">
     var userId = '<?php echo $userId; ?>';
 </script>
-<script src="/js/index.js"></script>
 <script scr="/js/comment.js"></script>
+<script src="/js/index.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
