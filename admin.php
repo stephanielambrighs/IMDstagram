@@ -7,16 +7,17 @@ session_start();
 if(isset($_SESSION["legato-user"])){
 
     // get email from session user
-    $user = $_SESSION['legato-user'];
-    $userEmail = $user->getEmail();
-    $userId =  DB::getUserByEmail($userEmail)->getId();
+    $sessionUser = $_SESSION['legato-user'];
+    $userEmail = $sessionUser->getEmail();
+    $user = DB::getUserByEmail($userEmail);
+    $userId = $user->getId();
 
-    if (!Db::isAdmin($userId)){
-        // if not admin redirect to index.php
-        header("Location: index.php");
-    }else{
+    if ($user->getAdmin()){
         // set admin bool for loadPosts.php
         $isAdminPage = true;
+    }else{
+        // if not admin redirect to index.php
+        header("Location: index.php");
     }
 
 }else{

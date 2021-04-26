@@ -1,11 +1,11 @@
 <?php
 
     include_once(__DIR__ . "/autoload.php");
-    
+
     session_start();
 
     $userProfile = Profile::loadMyProfile($_SESSION['legato-user']->getEmail());
-    var_dump("this- " . $userProfile["email"]);
+    // var_dump("this- " . $userProfile["email"]);
 
     $user = new User();
 
@@ -17,7 +17,7 @@
         $user->setNewUsername($_POST['newUsername']);
         $user->setNewDateOfBirth($_POST['newDateOfBirth']);
         $user->setNewBio($_POST['newBio']);
-        
+
         $result = $user->updateProfile();
     }
 
@@ -45,8 +45,8 @@
                     <div class="mt-3">
                       <h4><?php echo ($userProfile["firstname"] . " " . $userProfile["lastname"]); ?></h4>
                       <p class="text-secondary mb-1">Title -> job</p>
-                      <p class="text-muted font-size-sm">Where i life?</p>
-                      
+                      <p class="text-muted font-size-sm">Where do I live?</p>
+
                     </div>
                   </div>
                 </div>
@@ -189,7 +189,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="text-right">
                         <a id="cancelProfile" name="cancel" class="btn btn-secondary" href="profile.php">Cancel</a>
-                        <button id="upateProfile" type="submit" id="submit" name="submit" class="btn btn-primary">Update</button>
+                        <button id="updateProfile" type="submit" id="submit" name="submit" class="btn btn-primary">Update</button>
                     </div>
                 </div>
             </div>

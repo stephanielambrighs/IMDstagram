@@ -1,11 +1,11 @@
 <?php
 
     include_once(__DIR__ . "/autoload.php");
-    
+
     session_start();
-    var_dump($_SESSION['legato-user']);
+    // var_dump($_SESSION['legato-user']);
     $someonesMail = $_GET["email"];
-    var_dump($someonesMail);
+    // var_dump($someonesMail);
 
     $someonesProfile = Profile::loadProfile($someonesMail);
 
@@ -37,7 +37,7 @@
                       <p class="text-secondary mb-1">Title -> job</p>
                       <p class="text-muted font-size-sm">Where i life?</p>
                       <button data-followerid="<?php echo $someonesMail ?>" data-userid="<?php echo $_SESSION['legato-user']->getEmail() ?>" id="btn-follow" class="btn btn-primary">Follow</button>
-                      
+
                     </div>
                   </div>
                 </div>
@@ -88,6 +88,6 @@
     </div>
 </div>
 <?php include_once("inc/footer.inc.php");?>
-<script src="/js/profile.js"></script>
+<script src="/js/someonesProfile.js"></script>
 </body>
 </html>
