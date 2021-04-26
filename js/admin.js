@@ -34,16 +34,16 @@ function removeStrikesFromPost(postId){
         // console.log("Success: ", data);
         if (data['status'] == "success"){
             hidePost(postId);
-            showStrikesSuccessMessage();
+            showMessage(".alert.alert-success", "Successfully removed strikes for post!");
         }
         else{
-            showStrikesFailedMessage();
+            showMessage(".alert.alert-danger", "Failed to remove strikes for post!");
         }
         // alert(data['message']);
     })
     .catch((error) => {
         // console.log("Error: ", error);
-        showStrikesFailedMessage(error);
+        showMessage(".alert.alert-danger", error);
     });
 };
 
@@ -61,16 +61,16 @@ function deletePost(postId){
         // console.log("Success: ", data);
         if (data['status'] == "success"){
             hidePost(postId);
-            showDeleteSuccessMessage();
+            showMessage(".alert.alert-success", "Successfully deleted post!");
         }
         else{
-            showDeleteFailedMessage();
+            showMessage(".alert.alert-danger", "Failed to delete post!");
         }
         // alert(data['message']);
     })
     .catch((error) => {
         // console.log("Error: ", error);
-        showDeleteFailedMessage(error);
+        showMessage(".alert.alert-danger", error);
     });
 };
 
@@ -81,35 +81,10 @@ function hidePost(postId){
     document.querySelector(".feed.post-" + postId).style.display = "none";
 };
 
-function showStrikesSuccessMessage(){
-    document.querySelector(".alert.alert-success").style.display = "block";
-    document.querySelector(".alert.alert-success").innerHTML = "Successfully removed strikes for post!";
+function showMessage(querySelector, message){
+    document.querySelector(querySelector).style.display = "block";
+    document.querySelector(querySelector).innerHTML = message;
     setTimeout(() => {
-        document.querySelector(".alert.alert-success").style.display = "none";
-    }, 4000);
-}
-
-function showStrikesFailedMessage(){
-    document.querySelector(".alert.alert-danger").style.display = "block";
-    document.querySelector(".alert.alert-danger").innerHTML = "Failed to remove strikes for post!";
-    setTimeout(() => {
-        document.querySelector(".alert.alert-danger").style.display = "none";
-    }, 4000);
-}
-
-function showDeleteSuccessMessage(){
-    document.querySelector(".alert.alert-success").style.display = "block";
-    document.querySelector(".alert.alert-success").innerHTML = "Successfully deleted post!";
-    setTimeout(() => {
-        document.querySelector(".alert.alert-success").style.display = "none";
-    }, 4000);
-}
-
-
-function showDeleteFailedMessage(){
-    document.querySelector(".alert.alert-danger").style.display = "block";
-    document.querySelector(".alert.alert-danger").innerHTML = "Failed to delete post!";
-    setTimeout(() => {
-        document.querySelector(".alert.alert-danger").style.display = "none";
+        document.querySelector(querySelector).style.display = "none";
     }, 4000);
 }

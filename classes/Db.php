@@ -214,6 +214,7 @@ class Db {
         $user->setFirstname($result['firstname']);
         $user->setLastname($result['lastname']);
         $user->setDateOfBirth($result['date_of_birth']);
+        $user->setAdmin(boolval($result['admin']) ? true : false);
         return $user;
     }
 

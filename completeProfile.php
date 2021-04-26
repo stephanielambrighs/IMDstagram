@@ -2,7 +2,7 @@
 
     include_once(__DIR__ . "/autoload.php");
     include_once(__DIR__ . "/classes/Db.php");
-    
+
 
     $user = new User();
 
@@ -12,13 +12,19 @@
     if (! isset($_SESSION['legato-user'])) {
         exit;
     }*/
+    // get email from session user
+    $sessionUser = $_SESSION['legato-user'];
+    $userEmail = $sessionUser->getEmail();
+    $user = DB::getUserByEmail($userEmail);
+    $userId = $user->getId();
 
-    if(!empty($_POST['bio']) 
+
+    if(!empty($_POST['bio'])
     && !empty($_FILES['file'])){
         try{
-        
-            $uploadResult = FileManager::uploadFile($_FILES['file']);
-    
+
+            $uploadResult = FileManager::uploadFile($_FILES['file'], $userId);
+
             if($uploadResult['success'] == true){
                 $user->setBio($_POST['bio']);
                 $user->setFile_path($uploadResult['file_path']);
@@ -71,7 +77,6 @@
                 <!--<label style="visibility: hidden;" for="exampleInputPassword1">Password</label>-->
                 <textarea name="bio" class="form-control" id="bio" placeholder="Biography" cols="30" rows="4"></textarea>
             </div>
-
             <div class="form-group">
                 <a href="index.php" class="col-4 btn btn-outline-secondary btn-sm">Skip</a>
                 <button type="submit" class="col-4 btn btn-primary btn-sm">Submit</button>
