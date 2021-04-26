@@ -1,11 +1,11 @@
 <?php
 
     include_once(__DIR__ . "/autoload.php");
-    
+
     session_start();
 
     $userProfile = Profile::loadMyProfile($_SESSION['legato-user']->getEmail());
-    var_dump("this- " . $userProfile["email"]);
+    // var_dump("this- " . $userProfile["email"]);
 
     $user = new User();
 
@@ -17,7 +17,7 @@
         $user->setNewUsername($_POST['newUsername']);
         $user->setNewDateOfBirth($_POST['newDateOfBirth']);
         $user->setNewBio($_POST['newBio']);
-        
+
         $result = $user->updateProfile();
     }
 
@@ -46,7 +46,7 @@
                       <h4><?php echo ($userProfile["firstname"] . " " . $userProfile["lastname"]); ?></h4>
                       <p class="text-secondary mb-1">Title -> job</p>
                       <p class="text-muted font-size-sm">Where i life?</p>
-                      
+
                     </div>
                   </div>
                 </div>
