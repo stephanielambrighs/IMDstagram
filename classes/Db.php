@@ -59,8 +59,8 @@ class Db {
     public static function insertPost($post){
         $conn = self::getConnection();
         $statement = $conn->prepare("
-            INSERT INTO posts (`title`, `description`, `genre_id`, `upload_date`, `user_id`, `type_id`, `file_path`)
-            VALUES (:title, :description, :genre_id, :upload_date, :user_id, :type_id, :file_path);
+            INSERT INTO posts (`title`, `description`, `genre_id`, `upload_date`, `user_id`, `type_id`, `file_path`, `inactive`)
+            VALUES (:title, :description, :genre_id, :upload_date, :user_id, :type_id, :file_path, :inactive);
         ");
         $statement->bindValue(':title', $post->getTitle());
         $statement->bindValue(':description', $post->getDescription());
@@ -69,6 +69,7 @@ class Db {
         $statement->bindValue(':user_id', $post->getUser_id());
         $statement->bindValue(':type_id', $post->getType_id());
         $statement->bindValue(':file_path', $post->getFile_path());
+        $statement->bindValue(":inactive", $post->getInactive());
         $result = $statement->execute();
         // var_dump($result);
         // var_dump($statement->errorInfo());

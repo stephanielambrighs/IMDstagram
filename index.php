@@ -21,6 +21,7 @@ if(isset($_SESSION["legato-user"])){
             // update file
             $uploadResult = FileManager::uploadFile($_FILES['file'], $userId);
 
+
             if($uploadResult['success'] == true){
                 $post = new Post();
                 $post->setTitle($_POST['title']);
@@ -29,6 +30,7 @@ if(isset($_SESSION["legato-user"])){
                 $post->setFile_path($uploadResult['file_path']);
                 $post->setUser_id($userId);
                 $result = Db::insertPost($post);
+                // var_dump($result);
                 $postPlacedSuccess = true;
             }
         }

@@ -10,6 +10,7 @@ class Post {
     private $user_id = 0;
     private $type_id = 1;
     private $file_path = "";
+    private $inactive = 0;
 
 
 
@@ -126,6 +127,26 @@ class Post {
             return $this;
     }
 
+    /**
+     * Get the value of inactive
+     */
+    public function getInactive()
+    {
+        return $this->inactive;
+    }
+
+    /**
+     * Set the value of inactive
+     *
+     * @return  self
+     */
+    public function setInactive($inactive)
+    {
+        $this->inactive = $inactive;
+
+        return $this;
+    }
+
 
     public function searchPost(){
             $conn = Db::getConnection();
@@ -197,6 +218,8 @@ class Post {
 
         return "1 second ago";
     }
+
+
 
 }
 
