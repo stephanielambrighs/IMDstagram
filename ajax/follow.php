@@ -2,7 +2,6 @@
     include_once(__DIR__ . "/../classes/User.php");
 
     if (!empty($_POST)) {
-        echo "😇";
 
         $follow = new User();
         $follow->setId($_POST['user_id']);

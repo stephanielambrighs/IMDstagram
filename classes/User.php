@@ -551,26 +551,31 @@ class User
     }
 
     public function follow(){
-        echo "Ready for follow 😎";
-        var_dump("getId-" . $this->getId());
         $conn = Db::getConnection();
         $statement = $conn->prepare("select follower_id from followers where user_id=(select id from users where email=:userMail)");
         $statement->bindValue(':userMail', $this->getId());
         $statement->execute();
 
         if ($statement->rowCount() > 0) {
-           // throw new Exception("EMAIL IS ALREADY IN USE"); // email is already in use
-           echo("already following");
-        } else {
-            $statement = $conn->prepare("insert into followers (user_id, follower_id) values ((select id from users where email=:userMail), (select id from users where username=:followerMail))");
+           // already following
+           $statement = $conn->prepare("update followers set following=1 where user_id=(select id from users where email=:userMail) and follower_id=:followerId");
 
             $userId = $this->getId();
             $followerId = $this->getFollowerId();
-
-            var_dump("🥲" . $userId . $followerId);
             
             $statement->bindValue(":userMail", $userId);
-            $statement->bindValue(":followerMail", $followerId);
+            $statement->bindValue(":followerId", $followerId);
+
+            $result = $statement->execute();
+            return $result;
+        } else {
+            $statement = $conn->prepare("insert into followers (user_id, follower_id) values ((select id from users where email=:userMail), :followerId)");
+
+            $userId = $this->getId();
+            $followerId = $this->getFollowerId();
+            
+            $statement->bindValue(":userMail", $userId);
+            $statement->bindValue(":followerId", $followerId);
 
             $result = $statement->execute();
             return $result;
@@ -580,15 +585,13 @@ class User
     public function unfollow(){
         echo "Fak of i unfollow u";
         $conn = Db::getConnection();
-        $statement = $conn->prepare("insert into followers (user_id, follower_id) values ((select id from users where email=:userMail), (select id from users where username=:followerMail))");
+        $statement = $conn->prepare("update followers set following=0 where user_id=(select id from users where email=:userMail) and follower_id=:followerId");
 
         $userId = $this->getId();
         $followerId = $this->getFollowerId();
-
-        var_dump("🥲" . $userId . $followerId);
         
         $statement->bindValue(":userMail", $userId);
-        $statement->bindValue(":followerMail", $followerId);
+        $statement->bindValue(":followerId", $followerId);
 
         $result = $statement->execute();
         return $result;
@@ -610,15 +613,16 @@ class User
     public function userRelation(){ // returns following or not following
         $conn = Db::getConnection();
         try { // are following
-            $statement = $conn->prepare("select user_id, follower_id from followers where (user_id=:userMail)");
+            $statement = $conn->prepare("select user_id, follower_id from followers where user_id=:userMail and follower_id=:followerId");
 
             $userId = $this->getId();
-            //$followerId = $this->getFollowerId();
-    
+            $followerId = $this->getFollowerId();    
+            
             $statement->bindValue(":userMail", $userId);
-            //$statement->bindValue(":followerMail", $followerId);
+            $statement->bindValue(":followerId", $followerId);
+            $statement->execute();
             $class = "following";
-            return $class;
+            return $class;            
 
         } catch (Exception $e) { // are not following
             echo $e;
@@ -646,7 +650,7 @@ class User
     public function searchUser(){
         $conn = Db::getConnection();
         $searchUserInput = $this->getUsername();
-        $statement = $conn->prepare("SELECT username FROM users WHERE username LIKE '%$searchUserInput%'");
+        $statement = $conn->prepare("SELECT username, id FROM users WHERE username LIKE '%$searchUserInput%'");
         $statement->execute();
         $searchUserOutput = array();
         $searchUserOutput[] = $statement->fetchall();

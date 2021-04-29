@@ -3,14 +3,13 @@
     include_once(__DIR__ . "/autoload.php");
 
     session_start();
-    // var_dump($_SESSION['legato-user']);
     $someonesMail = $_GET["email"];
-    // var_dump($someonesMail);
-
     $someonesProfile = Profile::loadProfile($someonesMail);
 
     $user = new User();
 
+    $rel = $user->userRelation();
+    var_dump($rel);
 
 ?><!DOCTYPE html>
 <html lang="en">
