@@ -88,6 +88,7 @@
     </div>
 </div>
 <?php include_once("inc/footer.inc.php");?>
+<script src="js/jquery.js"></script>
 <script src="/js/someonesProfile.js"></script>
 </body>
 </html>

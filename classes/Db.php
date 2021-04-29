@@ -137,6 +137,34 @@ class Db {
         }
         return $postList;
     }
+    public static function getAllMyPosts(){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            SELECT *
+            FROM posts
+            WHERE user_id=(select id from users where email=:userMail)
+        ");
+        $statement->bindValue(":userMail", $_SESSION['legato-user']->getEmail());
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        // var_dump($statement->errorInfo());
+
+        $postList = [];
+        foreach($result as $db_post){
+            $post = new Post();
+            $post->setId($db_post['id']);
+            $post->setTitle($db_post['title']);
+            $post->setDescription($db_post['description']);
+            $post->setGenre_id($db_post['genre_id']);
+            $post->setUpload_date($db_post['upload_date']);
+            $post->setUser_id($db_post['user_id']);
+            $post->setType_id($db_post['type_id']);
+            $post->setFile_path($db_post['file_path']);
+            array_push($postList, $post);
+            // var_dump($postList);
+        }
+        return $postList;
+    }
 
     public static function getAllReportedPosts(){
         $conn = self::getConnection();

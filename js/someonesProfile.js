@@ -11,8 +11,32 @@ showProfile.style.display = "grid";
 follow.addEventListener('click', function(e) {
     console.log("clicked");
 
-    let followerId = this.dataset.followerid;
-    let userId = this.dataset.userid;
+    $button = $(this);
+    if($button.hasClass('following')){
+        
+        // Unfollow
+        unfollowUser();
+        
+        $button.removeClass('following');
+        $button.removeClass('unfollow');
+        $button.text('Follow');
+    } else {
+        
+        // Follow
+        followUser();
+        
+        $button.addClass('following');
+        $button.text('Following');
+    }
+    e.preventDefault();
+})
+
+
+function followUser () {
+    follow.innerText = "following";
+
+    let followerId = follow.dataset.followerid;
+    let userId = follow.dataset.userid;
 
     alert(followerId + " " + userId);
 
@@ -31,6 +55,29 @@ follow.addEventListener('click', function(e) {
         .catch(error => {
             console.log("Error:", error);
         })
+}
 
-    e.preventDefault();
-})
+function unfollowUser () {
+    follow.innerText = "following";
+
+    let followerId = follow.dataset.followerid;
+    let userId = follow.dataset.userid;
+
+    alert(followerId + " " + userId);
+
+    let formData = new FormData();
+    formData.append("user_id", userId);
+    formData.append("follower_id", followerId);
+
+    fetch("ajax/unfollow.php", {
+        method: "POST",
+        body: formData
+    })
+        .then(response => response.json())
+        .then(result => {
+            console.log("Succes:", result);
+        })
+        .catch(error => {
+            console.log("Error:", error);
+        })
+}

@@ -552,6 +552,33 @@ class User
 
     public function follow(){
         echo "Ready for follow 😎";
+        var_dump("getId-" . $this->getId());
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("select follower_id from followers where user_id=(select id from users where email=:userMail)");
+        $statement->bindValue(':userMail', $this->getId());
+        $statement->execute();
+
+        if ($statement->rowCount() > 0) {
+           // throw new Exception("EMAIL IS ALREADY IN USE"); // email is already in use
+           echo("already following");
+        } else {
+            $statement = $conn->prepare("insert into followers (user_id, follower_id) values ((select id from users where email=:userMail), (select id from users where username=:followerMail))");
+
+            $userId = $this->getId();
+            $followerId = $this->getFollowerId();
+
+            var_dump("🥲" . $userId . $followerId);
+            
+            $statement->bindValue(":userMail", $userId);
+            $statement->bindValue(":followerMail", $followerId);
+
+            $result = $statement->execute();
+            return $result;
+        }
+    }
+
+    public function unfollow(){
+        echo "Fak of i unfollow u";
         $conn = Db::getConnection();
         $statement = $conn->prepare("insert into followers (user_id, follower_id) values ((select id from users where email=:userMail), (select id from users where username=:followerMail))");
 
@@ -565,6 +592,40 @@ class User
 
         $result = $statement->execute();
         return $result;
+    }
+
+    public function loadFollowers() {
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("select follower_id from followers where user_id=(select id from users where email=:userMail)");
+
+        $userId = $_SESSION['legato-user']->getEmail();
+        
+        $statement->bindValue(":userMail", $userId);
+
+        $statement->execute();
+        $result[] = $statement->fetchall();
+        return $result;
+    }
+
+    public function userRelation(){ // returns following or not following
+        $conn = Db::getConnection();
+        try { // are following
+            $statement = $conn->prepare("select user_id, follower_id from followers where (user_id=:userMail)");
+
+            $userId = $this->getId();
+            //$followerId = $this->getFollowerId();
+    
+            $statement->bindValue(":userMail", $userId);
+            //$statement->bindValue(":followerMail", $followerId);
+            $class = "following";
+            return $class;
+
+        } catch (Exception $e) { // are not following
+            echo $e;
+            $class = "unfollow";
+            return $class;
+        }
+       
     }
 
     public static function completeProfile($user){

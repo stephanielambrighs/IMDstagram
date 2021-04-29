@@ -9,6 +9,9 @@
 
     $user = new User();
 
+    $followers = $user->loadFollowers();
+    var_dump($followers);
+
     if (!empty($_POST)) {
         $user->setNewFirstname($_POST['newFirstname']);
         $user->setNewLastname($_POST['newLastname']);
@@ -29,6 +32,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/index.css">
     <link href="/css/profile.css" rel="stylesheet">
     <title>profile</title>
 </head>
@@ -104,6 +108,47 @@
                 <div class="col-md-2">
                     <!--<input id="editProfile" type="submit" class="btn btn-primary" name="btnAddMore" value="Edit Profile"/>-->
                     <a href="#" id="editProfile" class="btn btn-primary" name="btnAddMore" value="Edit Profile">Edit Profile</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-left text-left">
+                  <h6 class="mb-0">Followers</h6>
+                    <div class="mt-3">
+                      <?php foreach ($followers as $key => $f): ?>
+                        <section>
+                          <p style="color: black;"><?php echo $followers ?></p>
+                        </section>
+                      <?php endforeach; ?>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Posted by me</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <?php echo ($userProfile["firstname"] . " " . $userProfile["lastname"]); ?>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                  <div class="container">
+                    <div class="row">
+
+                    <?php include 'loadMyPosts.php';?>
+
+                    </div>
+                  </div>
+                  </div>
                 </div>
               </div>
             </div>
