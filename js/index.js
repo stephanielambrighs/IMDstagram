@@ -100,6 +100,9 @@ function addEntryToReportsTable(postId){
 
 //Comments
 
-document.querySelector(".btn-comment").addEventListener("click", function(){
-    console.log("Gelukt!");
-});
+document.querySelectorAll(".btn-comment").forEach(item => {
+    item.addEventListener("click", function(){
+        //console.log("Morgane");
+        
+    });
+})
