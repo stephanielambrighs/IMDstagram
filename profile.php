@@ -46,7 +46,7 @@
                       <h4><?php echo ($userProfile["firstname"] . " " . $userProfile["lastname"]); ?></h4>
                       <p class="text-secondary mb-1">Title -> job</p>
                       <p class="text-muted font-size-sm">Where do I live?</p>
-
+                      <button type="button" class="btn btn-primary">Set private</button>
                     </div>
                   </div>
                 </div>
