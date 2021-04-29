@@ -231,8 +231,8 @@ class Db {
 
     public static function getProfileImgPath($userId){
         $conn = self::getConnection();
-        $statement = $conn->prepare("SELECT profile_img_path FROM `profiles` WHERE user_id = :user_id");
-        $statement->bindValue(":user_id", $userId);
+        $statement = $conn->prepare("SELECT profile_img_path FROM `users` WHERE id = :id");
+        $statement->bindValue(":id", $userId);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         return $result['profile_img_path'];
