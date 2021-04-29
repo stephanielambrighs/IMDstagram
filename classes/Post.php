@@ -5,6 +5,7 @@ class Post {
     private $id = 0;
     private $title = "";
     private $description = "";
+    private $tag = "";
     private $genre_id = 0;
     private $upload_date = 0;
     private $user_id = 0;
@@ -62,6 +63,18 @@ class Post {
         public function setDescription($description)
         {
                 $this->description = $description;
+
+                return $this;
+        }
+
+        public function getTag()
+        {
+                return $this->tag;
+        }
+
+        public function setTag($tag)
+        {
+                $this->tag = $tag;
 
                 return $this;
         }
@@ -202,6 +215,7 @@ class Post {
                 $conn = Db::getConnection();
                 $statement = $conn->prepare("SELECT description FROM posts");
                 $result = $statement->execute();
+                var_dump($result);
                 return $result;
         }
 
