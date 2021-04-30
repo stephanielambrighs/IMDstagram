@@ -138,11 +138,11 @@
             <div>
                 <p>'. $post->getDescription() .'</p>
                 <p>description: '.$descriptions.'</p>
-                <?php foreach($numberOfTags as $tagNumber): ?>
-                    <a href="feed.php?v=<?php echo $post; ?>">'.$tags[0].'</a>
-                    <a href="feed.php?v=<?php echo $post; ?>">'.$tags[1].'</a>
+                '.foreach($numberOfTags as $tagNumber){
+                    $htmlOutput .= '
+                    <a href="feed.php?v='.echo $post;.'">'.$tags[$tagNumber].'</a>
                     <p>'. $numberOfTags .'</p> 
-                <?php endforeach; ?>
+                '}'
             </div>
         ';
 
