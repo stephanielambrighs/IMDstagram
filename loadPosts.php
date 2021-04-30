@@ -55,6 +55,7 @@
         $numberOfTags = 0;
         $counter = 0;
         $tags[0] = "";
+        $tagLength = 0;
         if(strpos($description, "#") > 0){
             $descriptions = strstr($description, "#", true);
         }else{
@@ -64,7 +65,12 @@
         $counter = strpos($description, "#", $counter);
         while($counter > 0){
             var_dump("Er zit een # in".$post->getId());
-            $tags[$numberOfTags] = substr($description, $counter, strpos(substr($description, $counter), " "));
+            if(strpos(substr($description, $counter), " ") == 0){
+                $tagLength = strlen(substr($description, $counter));
+            }else{
+                $tagLength = strpos(substr($description, $counter), " ");
+            }
+            $tags[$numberOfTags] = substr($description, $counter, $tagLength);
             $numberOfTags++;
             $counter = strpos($description, "#", $counter+1);
         }
@@ -133,8 +139,9 @@
                 <p>'. $post->getDescription() .'</p>
                 <p>description: '.$descriptions.'</p>
                 <?php foreach($numberOfTags as $tagNumber): ?>
-                    <p>tag: '.$tags[0].$tags[1].'</p>
-                   <p>'. $numberOfTags .'</p> 
+                    <a href="feed.php?v=<?php echo $post; ?>">'.$tags[0].'</a>
+                    <a href="feed.php?v=<?php echo $post; ?>">'.$tags[1].'</a>
+                    <p>'. $numberOfTags .'</p> 
                 <?php endforeach; ?>
             </div>
         ';
