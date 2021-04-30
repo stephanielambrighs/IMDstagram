@@ -100,7 +100,7 @@ function addEntryToReportsTable(postId){
 
 //Comments
 
-document.querySelectorAll(".btn-comment").forEach(item => {
+document.querySelectorAll("#btn-comment").forEach(item => {
     item.addEventListener("click", function(){
         //console.log("Morgane");
         let postId = this.dataset.postId;
