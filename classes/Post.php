@@ -211,14 +211,6 @@ class Post {
             return "1 second ago";
         }
 
-        public function getTextOutDescription(){
-                $conn = Db::getConnection();
-                $statement = $conn->prepare("SELECT description FROM posts");
-                $result = $statement->execute();
-                var_dump($result);
-                return $result;
-        }
-
 }
 
 
