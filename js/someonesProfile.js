@@ -38,8 +38,6 @@ function followUser () {
     let followerId = follow.dataset.followerid;
     let userId = follow.dataset.userid;
 
-    alert(followerId + " " + userId);
-
     let formData = new FormData();
     formData.append("user_id", userId);
     formData.append("follower_id", followerId);
@@ -62,8 +60,6 @@ function unfollowUser () {
 
     let followerId = follow.dataset.followerid;
     let userId = follow.dataset.userid;
-
-    alert(followerId + " " + userId);
 
     let formData = new FormData();
     formData.append("user_id", userId);

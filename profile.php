@@ -3,14 +3,17 @@
     include_once(__DIR__ . "/autoload.php");
 
     session_start();
+    $sessionUser = $_SESSION['legato-user'];
+    $userEmail = $sessionUser->getEmail();
+    $userProfile = Profile::loadMyProfile($userEmail);
 
-    $userProfile = Profile::loadMyProfile($_SESSION['legato-user']->getEmail());
-    // var_dump("this- " . $userProfile["email"]);
-
+    $userId = Db::getUserByEmail($userEmail)->getId();
+    $followerId = 71; // krijg followerid
     $user = new User();
 
-    $followers = $user->loadFollowers();
-    var_dump($followers);
+    $followers = $user->loadFollowers($userId);
+    $followerUsername = $user->getFollowerUsername($followerId);
+    var_dump($followerUsername);
 
     if (!empty($_POST)) {
         $user->setNewFirstname($_POST['newFirstname']);
@@ -120,7 +123,7 @@
                     <div class="mt-3">
                       <?php foreach ($followers as $key => $f): ?>
                         <section>
-                          <p style="color: black;"><?php echo $followers ?></p>
+                          <p style="color: black;"><?php echo $f['follower_id']; ?></p>
                         </section>
                       <?php endforeach; ?>
                     </div>

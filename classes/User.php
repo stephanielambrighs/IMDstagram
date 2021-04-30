@@ -550,10 +550,31 @@ class User
         }
     }
 
+    public function followExists(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("select follower_id from followers where user_id=:userId and follower_id=(select id from users where id=:followerId)");
+        $statement->bindValue(':userId', $this->getId());
+        $statement->bindValue(':followerId', $this->getFollowerId());
+        $statement->execute();
+        $res = $statement->fetchAll();
+        var_dump($res);
+
+        /*if ($res->rowCount() > 0 or $res != null) {
+            // following
+            $class = "following";
+            return $class;
+        } else {
+            // not following
+            $class = "unfollow";
+            return $class;
+        }*/
+    }
+
     public function follow(){
         $conn = Db::getConnection();
-        $statement = $conn->prepare("select follower_id from followers where user_id=(select id from users where email=:userMail)");
+        $statement = $conn->prepare("select follower_id, user_id from followers where user_id=(select id from users where email=:userMail) and follower_id=(select id from users where id=:followerId)");
         $statement->bindValue(':userMail', $this->getId());
+        $statement->bindValue(':followerId', $this->getFollowerId());
         $statement->execute();
 
         if ($statement->rowCount() > 0) {
@@ -597,16 +618,22 @@ class User
         return $result;
     }
 
-    public function loadFollowers() {
+    public function loadFollowers($userId) {
         $conn = Db::getConnection();
-        $statement = $conn->prepare("select follower_id from followers where user_id=(select id from users where email=:userMail)");
-
-        $userId = $_SESSION['legato-user']->getEmail();
-        
-        $statement->bindValue(":userMail", $userId);
-
+        $statement = $conn->prepare("select follower_id from followers where user_id=:userId and following=1");
+        $statement->bindValue(":userId", $userId);
         $statement->execute();
-        $result[] = $statement->fetchall();
+        $result = $statement->fetchall(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getFollowerUsername($followerId) {
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("select username from users where id=:followerId");
+        $statement->bindValue(":followerId", $followerId);
+        $statement->execute();
+        $result = $statement->fetchall(PDO::FETCH_ASSOC);
+        var_dump($result);
         return $result;
     }
 
@@ -617,7 +644,7 @@ class User
 
             $userId = $this->getId();
             $followerId = $this->getFollowerId();    
-            
+
             $statement->bindValue(":userMail", $userId);
             $statement->bindValue(":followerId", $followerId);
             $statement->execute();
