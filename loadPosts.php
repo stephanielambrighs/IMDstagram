@@ -45,6 +45,40 @@
         $user = Db::getUserById($post->getUser_id());
         $postUniqueName = "post-" . $post->getId();
 
+
+
+
+        // Get tags out of description
+        $description = $post->getDescription();
+        $descriptions;
+        $tags = [];
+        $numberOfTags = 0;
+        $counter = 0;
+        $tags[0] = "";
+        if(strpos($description, "#") > 0){
+            $descriptions = strstr($description, "#", true);
+        }else{
+            $descriptions = $description;
+        }
+        
+        $counter = strpos($description, "#", $counter);
+        while($counter > 0){
+            var_dump("Er zit een # in".$post->getId());
+            $tags[$numberOfTags] = substr($description, $counter, strpos(substr($description, $counter), " "));
+            $numberOfTags++;
+            $counter = strpos($description, "#", $counter+1);
+        }
+        var_dump($tags);
+
+        //else{
+          //  var_dump("Er zit GEEN # in".$post->getId());
+           // $descriptions[0] = "Geen description";
+            //$tags[0] = "Geen tag";
+       // }
+
+
+
+
         // generate html output
         $htmlOutput .= '
             <div class="col-9 ' . $postUniqueName .'">
@@ -94,6 +128,14 @@
                 <button type="button" class="btn btn-info"><img src="/images/like_image.png" alt="Likes">300 Likes</button>
                 <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
                 <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
+            </div>
+            <div>
+                <p>'. $post->getDescription() .'</p>
+                <p>description: '.$descriptions.'</p>
+                <?php foreach($numberOfTags as $tagNumber): ?>
+                    <p>tag: '.$tags[0].$tags[1].'</p>
+                   <p>'. $numberOfTags .'</p> 
+                <?php endforeach; ?>
             </div>
         ';
 
