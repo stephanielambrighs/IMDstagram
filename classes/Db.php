@@ -136,7 +136,7 @@ class Db {
         }
         return $postList;
     }
-
+    
     public static function getAllReportedPosts(){
         $conn = self::getConnection();
         $statement = $conn->prepare("
