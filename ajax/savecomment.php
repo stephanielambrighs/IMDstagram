@@ -1,9 +1,10 @@
 <?php
     include_once(__DIR__ . "/../classes/Comment.php");
+    include_once(__DIR__ . "/../classes/Db.php");
 
     $user = $_SESSION['legato-user'];
     $userEmail = $user->getEmail();
-    $userId =  DB::getUserByEmail($userEmail)->getId();
+    $userId =  Db::getUserByEmail($userEmail)->getId();
 
 
     if(!empty($_POST)){
@@ -15,13 +16,13 @@
 
         //Comment opslaan
         $c->saveComment();
-
         //Seccues boodschap teruggeven
         $response = [
-            'status' => 'succes',
-            'body' => htmlspecialchars($c->getText()),
+            'status' => 'success',
             'message' => 'Comment saved'
+            
         ];
+        //'body' => htmlspecialchars($c->getText());
 
         header('Content-Type: application/json');
         echo json_encode($response);
