@@ -11,12 +11,12 @@
     if(!empty($_POST)){
         //Nieuwe comment maken
         $c = new Comment();
-        $c->setPostId($_POST('postid'));
-        $c->setText($_POST('text'));
-        $c->setUserId($userId); 
+        $postid = $c->setPostId($_POST('postid'));
+        $text = $c->setText($_POST('text'));
+        $userId = $c->setUserId($userId); 
 
         //Comment opslaan
-        $c->saveComment();
+        $c->saveComment($postid, $userId, $text);
 
         //Seccues boodschap teruggeven
         $response = [
