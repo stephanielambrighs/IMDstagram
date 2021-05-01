@@ -76,14 +76,18 @@
             $numberOfTags++;
             $counter = strpos($description, "#", $counter+1);
         }
+
         //var_dump($tags);
         //var_dump('Number of tags: '.$numberOfTags);
        
         //Foreach loop voor de tags
         $tagLinks = "";
         foreach($tags as $tag){
-            $tagLinks .= ' <a href="feed.php?v=0">'.$tag.'</a>';
+            $urlTag = substr($tag, 1);
+            $tagLinks .= ' <a href="feed.php?v='.$urlTag.'">'.$tag.'</a>';
+            
         }
+        
 
 
 
