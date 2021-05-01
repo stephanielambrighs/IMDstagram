@@ -1,5 +1,5 @@
  <?php
-    include_once(__DIR__ . "/Db.php");
+    require_once("autoload.php");
 
     class Comment{
         private $text;
@@ -75,12 +75,13 @@
             $postId = $this->getPostId();
             $text = $this->getText();
 
-            $statement->bindValue(":uderId", $userId);
+            $statement->bindValue(":userId", $userId);
             $statement->bindValue(":postId", $postId);
             $statement->bindValue(":timeNow", $timeNow);
             $statement->bindValue(":text", $text);
 
             $result = $statement->execute();
+            var_dump($result);
             return $result;
         }
     }
