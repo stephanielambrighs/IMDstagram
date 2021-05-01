@@ -67,8 +67,9 @@
         }
 
         public function saveComment(){
+            $timeNow = new DateTime(Db::get_current_time());
             $conn = Db::getConnection();
-            $statement = $conn->prepare("insert into comments (user_id, post_id, text) values (:userId, :postId, :text);");
+            $statement = $conn->prepare("insert into comments (user_id, post_id, comment_date, text) values (:userId, :postId, :timeNow, :text)");
             
             $userId = $this->getUserId();
             $postId = $this->getPostId();
@@ -76,6 +77,7 @@
 
             $statement->bindValue(":uderId", $userId);
             $statement->bindValue(":postId", $postId);
+            $statement->bindValue(":timeNow", $timeNow);
             $statement->bindValue(":text", $text);
 
             $result = $statement->execute();
