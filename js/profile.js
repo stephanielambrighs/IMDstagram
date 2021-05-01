@@ -52,6 +52,28 @@ cancelProfile.addEventListener("click", function(e){
 
 
 let buttonPrivate = document.querySelector("#btn-private");
+
+window.addEventListener('load', (event) => {
+    myBody = new FormData();
+    myBody.append("userId", userId);
+
+    fetch("ajax/getProfileStatus.php", {
+        method: "POST",
+        body: myBody,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data['status']){
+            buttonPrivate.innerHTML = "Set public";
+        }else{
+            buttonPrivate.innerHTML = "Set private";
+        }
+    })
+    .catch((error) => {
+        console.log("Error: ", error);
+    })
+});
+
 buttonPrivate.addEventListener("click", function() {
     myBody = new FormData();
     myBody.append("userId", userId);
@@ -63,18 +85,15 @@ buttonPrivate.addEventListener("click", function() {
     .then(response => response.json())
     .then(data => {
         // console.log("Success: ", data);
-        console.log(data);
-        // if (data['status'] == "success"){
-        //     hidePost(postId);
-        //     showMessage(".alert.alert-success", "Successfully removed strikes for post!");
-        // }
-        // else{
-        //     showMessage(".alert.alert-danger", "Failed to remove strikes for post!");
-        // }
-        // alert(data['message']);
+        if(data['profile_private']){
+            console.log("Switched profile to private");
+            buttonPrivate.innerHTML = "Set public";
+        }else{
+            console.log("Switched profile to public");
+            buttonPrivate.innerHTML = "Set private";
+        }
     })
     .catch((error) => {
         console.log("Error: ", error);
-        // showMessage(".alert.alert-danger", error);
     })
 });
