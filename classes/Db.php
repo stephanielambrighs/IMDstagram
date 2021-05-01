@@ -153,6 +153,7 @@ class Db {
         ");
 
         $statement->bindValue(":limit", $limit, PDO::PARAM_INT);
+        //$statement->bindValue(":tag", $tag, PDO::PARAM_STR);
         var_dump("Achter bindValue()");
         $statement->execute();
         var_dump("Achter execute()");
