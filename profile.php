@@ -4,7 +4,9 @@
 
     session_start();
 
-    $userProfile = Profile::loadMyProfile($_SESSION['legato-user']->getEmail());
+    $sessionUser = $_SESSION['legato-user'];
+    $userEmail = $sessionUser->getEmail();
+    $userProfile = Profile::loadMyProfile($userEmail);
     // var_dump("this- " . $userProfile["email"]);
 
     $user = new User();
@@ -46,7 +48,7 @@
                       <h4><?php echo ($userProfile["firstname"] . " " . $userProfile["lastname"]); ?></h4>
                       <p class="text-secondary mb-1">Title -> job</p>
                       <p class="text-muted font-size-sm">Where do I live?</p>
-
+                      <button type="button" id="btn-private" class="btn btn-primary">Set private</button>
                     </div>
                   </div>
                 </div>
@@ -198,6 +200,11 @@
 </div>
 
 <?php include_once("inc/footer.inc.php");?>
+
+<script type="text/javascript">
+    var userId = <?php echo Db::getUserByEmail($userEmail)->getId(); ?>
+</script>
 <script src="/js/profile.js"></script>
+
 </body>
 </html>

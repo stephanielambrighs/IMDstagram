@@ -102,21 +102,55 @@ class Db {
     }
 
 
-    public static function getAllPosts($limit){
+    public static function getAllPosts($limit, $userId){
         $conn = self::getConnection();
         $statement = $conn->prepare("
             SELECT *
             FROM posts
+
+            /* Only posts with < 3 reports */
             WHERE (
                 SELECT COUNT(id)
                 FROM reports
                 WHERE post_id = posts.id
             ) < 3
+
+            AND (
+
+                    /* 1) Posts of public profiles */
+                    (
+                        SELECT profile_private
+                        FROM users
+                        WHERE id = posts.user_id
+                    ) = 0
+
+                OR
+
+                    /* 2) Posts of private profiles IF the current
+                          logged in user is in list of followers */
+                        (
+                            SELECT profile_private
+                            FROM users
+                            WHERE id = posts.user_id
+                        ) = 1
+                    AND
+                        :loggedInUserId in (
+                            SELECT follower_id
+                            FROM followers
+                            WHERE followers.user_id = posts.user_id
+                        )
+
+                OR
+                    /* 3) Posts of the user self */
+                    user_id = :loggedInUserId
+
+            )
             ORDER BY upload_date DESC
             LIMIT :limit
         ");
 
         $statement->bindValue(":limit", $limit, PDO::PARAM_INT);
+        $statement->bindValue(":loggedInUserId", $userId);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         // var_dump($statement->errorInfo());
@@ -324,6 +358,43 @@ class Db {
         ");
         $statement->bindValue(':post_id', $postId);
         return $statement->execute();
+    }
+
+    public static function getUserPrivacyStatus($userId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            SELECT profile_private
+            FROM users
+            WHERE id = :user_id
+        ");
+        $statement->bindValue(':user_id', $userId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        // var_dump($result['profile_private']);
+        if ($result['profile_private'] == "1"){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public static function setUserPrivacyStatus($userId, $profilePrivate){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            UPDATE users
+            SET profile_private = :profile_private
+            WHERE id = :user_id
+        ");
+        $statement->bindValue(':user_id', $userId);
+        if($profilePrivate){
+            $statement->bindValue(':profile_private', 1);
+        }else{
+            $statement->bindValue(':profile_private', 0);
+        }
+        $result = $statement->execute();
+        // var_dump($result);
+        return $result;
     }
 
 }

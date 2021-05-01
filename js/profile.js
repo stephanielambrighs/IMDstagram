@@ -51,3 +51,49 @@ cancelProfile.addEventListener("click", function(e){
 
 
 
+let buttonPrivate = document.querySelector("#btn-private");
+
+window.addEventListener('load', (event) => {
+    myBody = new FormData();
+    myBody.append("userId", userId);
+
+    fetch("ajax/getProfileStatus.php", {
+        method: "POST",
+        body: myBody,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data['status']){
+            buttonPrivate.innerHTML = "Set public";
+        }else{
+            buttonPrivate.innerHTML = "Set private";
+        }
+    })
+    .catch((error) => {
+        console.log("Error: ", error);
+    })
+});
+
+buttonPrivate.addEventListener("click", function() {
+    myBody = new FormData();
+    myBody.append("userId", userId);
+
+    fetch("ajax/switchProfileStatus.php", {
+        method: "POST",
+        body: myBody,
+    })
+    .then(response => response.json())
+    .then(data => {
+        // console.log("Success: ", data);
+        if(data['profile_private']){
+            console.log("Switched profile to private");
+            buttonPrivate.innerHTML = "Set public";
+        }else{
+            console.log("Switched profile to public");
+            buttonPrivate.innerHTML = "Set private";
+        }
+    })
+    .catch((error) => {
+        console.log("Error: ", error);
+    })
+});
