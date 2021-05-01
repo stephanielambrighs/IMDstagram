@@ -59,7 +59,7 @@
             
             <div class="post__comments">
                 <div class="post__comments__form">
-                    <input type="text" name="comment-input" id="comment-text" placeholder="Whats on your mind" data-postIdText="'.$post->getId().'">
+                    <input type="text" name="comment-input" id="comment-text" placeholder="Whats on your mind">
                     <a href="" class="btn btn-comment" id="btn-comment" data-postid="'.$post->getId().'">Add comment'.$post->getId().'</a>
                 </div>
 
