@@ -1,5 +1,5 @@
  <?php
-    require_once("autoload.php");
+    require_once(__DIR__."/../autoload.php");
 
     class Comment{
         private $text;
@@ -66,22 +66,20 @@
             return $this;
         }
 
-        public function saveComment(){
+        public static function saveComment($userId, $postId, $text){
             $timeNow = new DateTime(Db::get_current_time());
+            $result = $timeNow->format('Y-m-d H:i:s');
+            //$datetime_object = datetime.strptime($timeNow, '%b %d %Y %I:%M%p')
             $conn = Db::getConnection();
             $statement = $conn->prepare("insert into comments (user_id, post_id, comment_date, text) values (:userId, :postId, :timeNow, :text)");
             
-            $userId = $this->getUserId();
-            $postId = $this->getPostId();
-            $text = $this->getText();
 
             $statement->bindValue(":userId", $userId);
             $statement->bindValue(":postId", $postId);
-            $statement->bindValue(":timeNow", $timeNow);
+            $statement->bindValue(":timeNow", $result);
             $statement->bindValue(":text", $text);
 
             $result = $statement->execute();
-            var_dump($result);
             return $result;
         }
     }
