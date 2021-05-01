@@ -9,9 +9,9 @@
     if(!empty($_POST)){
         //Nieuwe comment maken
         $c = new Comment();
-        $c->getPostId($_POST('postId'));
-        $c->getText($_POST('text'));
-        $c->getUserId($userId); 
+        $c->setPostId($_POST('postId'));
+        $c->setText($_POST('text'));
+        $c->setUserId($userId); 
 
         //Comment opslaan
         $c->saveComment();
@@ -20,7 +20,7 @@
         $response = [
             'status' => 'succes',
             'body' => htmlspecialchars($c->getText()),
-            'message' => 'Comments saved'
+            'message' => 'Comment saved'
         ];
 
         header('Content-Type: application/json');
