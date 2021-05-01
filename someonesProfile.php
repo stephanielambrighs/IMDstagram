@@ -3,13 +3,16 @@
     include_once(__DIR__ . "/autoload.php");
 
     session_start();
+    $sessionUser = $_SESSION['legato-user'];
+    $userEmail = $sessionUser->getEmail();
     $someonesMail = $_GET["email"];
     $someonesProfile = Profile::loadProfile($someonesMail);
 
+    $userId = Db::getUserByEmail($userEmail)->getId();
     $user = new User();
 
-    $rel = $user->userRelation();
-    var_dump($user->followExists());
+    $rel = $user->followExists($userId);
+    var_dump($rel);
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -35,7 +38,7 @@
                       <h4><?php echo ($someonesProfile["firstname"] . " " . $someonesProfile["lastname"]); ?></h4>
                       <p class="text-secondary mb-1">Title -> job</p>
                       <p class="text-muted font-size-sm">Where i life?</p>
-                      <button data-followerid="<?php echo $someonesMail ?>" data-userid="<?php echo $_SESSION['legato-user']->getEmail() ?>" id="btn-follow" class="btn btn-primary <?php echo $user->followExists(); ?>">Follow</button>
+                      <button data-followerid="<?php echo $someonesMail ?>" data-userid="<?php echo $_SESSION['legato-user']->getEmail() ?>" id="btn-follow" class="btn btn-primary <?php echo $rel; ?>"><?php echo $rel; ?></button>
 
                     </div>
                   </div>

@@ -550,24 +550,30 @@ class User
         }
     }
 
-    public function followExists(){
+    public function followExists($userId){
         $conn = Db::getConnection();
-        $statement = $conn->prepare("select follower_id from followers where user_id=:userId and follower_id=(select id from users where id=:followerId)");
-        $statement->bindValue(':userId', $this->getId());
-        $statement->bindValue(':followerId', $this->getFollowerId());
+        $statement = $conn->prepare("select following from followers where user_id=:userId and follower_id=:followerId");
+        $statement->bindValue(':userId', $userId);
+        $statement->bindValue(':followerId', $_GET['email']);
         $statement->execute();
-        $res = $statement->fetchAll();
-        var_dump($res);
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        var_dump($result);
 
-        /*if ($res->rowCount() > 0 or $res != null) {
+        if ($statement->rowCount() != null) {
             // following
+            $res = $statement->fetchAll(PDO::FETCH_ASSOC);
+            var_dump($res);
             $class = "following";
+            echo $class;
             return $class;
         } else {
             // not following
+            $res = $statement->fetchAll(PDO::FETCH_ASSOC);
+            var_dump($res);
             $class = "unfollow";
+            echo $class;
             return $class;
-        }*/
+        }
     }
 
     public function follow(){

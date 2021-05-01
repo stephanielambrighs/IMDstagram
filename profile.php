@@ -11,9 +11,10 @@
     $followerId = 71; // krijg followerid
     $user = new User();
 
+    //$rel = $user->followExists();
+
     $followers = $user->loadFollowers($userId);
     $followerUsername = $user->getFollowerUsername($followerId);
-    var_dump($followerUsername);
 
     if (!empty($_POST)) {
         $user->setNewFirstname($_POST['newFirstname']);
