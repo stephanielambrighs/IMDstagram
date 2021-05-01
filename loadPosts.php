@@ -53,9 +53,11 @@
         $descriptions;
         $tags = [];
         $numberOfTags = 0;
-        $counter = 0;
-        $tags[0] = "";
+        $counter = 0; //Is pointer binnenin de description
+        //$tags[0] = "";
         $tagLength = 0;
+
+        // Kijken of er een # in de description zit => Neem het deel voor de #
         if(strpos($description, "#") > 0){
             $descriptions = strstr($description, "#", true);
         }else{
@@ -64,7 +66,7 @@
         
         $counter = strpos($description, "#", $counter);
         while($counter > 0){
-            var_dump("Er zit een # in".$post->getId());
+            //var_dump("Er zit een # in".$post->getId());
             if(strpos(substr($description, $counter), " ") == 0){
                 $tagLength = strlen(substr($description, $counter));
             }else{
@@ -74,14 +76,19 @@
             $numberOfTags++;
             $counter = strpos($description, "#", $counter+1);
         }
-        var_dump($tags);
+        //var_dump($tags);
+        var_dump('Number of tags: '.$numberOfTags);
 
         //else{
           //  var_dump("Er zit GEEN # in".$post->getId());
            // $descriptions[0] = "Geen description";
             //$tags[0] = "Geen tag";
        // }
-
+       
+        $tagLinks = "";
+        foreach($tags as $tag){
+            $tagLinks .= ' <a href="feed.php?v=0">'.$tag.'</a>';
+        }
 
 
 
@@ -126,7 +133,7 @@
                 <div class="col-6">
                     <h3>' . $post->getTitle() .'</h3>
                     <h4>' . $genre->getName() . '</h4>
-                    <p>' . $post->getDescription() . '</p>
+                    <p>' . $descriptions . $tagLinks . '</p>
                 </div>
             </div>
 
@@ -138,12 +145,15 @@
             <div>
                 <p>'. $post->getDescription() .'</p>
                 <p>description: '.$descriptions.'</p>
-                '.foreach($numberOfTags as $tagNumber){
-                    $htmlOutput .= '
-                    <a href="feed.php?v='.echo $post;.'">'.$tags[$tagNumber].'</a>
-                    <p>'. $numberOfTags .'</p> 
-                '}'
-            </div>
+        ';
+
+        foreach($tags as $tag){
+            $htmlOutput .= '<a href="feed.php?v=0">'.$tag.'</a>';}
+                //<a href="feed.php?v=0">'//.$tags[$tagNumber].'</a>
+                //<p>'//. $numberOfTags .'</p> 
+            //';}
+        $htmlOutput.='
+        </div>
         ';
 
     }
