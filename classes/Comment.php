@@ -1,4 +1,4 @@
-<?php
+ <?php
     include_once(__DIR__ . "/Db.php");
 
     class Comment{
@@ -66,7 +66,7 @@
             return $this;
         }
 
-        public function save(){
+        public function saveComment(){
             $conn = Db::getConnection();
             $statement = $conn->prepare("insert into comments (user_id, post_id, text) values (:userId, :postId, :text);");
             
