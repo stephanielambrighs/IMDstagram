@@ -14,9 +14,11 @@
 
     // get posts from db
     if ($isAdminPage){
-        $allPosts = Db::getAllReportedPostsWithTag();
+        var_dump("if key =".$key);
+        $allPosts = Db::getAllReportedPostsWithTag($key);
     }else{
-        $allPosts = Db::getAllPosts($currentPagePostCount);
+        var_dump("else key =".$key);
+        $allPosts = Db::getAllPostsWithTag($currentPagePostCount, $key);
     }
 
     $htmlOutput = '';
