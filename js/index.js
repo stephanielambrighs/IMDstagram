@@ -104,15 +104,15 @@ document.querySelectorAll(".btn-comment").forEach(item => {
     item.addEventListener("click", function(){
         //console.log("Morgane");
         //Zoek postid en comment tekst
-        let postId = this.dataset.postid;
+        let postid = this.dataset.postid;
         let text = this.previousElementSibling.value;
-        console.log(postId);
+        console.log(postid);
         console.log(text);
         
         //post naar databank (AJAX)
         let formData = new FormData();
         formData.append('text', text);
-        formData.append('postId', postId);
+        formData.append('postid', postid);
 
         fetch('ajax/savecomment.php', {
         method: 'POST',
