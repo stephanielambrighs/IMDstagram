@@ -5,12 +5,12 @@ session_start();
 
 if(isset($_SESSION["legato-user"])){
 
+    
 
     // get email from session user
     $user = $_SESSION['legato-user'];
     $userEmail = $user->getEmail();
     $userId =  DB::getUserByEmail($userEmail)->getId();
-
 
     // if a post is done, add it to the db
     if(!empty($_POST['title'])
