@@ -221,10 +221,10 @@ class Db {
                 FROM reports
                 WHERE post_id = posts.id
             ) >= 3
-            AND description LIKE '%:tag%'
+            AND description LIKE '%$tag%'
             ORDER BY upload_date DESC
         ");
-        $statement->bindValue(':tag', $tag);
+        //$statement->bindValue(':tag', $tag);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         // var_dump($statement->errorInfo());
