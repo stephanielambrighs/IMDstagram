@@ -77,14 +77,9 @@
             $counter = strpos($description, "#", $counter+1);
         }
         //var_dump($tags);
-        var_dump('Number of tags: '.$numberOfTags);
-
-        //else{
-          //  var_dump("Er zit GEEN # in".$post->getId());
-           // $descriptions[0] = "Geen description";
-            //$tags[0] = "Geen tag";
-       // }
+        //var_dump('Number of tags: '.$numberOfTags);
        
+        //Foreach loop voor de tags
         $tagLinks = "";
         foreach($tags as $tag){
             $tagLinks .= ' <a href="feed.php?v=0">'.$tag.'</a>';
@@ -142,20 +137,7 @@
                 <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
                 <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
             </div>
-            <div>
-                <p>'. $post->getDescription() .'</p>
-                <p>description: '.$descriptions.'</p>
         ';
-
-        foreach($tags as $tag){
-            $htmlOutput .= '<a href="feed.php?v=0">'.$tag.'</a>';}
-                //<a href="feed.php?v=0">'//.$tags[$tagNumber].'</a>
-                //<p>'//. $numberOfTags .'</p> 
-            //';}
-        $htmlOutput.='
-        </div>
-        ';
-
     }
 
     // return the generated htlm
