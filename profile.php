@@ -14,7 +14,7 @@
     //$rel = $user->followExists();
 
     $followers = $user->loadFollowers($userId);
-    $followerUsername = $user->getFollowerUsername($followerId);
+    $followerUsername = $user->getFollowerUsername($followers);
 
     if (!empty($_POST)) {
         $user->setNewFirstname($_POST['newFirstname']);
@@ -124,7 +124,7 @@
                     <div class="mt-3">
                       <?php foreach ($followers as $key => $f): ?>
                         <section>
-                          <p style="color: black;"><?php echo $f['follower_id']; ?></p>
+                          <a href="someonesProfile.php?email=<?php echo $followers[$key]['follower_id'] ?>"><p style="color: black;"><?php echo $followers[$key]['username'] ?></p></a>
                         </section>
                       <?php endforeach; ?>
                     </div>
