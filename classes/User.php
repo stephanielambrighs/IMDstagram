@@ -557,15 +557,24 @@ class User
         $statement->bindValue(':followerId', $_GET['email']);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        var_dump($result);
+        var_dump($result[0]["following"]);
 
         if ($statement->rowCount() != null) {
-            // following
-            $res = $statement->fetchAll(PDO::FETCH_ASSOC);
-            var_dump($res);
-            $class = "following";
-            echo $class;
-            return $class;
+            if ($result[0]["following"] == "1") {
+                // following
+                $res = $statement->fetchAll(PDO::FETCH_ASSOC);
+                var_dump($res);
+                $class = "following";
+                echo $class;
+                return $class;
+            } else {
+                // not following
+                $res = $statement->fetchAll(PDO::FETCH_ASSOC);
+                var_dump($res);
+                $class = "unfollow";
+                echo $class;
+                return $class;
+            } 
         } else {
             // not following
             $res = $statement->fetchAll(PDO::FETCH_ASSOC);

@@ -38,7 +38,7 @@
                       <h4><?php echo ($someonesProfile["firstname"] . " " . $someonesProfile["lastname"]); ?></h4>
                       <p class="text-secondary mb-1">Title -> job</p>
                       <p class="text-muted font-size-sm">Where i life?</p>
-                      <button data-followerid="<?php echo $someonesMail ?>" data-userid="<?php echo $_SESSION['legato-user']->getEmail() ?>" id="btn-follow" class="btn btn-primary <?php echo $rel; ?>"><?php echo $rel; ?></button>
+                      <button data-followerid="<?php echo $someonesMail ?>" data-userid="<?php echo $_SESSION['legato-user']->getEmail() ?>" id="btn-follow" class="btn btn-primary <?php echo $rel; ?>"></button>
 
                     </div>
                   </div>

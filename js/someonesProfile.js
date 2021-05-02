@@ -3,6 +3,17 @@ let editFormProfile = document.getElementById("editFormProfile");
 let follow = document.getElementById("btn-follow");
 
 
+$( document ).ready(function(e) {
+    console.log("wheeeeee");
+    if(follow.classList.contains('following')){
+        follow.innerHTML = 'Following';
+    } else {
+        follow.innerHTML = 'Follow';
+    }
+    e.preventDefault();
+});
+
+
 let show = true;
 showProfile.style.display = "grid";
 //editFormProfile.style.display = "none";
@@ -10,21 +21,16 @@ showProfile.style.display = "grid";
 
 follow.addEventListener('click', function(e) {
     console.log("clicked");
-
     $button = $(this);
     if($button.hasClass('following')){
-        
         // Unfollow
-        unfollowUser();
-        
+        unfollowUser(); 
         $button.removeClass('following');
         $button.removeClass('unfollow');
         $button.text('Follow');
     } else {
-        
         // Follow
         followUser();
-        
         $button.addClass('following');
         $button.text('Following');
     }
@@ -33,7 +39,7 @@ follow.addEventListener('click', function(e) {
 
 
 function followUser () {
-    follow.innerText = "following";
+    //follow.innerText = "following";
 
     let followerId = follow.dataset.followerid;
     let userId = follow.dataset.userid;
@@ -56,7 +62,7 @@ function followUser () {
 }
 
 function unfollowUser () {
-    follow.innerText = "following";
+    //follow.innerText = "following";
 
     let followerId = follow.dataset.followerid;
     let userId = follow.dataset.userid;
