@@ -199,6 +199,24 @@
     </form>
 </div>
 
+<!-- <div class="row row-space-2">
+    <div class="col-md-6 m-b-2">
+        <div class="p-10 bg-black">
+          <div class="media media-xs overflow-visible">
+              <a class="media-left" href="#">
+                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="image_friend" class="media-object img-circle">
+              </a>
+              <div class="media-body valign-middle">
+                <b class="text-inverse">James Pittman</b>
+              </div>
+              <div class="media-body valign-middle text-right overflow-visible">
+                <button id="accept" type="submit" name="submit" class="btn btn-success">Accept</button>
+                <button id="decline" type="submit" name="submit" class="btn btn-danger">Decline</button>
+              </div>
+          </div>
+        </div>
+    </div>
+</div> -->
 <?php include_once("inc/footer.inc.php");?>
 
 <script type="text/javascript">
