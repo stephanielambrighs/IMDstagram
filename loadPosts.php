@@ -1,7 +1,7 @@
 <?php
 
     require_once("autoload.php");
-
+    
     // amount of posts per page
     $postsPerPage = 20;
 
