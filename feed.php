@@ -2,7 +2,7 @@
     require_once("autoload.php");
     session_start();
 
-    $key = $_GET['v'];
+    $key = $_GET['tag'];
     //var_dump($key);
 
     
