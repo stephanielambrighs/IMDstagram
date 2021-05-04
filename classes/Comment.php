@@ -68,16 +68,15 @@
 
         public static function saveComment($userId, $postId, $text){
             $timeNow = new DateTime(Db::get_current_time());
-            $result = $timeNow->format('Y-m-d H:i:s');
+            $time = $timeNow->format('Y-m-d H:i:s');
             //$datetime_object = datetime.strptime($timeNow, '%b %d %Y %I:%M%p')
             $conn = Db::getConnection();
-            $statement = $conn->prepare("insert into comments (user_id, post_id, comment_date, text) values (:userId, :postId, :timeNow, :text)");
-            
+            $statement = $conn->prepare("insert into comments (user_id, post_id, comment_date, text) values (51, :postId, :timeNow, 'Hallo2')");
 
-            $statement->bindValue(":userId", $userId);
-            $statement->bindValue(":postId", $postId);
-            $statement->bindValue(":timeNow", $result);
-            $statement->bindValue(":text", $text);
+            //$statement->bindValue(':userId', $userId, PDO::PARAM_INT);
+            $statement->bindValue(':postId', $postId, PDO::PARAM_INT);
+            $statement->bindValue(':timeNow', $time, PDO::PARAM_STR);
+            //$statement->bindValue(':text', $text);
 
             $result = $statement->execute();
             return $result;
