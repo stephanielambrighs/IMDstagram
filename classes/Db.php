@@ -139,21 +139,17 @@ class Db {
 
     public static function getAllPostsWithTag($limit, $tag){
         $conn = self::getConnection();
+        $hashtag = '%'.$tag.'%';
         $statement = $conn->prepare("
             SELECT *
             FROM posts
-            WHERE (
-                SELECT COUNT(id)
-                FROM reports
-                WHERE post_id = posts.id
-            ) < 3
-            AND description LIKE '%$tag%'
+            WHERE description LIKE :tag
             ORDER BY upload_date DESC
             LIMIT :limit
         ");
 
         $statement->bindValue(":limit", $limit, PDO::PARAM_INT);
-        //$statement->bindValue(":tag", $tag, PDO::PARAM_STR);
+        $statement->bindValue(":tag", $hashtag, PDO::PARAM_STR);
         var_dump("Achter bindValue()");
         $statement->execute();
         var_dump("Achter execute()");
@@ -213,18 +209,14 @@ class Db {
 
     public static function getAllReportedPostsWithTag($tag){
         $conn = self::getConnection();
+        $hashtag = '%'.$tag.'%';
         $statement = $conn->prepare("
             SELECT *
             FROM posts
-            WHERE (
-                SELECT COUNT(id)
-                FROM reports
-                WHERE post_id = posts.id
-            ) >= 3
-            AND description LIKE '%$tag%'
+            WHERE description LIKE :tag
             ORDER BY upload_date DESC
         ");
-        //$statement->bindValue(':tag', $tag);
+        $statement->bindValue(':tag', $hashtag, PDO::PARAM_STR);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         // var_dump($statement->errorInfo());
