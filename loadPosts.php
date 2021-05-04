@@ -84,7 +84,7 @@
         $tagLinks = "";
         foreach($tags as $tag){
             $urlTag = substr($tag, 1);
-            $tagLinks .= ' <a href="feed.php?v='.$urlTag.'">'.$tag.'</a>';
+            $tagLinks .= ' <a href="feed.php?tag='.$urlTag.'">'.$tag.'</a>';
             
         }
         
