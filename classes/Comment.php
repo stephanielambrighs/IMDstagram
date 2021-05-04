@@ -74,9 +74,10 @@
             $statement = $conn->prepare("insert into comments (user_id, post_id, comment_date, text) values (51, :postId, :timeNow, 'Hallo2')");
 
             //$statement->bindValue(':userId', $userId, PDO::PARAM_INT);
-            $statement->bindValue(':postId', $postId, PDO::PARAM_INT);
+            $statement->bindValue(':postId', $postId);
             $statement->bindValue(':timeNow', $time, PDO::PARAM_STR);
             //$statement->bindValue(':text', $text);
+            var_dump($userId);
 
             $result = $statement->execute();
             return $result;
