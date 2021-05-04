@@ -4,25 +4,26 @@
     include_once(__DIR__ . "/../classes/Db.php");
     session_start();
 
-    $user = $_SESSION['legato-user'];
-    $userEmail = $user->getEmail();
-    $userId =  Db::getUserByEmail($userEmail)->getId();
+    //$user = $_SESSION['legato-user'];
+    //$userEmail = $user->getEmail();
+    //$userId =  Db::getUserByEmail($userEmail)->getId();
 
 
     if(!empty($_POST)){
         //Nieuwe comment maken
-        $c = new Comment();
-        $postid = $c->setPostId($_POST('postid'));
-        $text = $c->setText($_POST('text'));
-        $userId = $c->setUserId($userId); 
+        //$c = new Comment();
+        $postid = 74;
+        $text = 'test';
+        $userId = 81; 
 
         //Comment opslaan
-        $c->saveComment($userId, $posrid, $text);
+        //$c->
+        $save = saveComment($userId, $posrid, $text);
 
         //Seccues boodschap teruggeven
         $response = [
             'status' => 'success',
-            'body' => htmlspecialchars($c->getText()),
+            'body' => htmlspecialchars($save->getText()),
             'message' => 'Comment saved'
             
         ];
