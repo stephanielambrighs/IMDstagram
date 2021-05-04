@@ -11,19 +11,21 @@
 
     if(!empty($_POST)){
         //Nieuwe comment maken
-        //$c = new Comment();
-        $postid = 74;
-        $text = 'test';
-        $userId = 81; 
-
+        $c = new Comment();
+        $userId = $c->setUserId(51);
+        $postId = $c->setPostId(74);
+        $text = $c->setText('Hallo');
+ 
+        sleep(10);
         //Comment opslaan
         //$c->
-        $save = saveComment($userId, $posrid, $text);
+        $c->saveComment($userId, $postId, $text);
+        sleep(10);
 
         //Seccues boodschap teruggeven
         $response = [
             'status' => 'success',
-            'body' => htmlspecialchars($save->getText()),
+            'body' => htmlspecialchars($c->getText()),
             'message' => 'Comment saved'
             
         ];
