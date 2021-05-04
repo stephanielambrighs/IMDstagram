@@ -2,7 +2,6 @@
     include_once(__DIR__ . "/../classes/Comment.php");
     include_once(__DIR__ . "/../classes/User.php");
     include_once(__DIR__ . "/../classes/Db.php");
-    session_start();
 
     //$user = $_SESSION['legato-user'];
     //$userEmail = $user->getEmail();
@@ -12,23 +11,27 @@
     if(!empty($_POST)){
         //Nieuwe comment maken
         $c = new Comment();
-        $userId = $c->setUserId(51);
-        $postId = $c->setPostId(74);
-        $text = $c->setText('Hallo');
- 
-        sleep(10);
+        $userId = $c->setUserId($_POST['userId']);
+        $postId = $c->setPostId($_POST['postid']);
+        $text = $c->setText($_POST['text']);
+
         //Comment opslaan
-        //$c->
-        $c->saveComment($userId, $postId, $text);
-        sleep(10);
+        $addCommentSuccess = $c->saveComment();
 
         //Seccues boodschap teruggeven
-        $response = [
-            'status' => 'success',
-            'body' => htmlspecialchars($c->getText()),
-            'message' => 'Comment saved'
-            
-        ];
+        if($addCommentSuccess){
+            $response = [
+                'status' => 'success',
+                'text' => htmlspecialchars($c->getText()),
+                'message' => 'Comment saved'
+            ];
+        }
+        else {
+            $response = [
+                'status' => 'failed',
+                'messsage' => 'Failed to add a comment'
+            ];
+        }
 
         header('Content-Type: application/json');
         echo json_encode($response);

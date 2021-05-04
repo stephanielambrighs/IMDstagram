@@ -108,17 +108,18 @@ document.querySelectorAll(".btn-comment").forEach(item => {
         let text = this.previousElementSibling.value;
         console.log(postid);
         console.log(text);
-        
+
         //post naar databank (AJAX)
         let formData = new FormData();
         formData.append('text', text);
         formData.append('postid', postid);
+        formData.append("userId", userId);
 
         fetch('ajax/savecomment.php', {
         method: 'POST',
         body: formData
         })
-        .then(response => response.text())
+        .then(response => response.json())
         .then(result => {
         console.log('Success:', result);
         })
