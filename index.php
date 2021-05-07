@@ -80,7 +80,7 @@ if(isset($_SESSION["legato-user"])){
     <title>Legato</title>
 </head>
 <body>
-<?php include_once("inc/nav.inc.php"); ?>
+<?php //include_once("inc/nav.inc.php"); ?>
 
 <div class="add-feed">
     <button id="btn-feed" type="button" class="btn btn-info">
