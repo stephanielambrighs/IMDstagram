@@ -234,8 +234,6 @@ class Db {
 
 
     public static function getUserByEmail($userEmail){
-        // genre opvragen -> database
-        // object maken en dit object teruggeven
         $conn = self::getConnection();
         $statement = $conn->prepare("SELECT * FROM `users` WHERE email = :email");
         $statement->bindValue(":email", $userEmail);
@@ -254,8 +252,6 @@ class Db {
     }
 
     public static function getUserById($userId){
-        // genre opvragen -> database
-        // object maken en dit object teruggeven
         $conn = self::getConnection();
         $statement = $conn->prepare("SELECT * FROM `users` WHERE id = :id");
         $statement->bindValue(":id", $userId);

@@ -10,7 +10,7 @@ if(!empty($_POST)){
 
     // update db value
     $response = [
-        'status' => $currentPrivacyStatus
+        'status' => htmlspecialchars($currentPrivacyStatus)
     ];
 
     header('Content-Type: application/json');
