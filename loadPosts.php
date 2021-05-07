@@ -2,6 +2,13 @@
 
     require_once("autoload.php");
 
+    //get geo location
+    $ip_adress = $_SERVER['REMOTE_ADDR'];
+    $geopluginURL = 'http://www.geoplugin.net/hp.g?id='.$ip_adress;
+    $addrDetailsArr = unserialize(file_get_contents($geopluginURL));
+    $city = $addrDetailsArr['geoplugin_city'];
+    $country = $addrDetailsArr['geoplugin_countryName'];
+
     // amount of posts per page
     $postsPerPage = 20;
 
@@ -75,7 +82,12 @@
         }
 
         $htmlOutput .= '
+            <div>
+                <p>' . $ip_adress .'</p>
+                <p>' . $city .'</p>
+                <p>' . $country .'</p>
             </div>
+            <div>
                 <p>' . $post->getUploadedTimeAgo() .'</p>
             </div>
 
