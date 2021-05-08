@@ -151,7 +151,7 @@ if(isset($_SESSION["legato-user"])){
 <script type="text/javascript">
     let pagePostCount = '<?php echo $currentPagePostCount; ?>';
     let postsPerPage = '<?php echo $postsPerPage; ?>';
-    let postPlacedSuccess = '<?php echo $postPlacedSuccess?>';
+    let postPlacedSuccess = '<?php echo $postPlacedSuccess; ?>';
 </script>
 
 
