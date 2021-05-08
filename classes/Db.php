@@ -393,4 +393,24 @@ class Db {
         return $result;
     }
 
+    public static function getFollowerRequests($userId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            SELECT follower_id
+            FROM followers
+            WHERE user_id = :user_id
+            AND accepted = 0
+        ");
+        $statement->bindValue(":user_id", $userId);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        // create list with userids of the followers
+        $followerIdList = [];
+        foreach ($result as $followerId) {
+            array_push($followerIdList, intval($followerId['follower_id']));
+        }
+        return $followerIdList;
+    }
+
+
 }
