@@ -232,11 +232,13 @@
     </div>
 </div>
 
+<div class="alert alert-success accept" role="alert"></div>
+<div class="alert alert-danger decline" role="alert"></div>
 <?php endforeach; ?>
 <?php include_once("inc/footer.inc.php");?>
 
 <script type="text/javascript">
-    var userId = <?php echo $loggedInUserId; ?>
+    let userId = <?php echo $loggedInUserId; ?>
 </script>
 <script src="/js/profile.js"></script>
 

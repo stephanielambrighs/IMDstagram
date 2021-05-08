@@ -125,6 +125,11 @@ function acceptFollowerRequest(userId, followerId) {
         console.log("Success: ", data);
         if(data["status"] == "success"){
             hideFollowerRequest(followerId);
+            document.querySelector(".alert.alert-success.accept").innerHTML = "Successfully accept follower request";
+            document.querySelector(".alert.alert-success.accept").style.display = "grid";
+            setTimeout(() => {
+                document.querySelector(".alert.alert-success.accept").style.display = "none";
+            }, 4000);
         }
     })
     .catch((error) => {
@@ -156,6 +161,11 @@ function declineFollowerRequest(userId, followerId) {
         console.log("Success: ", data);
         if(data["status"] == "success"){
             hideFollowerRequest(followerId);
+            document.querySelector(".alert.alert-danger.decline").innerHTML = "Successfully decline follower request";
+            document.querySelector(".alert.alert-danger.decline").style.display = "grid";
+            setTimeout(() => {
+                document.querySelector(".alert.alert-danger.decline").style.display = "none";
+            }, 4000);
         }
 
     })
