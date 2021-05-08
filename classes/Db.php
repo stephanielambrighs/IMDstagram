@@ -126,8 +126,9 @@ class Db {
 
                 OR
 
-                    /* 2) Posts of private profiles IF the current
-                          logged in user is in list of followers */
+                        /* 2) Posts of private profiles IF the current
+                              logged in user is in list of followers
+                              AND is accepted as a follower */
                         (
                             SELECT profile_private
                             FROM users
@@ -138,6 +139,7 @@ class Db {
                             SELECT follower_id
                             FROM followers
                             WHERE followers.user_id = posts.user_id
+                            AND accepted = 1
                         )
 
                 OR
