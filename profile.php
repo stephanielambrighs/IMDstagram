@@ -200,6 +200,7 @@
 </div>
 
 <div class="row row-space-2">
+  <h1>Friend request</h1>
     <div class="col-md-6 m-b-2">
         <div class="p-10 bg-black">
           <div class="media media-xs overflow-visible">
@@ -211,12 +212,8 @@
               </div>
               <div class="btn-group" role="group" aria-label="Basic outlined example">
                 <button type="button" class="btn btn-outline-success">Accept</button>
-                <button type="button" class="btn btn-outline-warning">Decline</button>
+                <button type="button" class="btn btn-outline-danger">Decline</button>
               </div>
-              <!-- <div class="media-body valign-middle text-right overflow-visible">
-                <button id="accept" type="submit" name="submit" class="btn btn-primary">Accept</button>
-                <button id="decline" type="submit" name="submit" class="btn btn-danger">Decline</button>
-              </div> -->
           </div>
         </div>
     </div>

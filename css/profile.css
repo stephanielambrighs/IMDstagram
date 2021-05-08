@@ -291,3 +291,8 @@ input#btn-change-photo.btn.btn-primary {
     justify-content: center;
     flex-direction: column;
 }
+
+h1 {
+    color: white;
+    margin-left: 20px;
+}
