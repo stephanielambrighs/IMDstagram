@@ -201,7 +201,15 @@
 
 <?php
   $loggedInUserId = Db::getUserByEmail($userEmail)->getId();
-  $followerIds = Db::getFollowerRequests($loggedInUserId);
+
+  // check if user is private
+  // only private users should see follower requests
+  if(Db::getUserPrivacyStatus($loggedInUserId)){
+    $followerIds = Db::getFollowerRequests($loggedInUserId);
+  }
+  else{
+    $followerIds = [];
+  }
 ?>
 <div class="row row-space-2">
   <h1>Follower requests</h1>
