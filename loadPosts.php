@@ -33,12 +33,12 @@
     foreach($allPosts as $post){
 
         // get user file path for profile picture
-        $post_user_file_path =  Db::getProfileImgPath($post->getUser_id());
+        //$post_user_file_path =  Db::getProfileImgPath($post->getUser_id());
 
         // set default if none found
-        if (!$post_user_file_path) {
-            $post_user_file_path = "data/uploads/default.png";
-        }
+       // if (!$post_user_file_path) {
+         //   $post_user_file_path = "data/uploads/default.png";
+        //}
 
         // get some data from the db
         $genre = Db::getGenreById($post->getGenre_id());
@@ -49,7 +49,7 @@
         $htmlOutput .= '
             <div class="col-9 ' . $postUniqueName .'">
                 <!-- <img src="https://images.pexels.com/photos/908602/pexels-photo-908602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="user_image"> -->
-                <img src="' . $post_user_file_path . '" alt="user_image">
+                <!--<img src="' . $post_user_file_path . '" alt="user_image">-->
                 <h2>' .$user->getUsername() . '</h2>
                 <div class="btn-group" role="group">
                 <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -91,7 +91,7 @@
             </div>
 
             <div class="col-3 ' . $postUniqueName .'">
-                <button type="button" class="btn btn-info" data-postid="'.$post->getId().'"><img src="/images/like_image.png" alt="Likes">300 Likes</button>
+                <button type="button" class="btn btn-info-like" data-postid="'.$post->getId().'"><img src="/images/like_image.png" alt="Likes">300 Likes</button>
                 <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
                 <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
             </div>
