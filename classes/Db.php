@@ -412,5 +412,45 @@ class Db {
         return $followerIdList;
     }
 
+    public static function getFollowerRowId($userId, $followerId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            SELECT id
+            FROM followers
+            WHERE user_id = :user_id
+            AND follower_id = :follower_id
+        ");
+        $statement->bindValue(":user_id", $userId);
+        $statement->bindValue(":follower_id", $followerId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return intval($result['id']);
+    }
+
+
+    public static function setFollowerAccept($followersRowId, $accepted){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            UPDATE followers
+            SET accepted = :accepted
+            WHERE id = :followers_row_id
+        ");
+        $statement->bindValue(":followers_row_id", $followersRowId);
+        $statement->bindValue(":accepted", $accepted);
+        $result = $statement->execute();
+        // var_dump($result);
+        return $result;
+    }
+
+    public static function deleteFollowersRow($followersRowId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            DELETE FROM followers
+            WHERE id = :followers_row_id
+        ");
+        $statement->bindValue(":followers_row_id", $followersRowId);
+        $result = $statement->execute();
+        return $result;
+    }
 
 }
