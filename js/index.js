@@ -106,3 +106,9 @@ window.addEventListener('load', (event) => {
         }, 4000);
     }
 });
+
+
+//Likes
+document.querySelector().addEventListener("click", function(){
+
+});
