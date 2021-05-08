@@ -15,14 +15,14 @@ if(!empty($_POST)){
         $response = [
             'status' => 'success',
             'messsage' => 'Successfully updated profile_private',
-            'profile_private' => $newPrivacyStatus
+            'profile_private' => htmlspecialchars($newPrivacyStatus)
         ];
     }
     else {
         $response = [
             'status' => 'failed',
             'messsage' => 'Failed to update profile_private',
-            'profile_private' => $newPrivacyStatus
+            'profile_private' => htmlspecialchars($newPrivacyStatus)
         ];
     }
 
