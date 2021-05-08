@@ -109,6 +109,30 @@ window.addEventListener('load', (event) => {
 
 
 //Likes
-document.querySelector().addEventListener("click", function(){
+document.querySelectorAll(".btn-info-like").forEach(item => {
+    item.addEventListener("click", function(){
+        //console.log("Morgane");
+        //Zoek postid en comment tekst
+        let postId = this.dataset.postid;
+        
 
+        myBody = new FormData();
+        myBody.append("postId", postId);
+        //myBody.append("userId", userId);
+
+        console.log(postId);
+        //console.log(userId);
+        
+        fetch("ajax/clickLike.php", {
+            method: "POST",
+            body: myBody,
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Success: ", data);
+        })
+        .catch((error) => {
+            console.log("Error: ", error);
+        });
+    });
 });
