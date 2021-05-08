@@ -206,7 +206,7 @@
 <div class="row row-space-2">
   <h1>Follower requests</h1>
   <?php foreach($followerIds as $followerId): ?>
-    <div class="col-md-6 m-b-2">
+    <div class="col-md-6 m-b-2 follower-<?php echo $followerId?>">
         <div class="p-10 bg-black">
           <div class="media media-xs overflow-visible">
               <a class="media-left" href="#">
@@ -216,8 +216,8 @@
                 <b class="text-inverse"><?php echo Db::getUserById($followerId)->getUsername(); ?></b>
               </div>
               <div class="btn-group" role="group" aria-label="Basic outlined example">
-                <button type="button" class="btn btn-outline-success">Accept</button>
-                <button type="button" class="btn btn-outline-danger">Decline</button>
+                <button type="button" class="btn btn-outline-success accept" id="btn-accept-<?php echo $followerId ?>">Accept</button>
+                <button type="button" class="btn btn-outline-danger decline" id="btn-decline-<?php echo $followerId ?>">Decline</button>
               </div>
           </div>
         </div>
