@@ -126,8 +126,9 @@ class Db {
 
                 OR
 
-                    /* 2) Posts of private profiles IF the current
-                          logged in user is in list of followers */
+                        /* 2) Posts of private profiles IF the current
+                              logged in user is in list of followers
+                              AND is accepted as a follower */
                         (
                             SELECT profile_private
                             FROM users
@@ -138,6 +139,7 @@ class Db {
                             SELECT follower_id
                             FROM followers
                             WHERE followers.user_id = posts.user_id
+                            AND accepted = 1
                         )
 
                 OR
@@ -390,6 +392,66 @@ class Db {
         }
         $result = $statement->execute();
         // var_dump($result);
+        return $result;
+    }
+
+    public static function getFollowerRequests($userId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            SELECT follower_id
+            FROM followers
+            WHERE user_id = :user_id
+            AND accepted = 0
+        ");
+        $statement->bindValue(":user_id", $userId);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        // create list with userids of the followers
+        $followerIdList = [];
+        foreach ($result as $followerId) {
+            array_push($followerIdList, intval($followerId['follower_id']));
+        }
+        return $followerIdList;
+    }
+
+    public static function getFollowerRowId($userId, $followerId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            SELECT id
+            FROM followers
+            WHERE user_id = :user_id
+            AND follower_id = :follower_id
+        ");
+        $statement->bindValue(":user_id", $userId);
+        $statement->bindValue(":follower_id", $followerId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return intval($result['id']);
+    }
+
+
+    public static function setFollowerAccept($followersRowId, $accepted){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            UPDATE followers
+            SET accepted = :accepted
+            WHERE id = :followers_row_id
+        ");
+        $statement->bindValue(":followers_row_id", $followersRowId);
+        $statement->bindValue(":accepted", $accepted);
+        $result = $statement->execute();
+        // var_dump($result);
+        return $result;
+    }
+
+    public static function deleteFollowersRow($followersRowId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            DELETE FROM followers
+            WHERE id = :followers_row_id
+        ");
+        $statement->bindValue(":followers_row_id", $followersRowId);
+        $result = $statement->execute();
         return $result;
     }
 
