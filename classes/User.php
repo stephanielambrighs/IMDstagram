@@ -635,7 +635,15 @@ class User
 
     public function loadFollowers($userId) {
         $conn = Db::getConnection();
-        $statement = $conn->prepare("select follower_id from followers where user_id=:userId and following=1");
+        $statement = $conn->prepare("
+            SELECT f.follower_id, u.username   
+            FROM users as u  
+            INNER JOIN followers as f
+            ON u.id = f.follower_id
+            where user_id=:userId
+            and following=1  
+            ORDER BY follower_id;
+        ");
         $statement->bindValue(":userId", $userId);
         $statement->execute();
         $result = $statement->fetchall(PDO::FETCH_ASSOC);
@@ -648,7 +656,6 @@ class User
         $statement->bindValue(":followerId", $followerId);
         $statement->execute();
         $result = $statement->fetchall(PDO::FETCH_ASSOC);
-        var_dump($result);
         return $result;
     }
 
@@ -719,7 +726,8 @@ class User
 
     }
 
-    public function updateProfile() {
+    public function updateProfile($userId) {
+        echo "😎";
         $conn = Db::getConnection();
 
         $newFirstname = $this->getNewFirstname();
@@ -735,7 +743,7 @@ class User
         SET email=COALESCE(NULLIF(:newEmail, ''), email), username=COALESCE(NULLIF(:newUsername, ''), username), 
         password=COALESCE(NULLIF(:newPassword, ''), password), firstname=COALESCE(NULLIF(:newFirstname, ''), firstname), 
         lastname=COALESCE(NULLIF(:newLastname, ''), lastname), date_of_birth=COALESCE(NULLIF(:newDateOfBirth, ''), date_of_birth) 
-        where email = :email ");
+        where id = :userId ");
 
         $statement->bindValue(":newEmail", $newEmail);
         $statement->bindValue(":newUsername", $newUsername);
@@ -743,7 +751,7 @@ class User
         $statement->bindValue(":newFirstname", $newFirstname);
         $statement->bindValue(":newLastname", $newLastname);
         $statement->bindValue(":newDateOfBirth", $newDateOfBirth);
-        $statement->bindValue(":email", $_SESSION['legato-user']->getEmail());
+        $statement->bindValue(":userId", $userId);
 
         $statement->execute();
 

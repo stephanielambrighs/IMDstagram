@@ -4,7 +4,6 @@ let editFormProfile = document.getElementById("editFormProfile");
 let updateProfile = document.getElementById("updateProfile");
 let cancelProfile = document.getElementById("cancelProfile");
 
-
 let show = true;
 showProfile.style.display = "grid";
 editFormProfile.style.display = "none";
@@ -45,9 +44,38 @@ cancelProfile.addEventListener("click", function(e){
         // console.log("true");
         show = false;
     }
-    e.preventDefault();
+    e.preventDefault();q
 })
 
 
+let profileEditPostBtn = document.querySelectorAll(".dropdown-item.btn-report");
+profileEditPostBtn.forEach(function(editPostButton) {
+    editPostButton.addEventListener("click", function() {
+        console.log("yes you clicked dropdown");
+        postId = editPostButton.id.replace("btn-report-post-", "");
 
+        // archieve (remove) posts
+        archievePost(postId);
 
+    });
+});
+
+function archievePost(postId){
+    myBody = new FormData();
+    myBody.append("postId", postId);
+    myBody.append("userId", userId);
+
+    fetch("addEntryToReportsTable.php", {
+        method: "POST",
+        body: myBody,
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Success: ", data);
+        // check current report count for this postId and hide if needed
+        checkReportCount(postId);
+    })
+    .catch((error) => {
+        console.log("Error: ", error);
+    });
+};

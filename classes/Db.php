@@ -308,7 +308,39 @@ class Db {
         }
     }
 
+    public static function checkIfArchieveExists($postId, $userId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            SELECT id
+            FROM reports
+            WHERE user_id = :user_id
+            AND post_id = :post_id
+        ");
+        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':post_id', $postId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        // var_dump($result);
+        if (!$result) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
     public static function addReport($postId, $userId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            INSERT INTO reports (`user_id`, `post_id`)
+            VALUES (:user_id, :post_id);
+        ");
+        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':post_id', $postId);
+        return $statement->execute();
+    }
+
+    public static function addArchieve($postId, $userId){
         $conn = self::getConnection();
         $statement = $conn->prepare("
             INSERT INTO reports (`user_id`, `post_id`)
