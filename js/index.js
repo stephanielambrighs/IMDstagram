@@ -114,14 +114,15 @@ document.querySelectorAll(".btn-info-like").forEach(item => {
         //console.log("Morgane");
         //Zoek postid en comment tekst    
 
+        image = document.getElementById("image");
         myBody = new FormData();
         let postId = this.dataset.postid;
-        //myBody.append("userId", userId);
         myBody.append("postId", postId);
-        //myBody.append("userId", userId);
+        myBody.append("userId", userId);
 
         console.log(postId);
         //console.log(userId);
+        //console.log(this.innerHTML)
         
         fetch("ajax/clickLike.php", {
             method: "POST",
@@ -129,10 +130,17 @@ document.querySelectorAll(".btn-info-like").forEach(item => {
         })
         .then(response => response.json())
         .then(data => {
-            if(data['status']){
-                this.innerHTML = "Unlike";
+            count = 0;
+            status = data['status'];
+            if(status == 'like'){
+                //console.log(data['status']);
+                count = count + 1;
+                this.innerHTML = status;
+                //console.log(image.innerHTML);
             }else{
-                this.innerHTML = "Like";
+                //console.log(data['status']);
+                this.innerHTML = status;
+                //console.log(image.innerHTML);
             }
         })
         .catch((error) => {
