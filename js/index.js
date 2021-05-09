@@ -113,33 +113,49 @@ document.querySelectorAll(".btn-info-like").forEach(item => {
     item.addEventListener("click", function(){
         //console.log("Morgane");
         //Zoek postid en comment tekst    
-
-        image = document.getElementById("image");
         myBody = new FormData();
         let postId = this.dataset.postid;
         myBody.append("postId", postId);
         myBody.append("userId", userId);
+        //myBody.append("countLikes", countLikes);
 
-        console.log(postId);
+        //console.log(postId);
         //console.log(userId);
         //console.log(this.innerHTML)
+        //console.log(countLikes);
+        likes = document.getElementById(postId);
+       // likes.dataset.likeid = postId;
         
+
         fetch("ajax/clickLike.php", {
             method: "POST",
             body: myBody,
         })
         .then(response => response.json())
         .then(data => {
-            count = 0;
             status = data['status'];
+            count = data['count'];
+            console.log(count);
+            console.log(likes);
             if(status == 'like'){
                 //console.log(data['status']);
-                count = count + 1;
                 this.innerHTML = status;
+                if(count == 1){
+                    likes.innerHTML = count+" like";
+                }
+                else{
+                    likes.innerHTML = count+" likes";
+                }
                 //console.log(image.innerHTML);
             }else{
                 //console.log(data['status']);
                 this.innerHTML = status;
+                if(count == 1){
+                    likes.innerHTML = count+" like";
+                }
+                else{
+                    likes.innerHTML = count+" likes";
+                }
                 //console.log(image.innerHTML);
             }
         })
