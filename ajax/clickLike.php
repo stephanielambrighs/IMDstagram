@@ -7,13 +7,15 @@ include_once(__DIR__ . "/../classes/Like.php");
 
 if(!empty($_POST)){
     $postId = $_POST['postId'];
+   // $userId = $_POST['userId'];
+
+    $likeStatus = false;
 
     $response = [
-        'status' => 'success',
-        'messsage' => 'Ik ben tot clickLike gekomen'
+        'status' => $likeStatus
     ];
 
-    var_dump($postId);
+    //var_dump($postId);
 
     //$saveLike = Like::clickLike();
     //if($saveLike){
