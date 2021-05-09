@@ -152,6 +152,7 @@ if(isset($_SESSION["legato-user"])){
     let pagePostCount = '<?php echo $currentPagePostCount; ?>';
     let postsPerPage = '<?php echo $postsPerPage; ?>';
     let postPlacedSuccess = '<?php echo $postPlacedSuccess; ?>';
+    
 </script>
 
 
@@ -162,6 +163,7 @@ if(isset($_SESSION["legato-user"])){
 <?php include_once("inc/footer.inc.php");?>
 <script type="text/javascript">
     var userId = '<?php echo $userId; ?>';
+    let countLikes = '<?php echo $countLikes; ?>';
 </script>
 <script src="/js/index.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
