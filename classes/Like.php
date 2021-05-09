@@ -94,11 +94,11 @@ class Like {
             $statement->bindValue("userId", $userId);
 
             if($result['active'] === '0'){
-                $var = 'like';
+                $var = 'unlike';
                 $statement->bindValue(":active", 1);
             }
             else{
-                $var = 'unlike';
+                $var = 'like';
                 $statement->bindValue(":active", 0);
             }
             $result = $statement->execute();
@@ -115,6 +115,44 @@ class Like {
     }
 
     public static function getNumberLike($postId){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("
+            SELECT COUNT(id)
+            FROM post_likes
+            WHERE post_id = :postId
+            AND active = 1
+        ");
+        $statement->bindValue(':postId', $postId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        //var_dump($result);
+        return $result['COUNT(id)'];
+    }
 
+    public static function getLikeStatusUser($postId, $userId){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("
+            SELECT COUNT(id)
+            FROM post_likes
+            WHERE post_id = :postId
+            AND user_id = :userId
+            AND active = 1
+        ");
+        $statement->bindValue(':postId', $postId);
+        $statement->bindValue(':userId', $userId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        var_dump($result);
+        var_dump("post: ".$postId);
+        var_dump("user: ".$userId);
+
+        if($result['COUNT(id)'] == 0){
+            $var = 'like';
+        }
+        else {
+            $var = 'unlike';
+        }
+
+        return $var;
     }
 }
