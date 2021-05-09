@@ -7,9 +7,9 @@ include_once(__DIR__ . "/../classes/Like.php");
 
 if(!empty($_POST)){
     $postId = $_POST['postId'];
-   // $userId = $_POST['userId'];
+    $userId = $_POST['userId'];
 
-    $likeStatus = false;
+    $likeStatus = Like::setClickLike($postId, $userId);
 
     $response = [
         'status' => $likeStatus
