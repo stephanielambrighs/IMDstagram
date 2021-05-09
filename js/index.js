@@ -112,11 +112,11 @@ window.addEventListener('load', (event) => {
 document.querySelectorAll(".btn-info-like").forEach(item => {
     item.addEventListener("click", function(){
         //console.log("Morgane");
-        //Zoek postid en comment tekst
-        let postId = this.dataset.postid;
-        
+        //Zoek postid en comment tekst    
 
         myBody = new FormData();
+        let postId = this.dataset.postid;
+        //myBody.append("userId", userId);
         myBody.append("postId", postId);
         //myBody.append("userId", userId);
 
@@ -129,7 +129,11 @@ document.querySelectorAll(".btn-info-like").forEach(item => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log("Success: ", data);
+            if(data['status']){
+                this.innerHTML = "Unlike";
+            }else{
+                this.innerHTML = "Like";
+            }
         })
         .catch((error) => {
             console.log("Error: ", error);
