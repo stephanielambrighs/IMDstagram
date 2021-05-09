@@ -90,8 +90,12 @@
                 </div>
             </div>
 
+            <div class="col-3">
+                <p>0 likes<?php . $like->getNumberLike() . ?></p>
+            </div>
+
             <div class="col-3 ' . $postUniqueName .'">
-                <button type="button" class="btn btn-info-like" data-postid="'.$post->getId().'"><img src="/images/like_image.png" alt="Likes">300 Likes</button>
+                <button type="button" class="btn btn-info-like" data-postid="'.$post->getId().'">unlike</button>
                 <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
                 <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
             </div>
