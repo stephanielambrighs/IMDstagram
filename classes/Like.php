@@ -67,12 +67,54 @@ class Like {
         return $this;
     }
 
-
-    public function clickLike(){
+    public static function setClickLike($postId, $userId){
         $conn = Db::getConnection();
-        $statement = $conn->prepare("INSERT INTO post_likes (user_id, post_id) VALUES (51, 74)");
+        
+        $statement = $conn->prepare("SELECT active FROM post_likes WHERE user_id = :userId AND post_id = :postId");
+        $statement->bindValue("postId", $postId);
+        $statement->bindValue("userId", $userId);
         $statement->execute();
-        $succes = 'Gelukt';
-        return $succes;
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        if($result === false){
+            $var = 'like';
+            $statement = $conn->prepare("INSERT INTO post_likes (user_id, post_id, active) VALUES (:userId, :postId, 1)");
+            $statement->bindValue("postId", $postId);
+            $statement->bindValue("userId", $userId);
+            $result = $statement->execute();
+        }
+        else{
+            $statement = $conn->prepare("
+            UPDATE post_likes
+            SET active = :active
+            WHERE user_id = :userId
+            AND post_id = :postId
+            ");
+
+            $statement->bindValue("postId", $postId);
+            $statement->bindValue("userId", $userId);
+
+            if($result['active'] === '0'){
+                $var = 'like';
+                $statement->bindValue(":active", 1);
+            }
+            else{
+                $var = 'unlike';
+                $statement->bindValue(":active", 0);
+            }
+            $result = $statement->execute();
+        } 
+        
+        if($result){
+            return $var;
+        }
+        else{
+            return "error";
+        }
+
+        
+    }
+
+    public static function getNumberLike($postId){
+
     }
 }
