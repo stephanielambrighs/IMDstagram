@@ -43,8 +43,8 @@
         // get some data from the db
         $genre = Db::getGenreById($post->getGenre_id());
         $user = Db::getUserById($post->getUser_id());
-        $like = Like::getNumberLike($post->getId());
-        $userLike = Like::getLikeStatusUser($post->getId(), $userId);
+        $like = Post::getNumberLike($post->getId());
+        $userLike = Post::getLikeStatusUser($post->getId(), $userId);
         $postUniqueName = "post-" . $post->getId();
         $countLikes = $like[0];
 
