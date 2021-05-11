@@ -16,7 +16,7 @@
     if ($isAdminPage){
         $allPosts = Db::getAllReportedPosts();
     }else{
-        $allPosts = Db::getAllPosts($currentPagePostCount);
+        $allPosts = Db::getAllMyPosts($currentPagePostCount);
     }
 
     $htmlOutput = '';

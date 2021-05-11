@@ -48,7 +48,7 @@ cancelProfile.addEventListener("click", function(e){
 })
 
 
-let profileEditPostBtn = document.querySelectorAll(".dropdown-item.btn-delete");
+/*let profileEditPostBtn = document.querySelectorAll(".dropdown-item.btn-delete");
 profileEditPostBtn.forEach(function(editPostButton) {
     editPostButton.addEventListener("click", function() {
         console.log("yes you clicked dropdown");
@@ -78,4 +78,4 @@ function archievePost(postId){
     .catch((error) => {
         console.log("Error: ", error);
     });
-};
+};*/
