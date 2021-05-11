@@ -111,6 +111,7 @@ class Db {
                 FROM reports
                 WHERE post_id = posts.id
             ) < 3
+            AND inactive=0
             ORDER BY upload_date DESC
             LIMIT :limit
         ");
