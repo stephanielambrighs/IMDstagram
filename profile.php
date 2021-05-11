@@ -17,7 +17,8 @@
     $followerUsername = $user->getFollowerUsername($followers);
 
     if (!empty($_POST)) {
-      echo "post not empty";
+      var_dump("wollooo");
+        echo "post not empty";
         $user->setNewFirstname($_POST['newFirstname']);
         $user->setNewLastname($_POST['newLastname']);
         $user->setNewEmail($_POST['newEmail']);
@@ -248,10 +249,9 @@
 </div>
 
 <?php include_once("inc/footer.inc.php");?>
-<script src="/js/profile.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-
+<script src="/js/profile.js"></script>
 
 </body>
 </html>

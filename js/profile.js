@@ -44,7 +44,7 @@ cancelProfile.addEventListener("click", function(e){
         // console.log("true");
         show = false;
     }
-    e.preventDefault();q
+    e.preventDefault();
 })
 
 
