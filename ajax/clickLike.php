@@ -9,8 +9,8 @@ if(!empty($_POST)){
     $postId = $_POST['postId'];
     $userId = $_POST['userId'];
 
-    $likeStatus = Like::setClickLike($postId, $userId);
-    $countLikes = Like::getNumberLike($postId);
+    $likeStatus = Post::setClickLike($postId, $userId);
+    $countLikes = Post::getNumberLike($postId);
 
     $response = [
         'status' => $likeStatus,
