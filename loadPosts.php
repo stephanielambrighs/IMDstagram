@@ -43,8 +43,8 @@
         // get some data from the db
         $genre = Db::getGenreById($post->getGenre_id());
         $user = Db::getUserById($post->getUser_id());
-        $like = Post::getNumberLike($post->getId());
-        $userLike = Post::getLikeStatusUser($post->getId(), $userId);
+        $like = Like::getNumberLike($post->getId());
+        $userLike = Like::getLikeStatusUser($post->getId(), $userId);
         $postUniqueName = "post-" . $post->getId();
         $countLikes = $like[0];
 
@@ -109,7 +109,7 @@
     
             $htmlOutput .='
             <div class="col-3 ' . $postUniqueName .'">
-                <button type="button" class="btn btn-info-like" data-postid="'.$post->getId().'">'.$userLike.', '.$post->getId().'</button>
+                <button type="button" class="btn btn-info-like" data-postid="'.$post->getId().'">'.$userLike.'</button>
                 <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
                 <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
             </div>
