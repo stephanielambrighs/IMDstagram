@@ -4,13 +4,15 @@ include_once(__DIR__ . "/../classes/Db.php");
 
 if(!empty($_POST)){
     $userId = $_POST['userId'];
+    $user = new User();
+    $user->setId($userId);
 
     // get old status and switch around
-    $currentPrivacyStatus = Db::getUserPrivacyStatus($userId);
+    $currentPrivacyStatus = $user->getUserPrivacyStatus();
     $newPrivacyStatus = !$currentPrivacyStatus;
 
     // update db value
-    $updateSuccess = Db::setUserPrivacyStatus($userId, $newPrivacyStatus);
+    $updateSuccess = $user->setUserPrivacyStatus($newPrivacyStatus);
     if ($updateSuccess) {
         $response = [
             'status' => 'success',

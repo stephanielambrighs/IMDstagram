@@ -358,42 +358,7 @@ class Db {
         return $statement->execute();
     }
 
-    public static function getUserPrivacyStatus($userId){
-        $conn = self::getConnection();
-        $statement = $conn->prepare("
-            SELECT profile_private
-            FROM users
-            WHERE id = :user_id
-        ");
-        $statement->bindValue(':user_id', $userId);
-        $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
-        // var_dump($result['profile_private']);
-        if ($result['profile_private'] == "1"){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
 
-    public static function setUserPrivacyStatus($userId, $profilePrivate){
-        $conn = self::getConnection();
-        $statement = $conn->prepare("
-            UPDATE users
-            SET profile_private = :profile_private
-            WHERE id = :user_id
-        ");
-        $statement->bindValue(':user_id', $userId);
-        if($profilePrivate){
-            $statement->bindValue(':profile_private', 1);
-        }else{
-            $statement->bindValue(':profile_private', 0);
-        }
-        $result = $statement->execute();
-        // var_dump($result);
-        return $result;
-    }
 
     public static function getFollowerRequests($userId){
         $conn = self::getConnection();
