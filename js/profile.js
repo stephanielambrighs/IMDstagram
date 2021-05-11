@@ -48,11 +48,11 @@ cancelProfile.addEventListener("click", function(e){
 })
 
 
-/*let profileEditPostBtn = document.querySelectorAll(".dropdown-item.btn-delete");
+let profileEditPostBtn = document.querySelectorAll(".dropdown-item.btn-delete");
 profileEditPostBtn.forEach(function(editPostButton) {
     editPostButton.addEventListener("click", function() {
-        console.log("yes you clicked dropdown");
-        postId = editPostButton.id.replace("btn-report-post-", "");
+        console.log("yes you clicked delete");
+        postId = editPostButton.id.replace("btn-delete-post-", "");
 
         // archieve (remove) posts
         archievePost(postId);
@@ -63,9 +63,9 @@ profileEditPostBtn.forEach(function(editPostButton) {
 function archievePost(postId){
     myBody = new FormData();
     myBody.append("postId", postId);
-    myBody.append("userId", userId);
+    //myBody.append("userId", userId);
 
-    fetch("addEntryToReportsTable.php", {
+    fetch("ajax/archievePost.php", {
         method: "POST",
         body: myBody,
     })
@@ -78,4 +78,4 @@ function archievePost(postId){
     .catch((error) => {
         console.log("Error: ", error);
     });
-};*/
+};

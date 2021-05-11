@@ -1,18 +1,18 @@
 <?php
-require_once("autoload.php");
+require_once(__DIR__ . "/../autoload.php");
 
 if(!empty($_POST)){
     $postId = $_POST['postId'];
-    $userId = $_POST['userId'];
+    //$userId = $_POST['userId'];
 
-    if (Db::checkIfArchieveExists($postId, $userId)){
+    if (Db::checkIfArchieveExists($postId)){
         $response = [
             'status' => 'failed',
             'messsage' => 'User already reported this post'
         ];
     }
     else {
-        $addSuccess = Db::addArchieve($postId, $userId);
+        $addSuccess = Db::addArchieve($postId);
         if($addSuccess){
             $response = [
                 'status' => 'success',

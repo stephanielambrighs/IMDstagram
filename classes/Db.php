@@ -26,7 +26,6 @@ class Db {
     }
 
     public static function getProfiles() {
-        echo "😎-getProfiles";
         $conn = self::getConnection();
         $statement = $conn->prepare("SELECT id, bio FROM profiles");
         $statement->execute();
@@ -142,7 +141,7 @@ class Db {
         $statement = $conn->prepare("
             SELECT *
             FROM posts
-            WHERE user_id=(select id from users where email=:userMail)
+            WHERE user_id=(select id from users where email=:userMail) and inactive=0
         ");
         $statement->bindValue(":userMail", $_SESSION['legato-user']->getEmail());
         $statement->execute();
@@ -308,15 +307,14 @@ class Db {
         }
     }
 
-    public static function checkIfArchieveExists($postId, $userId){
+    public static function checkIfArchieveExists($postId){
         $conn = self::getConnection();
         $statement = $conn->prepare("
             SELECT id
             FROM reports
-            WHERE user_id = :user_id
-            AND post_id = :post_id
+            WHERE post_id = :post_id
         ");
-        $statement->bindValue(':user_id', $userId);
+        //$statement->bindValue(':user_id', $userId);
         $statement->bindValue(':post_id', $postId);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
@@ -340,15 +338,14 @@ class Db {
         return $statement->execute();
     }
 
-    public static function addArchieve($postId, $userId){
+    public static function addArchieve($postId){
         $conn = self::getConnection();
         $statement = $conn->prepare("
-            INSERT INTO reports (`user_id`, `post_id`)
-            VALUES (:user_id, :post_id);
+        update posts set inactive=1 where id=:post_id;
         ");
-        $statement->bindValue(':user_id', $userId);
         $statement->bindValue(':post_id', $postId);
-        return $statement->execute();
+        $statement->execute();
+        return $statement;
     }
 
     public static function getReportCount($postId){
