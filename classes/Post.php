@@ -38,9 +38,10 @@ class Post {
 
     public function setId($id)
     {
-            $this->id = $id;
-
-            return $this;
+        if (is_int($id)) {
+                $this->id = $id;
+        }
+        return $this;
     }
 
     public function getTitle()
@@ -219,6 +220,24 @@ class Post {
         return "1 second ago";
     }
 
+    public function insert(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("
+            INSERT INTO posts (`title`, `description`, `genre_id`, `upload_date`, `user_id`, `type_id`, `file_path`, `inactive`)
+            VALUES (:title, :description, :genre_id, :upload_date, :user_id, :type_id, :file_path, :inactive);
+        ");
+        $statement->bindValue(':title', $this->getTitle());
+        $statement->bindValue(':description', $this->getDescription());
+        $statement->bindValue(':genre_id', $this->getGenre_id());
+        $statement->bindValue(':upload_date', Db::get_current_time());
+        $statement->bindValue(':user_id', $this->getUser_id());
+        $statement->bindValue(':type_id', $this->getType_id());
+        $statement->bindValue(':file_path', $this->getFile_path());
+        $statement->bindValue(":inactive", $this->getInactive());
+        $result = $statement->execute();
+        // var_dump($result);
+        // var_dump($statement->errorInfo());
+    }
 
 
 }
