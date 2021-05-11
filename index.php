@@ -29,8 +29,7 @@ if(isset($_SESSION["legato-user"])){
                 $post->setGenre_id($_POST['genre_id']);
                 $post->setFile_path($uploadResult['file_path']);
                 $post->setUser_id($userId);
-                $result = Db::insertPost($post);
-                // var_dump($result);
+                $post->insert();
                 $postPlacedSuccess = true;
             }
         }
@@ -95,9 +94,7 @@ if(isset($_SESSION["legato-user"])){
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Title</label>
         <input type="text" name="title" class="form-control" id="title" placeholder="Title...">
-        <?php if($uploadTitle == false && isset($uploadTitle)): ?>
-            <div class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
-        <?php endif; ?>
+        <div id="msg-title" class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
     </div>
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Genre</label>
@@ -106,11 +103,11 @@ if(isset($_SESSION["legato-user"])){
         <?php
         $allGenres = Db::getAllGenres();
         for($i = 0; $i < count($allGenres); $i++):?>
-            <option value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
+            <option id="dropdown-genres" value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
         <?php endfor; ?>
         </select>
         <?php if(isset($uploadGenre)): ?>
-            <div class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
+            <div id="msg-genres" class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
         <?php endif; ?>
     </div>
     <div class="mb-3">
@@ -120,14 +117,14 @@ if(isset($_SESSION["legato-user"])){
             <div class="alert alert-danger form"><?php echo $uploadResult['message']; ?></div>
         <?php endif;?>
         <?php if(isset($uploadFile)): ?>
-            <div class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
+            <div id="msg-uploadfile" class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
         <?php endif; ?>
     </div>
     <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-        <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" type="text"></textarea>
+        <textarea class="form-control" name="description" id="description" rows="3" type="text"></textarea>
         <?php if(isset($uploadDescription)): ?>
-            <div class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
+            <div id="msg-description"  class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
         <?php endif; ?>
     </div>
     <button id="submit" type="submit" value="Upload" class="btn btn-info">Submit</button>
