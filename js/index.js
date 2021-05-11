@@ -119,8 +119,8 @@ document.querySelectorAll(".btn-info-like").forEach(item => {
         myBody.append("userId", userId);
         //myBody.append("countLikes", countLikes);
 
-        //console.log(postId);
-        //console.log(userId);
+        console.log(postId);
+        console.log(userId);
         //console.log(this.innerHTML)
         //console.log(countLikes);
         likes = document.getElementById(postId);
