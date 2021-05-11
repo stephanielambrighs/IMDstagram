@@ -29,7 +29,8 @@ if(isset($_SESSION["legato-user"])){
                 $post->setGenre_id($_POST['genre_id']);
                 $post->setFile_path($uploadResult['file_path']);
                 $post->setUser_id($userId);
-                $post->setLocation("schijndel");
+                $post->setLatitude($_POST['latitude']);
+                $post->setLongitude($_POST['longitude']);
 
                 $result = Db::insertPost($post);
                 // var_dump($result);
@@ -95,7 +96,8 @@ if(isset($_SESSION["legato-user"])){
 
 <form class="form-feed" id="form" action="index.php" method="POST" enctype="multipart/form-data">
     <div class="mb-3">
-        <p class="p-location"></p><br>
+        <input type="text" name="latitude" id="location-latitude">
+        <input type="text" name="longitude" id="location-longitude">
         <label for="exampleFormControlInput1" class="form-label">Title</label>
         <input type="text" name="title" class="form-control" id="title" placeholder="Title...">
         <?php if($uploadTitle == false && isset($uploadTitle)): ?>
@@ -135,6 +137,8 @@ if(isset($_SESSION["legato-user"])){
     </div>
     <button id="submit" type="submit" value="Upload" class="btn btn-info">Submit</button>
 </form>
+
+
 
 <?php if(isset($postPlacedSuccess) == true): ?>
     <div class="alert alert-success feed" role="alert">
