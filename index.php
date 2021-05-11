@@ -29,6 +29,8 @@ if(isset($_SESSION["legato-user"])){
                 $post->setGenre_id($_POST['genre_id']);
                 $post->setFile_path($uploadResult['file_path']);
                 $post->setUser_id($userId);
+                $post->setLocation("schijndel");
+
                 $result = Db::insertPost($post);
                 // var_dump($result);
                 $postPlacedSuccess = true;
@@ -93,6 +95,7 @@ if(isset($_SESSION["legato-user"])){
 
 <form class="form-feed" id="form" action="index.php" method="POST" enctype="multipart/form-data">
     <div class="mb-3">
+        <p class="p-location"></p><br>
         <label for="exampleFormControlInput1" class="form-label">Title</label>
         <input type="text" name="title" class="form-control" id="title" placeholder="Title...">
         <?php if($uploadTitle == false && isset($uploadTitle)): ?>

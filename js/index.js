@@ -1,7 +1,28 @@
 let button = document.getElementById("btn-feed");
 let form = document.getElementById("form");
+let loc = document.querySelector(".p-location");
+
+document.getElementById("submit").addEventListener("click", function() {
+    console.log("you pressed here");
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        loc.innerHTML = "Geolocation is not supported by this browser.";
+    }
+});
+
+function showPosition(position) {
+    loc.innerHTML = "Latitude: " + position.coords.latitude + 
+    "<br>Longitude: " + position.coords.longitude;
+}
+
+
+
 form.style.display = "none";
 let click = true;
+
+
+
 button.addEventListener("click", function(e) {
     if(click == true){
         console.log("visible");

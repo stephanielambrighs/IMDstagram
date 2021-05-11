@@ -11,6 +11,7 @@ class Post {
     private $type_id = 1;
     private $file_path = "";
     private $inactive = 0;
+    private $location = "";
 
 
 
@@ -147,6 +148,27 @@ class Post {
         return $this;
     }
 
+    /**
+     * Get the value of location
+     */ 
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * Set the value of location
+     *
+     * @return  self
+     */ 
+    public function setLocation($location)
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+
 
     public function searchPost(){
             $conn = Db::getConnection();
@@ -219,9 +241,10 @@ class Post {
         return "1 second ago";
     }
 
-
-
 }
+
+
+    
 
 
 
