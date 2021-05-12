@@ -126,11 +126,11 @@ class Post {
                 return $this;
         }
 
-        public function searchPost(){
+        public static function search($input){
+                $inputSearch = '%'.$input.'%';
                 $conn = Db::getConnection();
-                $searchPostInput = $this->getTitle();
-                $statement = $conn->prepare("SELECT title FROM posts WHERE title LIKE :searchPostInput");
-                $statement->bindValue(':searchPostInput', $searchPostInput);
+                $statement = $conn->prepare("SELECT title FROM posts WHERE title LIKE :input");
+                $statement->bindValue(':input', $inputSearch);
                 $statement->execute();
                 $searchPostOutput = array();
                 $searchPostOutput[] = $statement->fetchall();
