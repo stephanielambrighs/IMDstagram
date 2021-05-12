@@ -139,11 +139,11 @@ class User
         }
     }
     
-    public function searchUser(){
+    public static function search($input){
+        $inputSearch = '%'.$input.'%';
         $conn = Db::getConnection();
-        $searchUserInput = $this->getUsername();
-        $statement = $conn->prepare("SELECT username FROM users WHERE username LIKE :searchUserInput");
-        $statement->bindValue(':searchUserInput', $searchUserInput);
+        $statement = $conn->prepare("SELECT username FROM users WHERE username LIKE :input");
+        $statement->bindValue(':input', $inputSearch);
         $statement->execute();
         $searchUserOutput = array();
         $searchUserOutput[] = $statement->fetchall();
