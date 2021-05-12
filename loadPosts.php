@@ -52,7 +52,7 @@
         $htmlOutput .= '
             <div class="col-9 ' . $postUniqueName .'">
                 <!-- <img src="https://images.pexels.com/photos/908602/pexels-photo-908602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="user_image"> -->
-                <!--<img src="' . $post_user_file_path . '" alt="user_image">-->
+                <img src="' . $post_user_file_path . '" alt="user_image">
                 <h2>' .$user->getUsername() . '</h2>
                 <div class="btn-group" role="group">
                 <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
