@@ -1,7 +1,7 @@
 <?php
 
     require_once("autoload.php");
-
+    
     // amount of posts per page
     $postsPerPage = 20;
 
@@ -16,7 +16,7 @@
     if ($isAdminPage){
         $allPosts = Db::getAllReportedPosts();
     }else{
-        $allPosts = Db::getAllPosts($currentPagePostCount);
+        $allPosts = Db::getAllPosts($currentPagePostCount, $userId);
     }
 
     $htmlOutput = '';
@@ -140,6 +140,17 @@
                 <button type="button" class="btn btn-info"><img src="/images/like_image.png" alt="Likes">300 Likes</button>
                 <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
                 <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
+            </div>
+            
+            <div class="post__comments">
+                <div class="post__comments__form">
+                    <input type="text" name="comment-input" id="comment-text" placeholder="Whats on your mind">
+                    <a href="" class="btn btn-comment" id="btn-comment" data-postid="'.$post->getId().'">Add comment'.$post->getId().'</a>
+                </div>
+
+                <ul class="post__comments__list">
+                    <li>This is a first comment</li>
+                </ul>
             </div>
         ';
     }

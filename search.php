@@ -3,18 +3,26 @@
 
     session_start();
 
-    $searchUserInput = new User();
-    $searchUserInput->setUsername($_POST["search"]);
-    $searchUserOutput = $searchUserInput->searchUser();
+    if(isset($_SESSION["legato-user"])){
 
-    $searchPostInput = new Post();
-    $searchPostInput->setTitle($_POST["search"]);
-    $searchPostOutput = $searchPostInput->searchPost();
+        // get email from session user
+        $sessionUser = $_SESSION['legato-user'];
+        $userEmail = $sessionUser->getEmail();
+        $user = DB::getUserByEmail($userEmail);
 
-    $searchTagInput = new Tag();
-    $searchTagInput->setTag($_POST["search"]);
-    $searchTagOutput = $searchTagInput->searchTag();
+        // create search objects
+        $searchUserInput = new User();
+        $searchUserInput->setUsername($_POST["search"]);
+        $searchUserOutput = $searchUserInput->searchUser();
 
+        $searchPostInput = new Post();
+        $searchPostInput->setTitle($_POST["search"]);
+        $searchPostOutput = $searchPostInput->searchPost();
+
+        $searchTagInput = new Tag();
+        $searchTagInput->setTag($_POST["search"]);
+        $searchTagOutput = $searchTagInput->searchTag();
+    }
 
 ?>
 <!DOCTYPE html>

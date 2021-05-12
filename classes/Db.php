@@ -1,6 +1,8 @@
 <?php
 
+
 require_once(__DIR__ . "/../autoload.php");
+
 
 class Db {
 
@@ -57,10 +59,23 @@ class Db {
     }
 
     public static function insertPost($post){
+        $lat = $post->getLatitude();
+        $long = $post->getLongitude();
+        
+        $key = "AtGFLVCTd5bH2t5y-lMYSfYfwFmWAQL-DBg-YNuMPBUxGag7GrKORKLZSOqTsLx9";
+        $base_url = "http://dev.virtualearth.net/REST/v1/Locations/";
+        $url = $base_url . $lat . "," . $long . "?key=" . $key;
+
+        $response_api = json_decode(file_get_contents($url));
+        $city = $response_api->resourceSets[0]->resources[0]->address->locality;
+
+        var_dump($response_api->resourceSets[0]->resources[0]->address->locality);
+        var_dump("yo");
+
         $conn = self::getConnection();
         $statement = $conn->prepare("
-            INSERT INTO posts (`title`, `description`, `genre_id`, `upload_date`, `user_id`, `type_id`, `file_path`)
-            VALUES (:title, :description, :genre_id, :upload_date, :user_id, :type_id, :file_path);
+            INSERT INTO posts (`title`, `description`, `genre_id`, `upload_date`, `user_id`, `type_id`, `file_path`, `inactive`, `location`)
+            VALUES (:title, :description, :genre_id, :upload_date, :user_id, :type_id, :file_path, :inactive, :location);
         ");
         $statement->bindValue(':title', $post->getTitle());
         $statement->bindValue(':description', $post->getDescription());
@@ -69,12 +84,14 @@ class Db {
         $statement->bindValue(':user_id', $post->getUser_id());
         $statement->bindValue(':type_id', $post->getType_id());
         $statement->bindValue(':file_path', $post->getFile_path());
+        $statement->bindValue(":inactive", $post->getInactive());
+        $statement->bindValue(':location', $city);
         $result = $statement->execute();
         // var_dump($result);
         // var_dump($statement->errorInfo());
     }
 
-    
+
     /*public static function uploadGenres($user){
         for ($i=1; $i < 4; $i++) {  //hardcoded?
             //var_dump("AAA-" . $_POST['genre' . $i]);
@@ -101,21 +118,57 @@ class Db {
     }
 
 
-    public static function getAllPosts($limit){
+    public static function getAllPosts($limit, $userId){
         $conn = self::getConnection();
         $statement = $conn->prepare("
             SELECT *
             FROM posts
+
+            /* Only posts with < 3 reports */
             WHERE (
                 SELECT COUNT(id)
                 FROM reports
                 WHERE post_id = posts.id
             ) < 3
+
+            AND (
+
+                    /* 1) Posts of public profiles */
+                    (
+                        SELECT profile_private
+                        FROM users
+                        WHERE id = posts.user_id
+                    ) = 0
+
+                OR
+
+                        /* 2) Posts of private profiles IF the current
+                              logged in user is in list of followers
+                              AND is accepted as a follower */
+                        (
+                            SELECT profile_private
+                            FROM users
+                            WHERE id = posts.user_id
+                        ) = 1
+                    AND
+                        :loggedInUserId in (
+                            SELECT follower_id
+                            FROM followers
+                            WHERE followers.user_id = posts.user_id
+                            AND accepted = 1
+                        )
+
+                OR
+                    /* 3) Posts of the user self */
+                    user_id = :loggedInUserId
+
+            )
             ORDER BY upload_date DESC
             LIMIT :limit
         ");
 
         $statement->bindValue(":limit", $limit, PDO::PARAM_INT);
+        $statement->bindValue(":loggedInUserId", $userId);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         // var_dump($statement->errorInfo());
@@ -267,8 +320,6 @@ class Db {
 
 
     public static function getUserByEmail($userEmail){
-        // genre opvragen -> database
-        // object maken en dit object teruggeven
         $conn = self::getConnection();
         $statement = $conn->prepare("SELECT * FROM `users` WHERE email = :email");
         $statement->bindValue(":email", $userEmail);
@@ -287,8 +338,6 @@ class Db {
     }
 
     public static function getUserById($userId){
-        // genre opvragen -> database
-        // object maken en dit object teruggeven
         $conn = self::getConnection();
         $statement = $conn->prepare("SELECT * FROM `users` WHERE id = :id");
         $statement->bindValue(":id", $userId);
@@ -373,12 +422,6 @@ class Db {
     }
 
 
-    public static function isAdmin($userId){
-        $dbUser = self::getUserById($userId);
-        return $dbUser->getAdmin();
-    }
-
-
     public static function removeFromReports($postId){
         $conn = self::getConnection();
         $statement = $conn->prepare("
@@ -397,6 +440,103 @@ class Db {
         ");
         $statement->bindValue(':post_id', $postId);
         return $statement->execute();
+    }
+
+    public static function getUserPrivacyStatus($userId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            SELECT profile_private
+            FROM users
+            WHERE id = :user_id
+        ");
+        $statement->bindValue(':user_id', $userId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        // var_dump($result['profile_private']);
+        if ($result['profile_private'] == "1"){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public static function setUserPrivacyStatus($userId, $profilePrivate){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            UPDATE users
+            SET profile_private = :profile_private
+            WHERE id = :user_id
+        ");
+        $statement->bindValue(':user_id', $userId);
+        if($profilePrivate){
+            $statement->bindValue(':profile_private', 1);
+        }else{
+            $statement->bindValue(':profile_private', 0);
+        }
+        $result = $statement->execute();
+        // var_dump($result);
+        return $result;
+    }
+
+    public static function getFollowerRequests($userId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            SELECT follower_id
+            FROM followers
+            WHERE user_id = :user_id
+            AND accepted = 0
+        ");
+        $statement->bindValue(":user_id", $userId);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        // create list with userids of the followers
+        $followerIdList = [];
+        foreach ($result as $followerId) {
+            array_push($followerIdList, intval($followerId['follower_id']));
+        }
+        return $followerIdList;
+    }
+
+    public static function getFollowerRowId($userId, $followerId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            SELECT id
+            FROM followers
+            WHERE user_id = :user_id
+            AND follower_id = :follower_id
+        ");
+        $statement->bindValue(":user_id", $userId);
+        $statement->bindValue(":follower_id", $followerId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return intval($result['id']);
+    }
+
+
+    public static function setFollowerAccept($followersRowId, $accepted){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            UPDATE followers
+            SET accepted = :accepted
+            WHERE id = :followers_row_id
+        ");
+        $statement->bindValue(":followers_row_id", $followersRowId);
+        $statement->bindValue(":accepted", $accepted);
+        $result = $statement->execute();
+        // var_dump($result);
+        return $result;
+    }
+
+    public static function deleteFollowersRow($followersRowId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            DELETE FROM followers
+            WHERE id = :followers_row_id
+        ");
+        $statement->bindValue(":followers_row_id", $followersRowId);
+        $result = $statement->execute();
+        return $result;
     }
 
 }

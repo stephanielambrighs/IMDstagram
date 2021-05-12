@@ -5,6 +5,7 @@ session_start();
 
 if(isset($_SESSION["legato-user"])){
 
+    
 
     // get email from session user
     $sessionUser = $_SESSION['legato-user'];
@@ -21,6 +22,7 @@ if(isset($_SESSION["legato-user"])){
             // update file
             $uploadResult = FileManager::uploadFile($_FILES['file'], $userId);
 
+
             if($uploadResult['success'] == true){
                 $post = new Post();
                 $post->setTitle($_POST['title']);
@@ -28,7 +30,11 @@ if(isset($_SESSION["legato-user"])){
                 $post->setGenre_id($_POST['genre_id']);
                 $post->setFile_path($uploadResult['file_path']);
                 $post->setUser_id($userId);
+                $post->setLatitude($_POST['latitude']);
+                $post->setLongitude($_POST['longitude']);
+
                 $result = Db::insertPost($post);
+                // var_dump($result);
                 $postPlacedSuccess = true;
             }
         }
@@ -89,6 +95,8 @@ if(isset($_SESSION["legato-user"])){
 
 <form class="form-feed" id="form" action="index.php" method="POST" enctype="multipart/form-data">
     <div class="mb-3">
+        <input type="text" name="latitude" style="visibility: hidden;" id="location-latitude">
+        <input type="text" name="longitude" style="visibility: hidden; display: block;" id="location-longitude">
         <label for="exampleFormControlInput1" class="form-label">Title</label>
         <input type="text" name="title" class="form-control" id="title" placeholder="Title...">
         <?php if($uploadTitle == false && isset($uploadTitle)): ?>
@@ -129,6 +137,8 @@ if(isset($_SESSION["legato-user"])){
     <button id="submit" type="submit" value="Upload" class="btn btn-info">Submit</button>
 </form>
 
+
+
 <?php if(isset($postPlacedSuccess) == true): ?>
     <div class="alert alert-success feed" role="alert">
         <?php echo "Successfully placed a post"?>
@@ -159,6 +169,7 @@ if(isset($_SESSION["legato-user"])){
 <script type="text/javascript">
     var userId = '<?php echo $userId; ?>';
 </script>
+<script scr="/js/comment.js"></script>
 <script src="/js/index.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
