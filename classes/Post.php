@@ -5,6 +5,7 @@ class Post {
     private $id = 0;
     private $title = "";
     private $description = "";
+    private $tag = "";
     private $genre_id = 0;
     private $upload_date = 0;
     private $user_id = 0;
@@ -70,10 +71,24 @@ class Post {
             return $this;
     }
 
+
+    public function getTag()
+    {
+            return $this->tag;
+    }
+
+    public function setTag($tag)
+    {
+            $this->tag = $tag;
+
+            return $this;
+    }
+
     public function getGenre_id()
     {
             return $this->genre_id;
     }
+
 
     public function setGenre_id($genre_id)
     {
