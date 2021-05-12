@@ -33,7 +33,7 @@ class FileManager {
         $target_file = $target_dir . "/" . self::generateName($fileName, $fileType);
 
         // var_dump($target_file);
-        var_dump($fileSize);
+        //var_dump($fileSize);
 
       
         
