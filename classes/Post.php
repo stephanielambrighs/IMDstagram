@@ -11,6 +11,9 @@ class Post {
     private $type_id = 1;
     private $file_path = "";
     private $inactive = 0;
+    private $latitude;
+    private $longitude;
+    private $location = "";
 
 
 
@@ -147,6 +150,67 @@ class Post {
         return $this;
     }
 
+    /**
+     * Get the value of latitude
+     */ 
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * Set the value of latitude
+     *
+     * @return  self
+     */ 
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of longitude
+     */ 
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * Set the value of longitude
+     *
+     * @return  self
+     */ 
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of location
+     */ 
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * Set the value of location
+     *
+     * @return  self
+     */ 
+    public function setLocation($location)
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+
 
     public function searchPost(){
             $conn = Db::getConnection();
@@ -220,8 +284,11 @@ class Post {
     }
 
 
-
+    
 }
+
+
+    
 
 
 

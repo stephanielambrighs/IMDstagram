@@ -57,10 +57,23 @@ class Db {
     }
 
     public static function insertPost($post){
+        $lat = $post->getLatitude();
+        $long = $post->getLongitude();
+        
+        $key = "AtGFLVCTd5bH2t5y-lMYSfYfwFmWAQL-DBg-YNuMPBUxGag7GrKORKLZSOqTsLx9";
+        $base_url = "http://dev.virtualearth.net/REST/v1/Locations/";
+        $url = $base_url . $lat . "," . $long . "?key=" . $key;
+
+        $response_api = json_decode(file_get_contents($url));
+        $city = $response_api->resourceSets[0]->resources[0]->address->locality;
+
+        var_dump($response_api->resourceSets[0]->resources[0]->address->locality);
+        var_dump("yo");
+
         $conn = self::getConnection();
         $statement = $conn->prepare("
-            INSERT INTO posts (`title`, `description`, `genre_id`, `upload_date`, `user_id`, `type_id`, `file_path`, `inactive`)
-            VALUES (:title, :description, :genre_id, :upload_date, :user_id, :type_id, :file_path, :inactive);
+            INSERT INTO posts (`title`, `description`, `genre_id`, `upload_date`, `user_id`, `type_id`, `file_path`, `inactive`, `location`)
+            VALUES (:title, :description, :genre_id, :upload_date, :user_id, :type_id, :file_path, :inactive, :location);
         ");
         $statement->bindValue(':title', $post->getTitle());
         $statement->bindValue(':description', $post->getDescription());
@@ -70,6 +83,7 @@ class Db {
         $statement->bindValue(':type_id', $post->getType_id());
         $statement->bindValue(':file_path', $post->getFile_path());
         $statement->bindValue(":inactive", $post->getInactive());
+        $statement->bindValue(':location', $city);
         $result = $statement->execute();
         // var_dump($result);
         // var_dump($statement->errorInfo());
