@@ -96,8 +96,6 @@ if(isset($_SESSION["legato-user"])){
 
 <form class="form-feed" id="form" action="index.php" method="POST" enctype="multipart/form-data">
     <div class="mb-3">
-        <input type="text" name="latitude" style="visibility: hidden;" id="location-latitude">
-        <input type="text" name="longitude" style="visibility: hidden; display: block;" id="location-longitude">
         <label for="exampleFormControlInput1" class="form-label">Title</label>
         <input type="text" name="title" class="form-control" id="title" placeholder="Title...">
         <?php if($uploadTitle == false && isset($uploadTitle)): ?>
@@ -134,6 +132,8 @@ if(isset($_SESSION["legato-user"])){
         <?php if(isset($uploadDescription)): ?>
             <div class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
         <?php endif; ?>
+        <input type="text" name="latitude" style="visibility: hidden;" id="location-latitude">
+        <input type="text" name="longitude" style="visibility: hidden; display: block;" id="location-longitude">
     </div>
     <button id="submit" type="submit" value="Upload" class="btn btn-info">Submit</button>
 </form>
