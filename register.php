@@ -14,8 +14,8 @@
         
         session_start();
         $_SESSION['legato-user'] = $user;
+        //$_SESSION['email'] = $user->getEmail();
         
-        //$user->register($user);
         $result = $user->register($user);
     }
 

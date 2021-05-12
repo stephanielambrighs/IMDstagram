@@ -33,6 +33,18 @@ h5 {
 h6 {
     font-size: 40px;
 }
+
+.s-item {
+    display: block;
+    color: white;
+    text-decoration: none;
+}
+.s-item:hover {
+    color: rgba(255, 255, 255, 0.598);
+}
+li {
+    list-style-type: none;
+}
 #r-body {
     background-image: url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
     background-repeat: no-repeat;
@@ -280,7 +292,7 @@ div.col-3 {
 
 main{
     min-height: calc(100vh - 56px - 24px);
-
+}
 /* Login */
 .logo{
     width: 200px;

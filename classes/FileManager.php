@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 require_once("autoload.php");
 
@@ -19,24 +19,24 @@ class FileManager {
         }
     }
 
-    public static function uploadFile($file){
+    public static function uploadFile($file, $userId){
 
         // var_dump($file);
 
         $fileName = basename($file["name"]);
         $fileSize = $file["size"]/1024;
         $fileType = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-        $fileTmpName = $file["tmp_name"];  
+        $fileTmpName = $file["tmp_name"];
 
         // upload
         $target_dir = self::getLocation();
-        $target_file = $target_dir . "/" . self::generateName($fileName, $fileType);
+        $target_file = $target_dir . "/" . self::generateName($fileName, $fileType, $userId);
 
         // var_dump($target_file);
         //var_dump($fileSize);
 
-      
-        
+
+
         if($fileType != "jpg" && $fileType != "png" && $fileType != "jpeg" && $fileType != "gif" ) {
             return array (
                 "success" => false,
@@ -53,14 +53,14 @@ class FileManager {
         }
 
         self::compressImage($fileTmpName, $target_file, 40);
-    
-       
+
+
         // if ( move_uploaded_file($fileTmpName, $target_file)) {
         //     var_dump("The file ". htmlspecialchars($fileTmpName) . " has been uploaded.");
         // } else {
         //     var_dump("Sorry, there was an error uploading your file.");
         // }
-    
+
         return array (
             "success" => true,
             "message" => "This file has been uploaded correctly.",
@@ -69,9 +69,9 @@ class FileManager {
 
     }
 
-    private static function generateName($file_name, $file_type){
+    private static function generateName($file_name, $file_type, $userId){
         $now = new DateTime('now');
-        $new_file_name = date_format($now, 'Y-m-d-H-i-s') ."-". substr(base64_encode($file_name), 0,8) . "." . $file_type;
+        $new_file_name = $userId . "_". date_format($now, 'Y-m-d_H-i-s') ."_". substr(base64_encode($file_name), 0,8) . "." . $file_type;
         return $new_file_name;
     }
 
@@ -79,13 +79,13 @@ class FileManager {
     private static function compressImage($source, $destination, $quality){
         $info = getimagesize($source);
 
-        if ($info['mime'] == 'image/jpeg') 
+        if ($info['mime'] == 'image/jpeg')
         $image = imagecreatefromjpeg($source);
 
-        elseif ($info['mime'] == 'image/gif') 
+        elseif ($info['mime'] == 'image/gif')
         $image = imagecreatefromgif($source);
 
-        elseif ($info['mime'] == 'image/png') 
+        elseif ($info['mime'] == 'image/png')
         $image = imagecreatefrompng($source);
 
         imagejpeg($image, $destination, $quality);

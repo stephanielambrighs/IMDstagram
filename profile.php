@@ -1,12 +1,15 @@
 <?php
 
     include_once(__DIR__ . "/autoload.php");
-    
-    $user = new User();
 
-    // needs session from register > completeProfile > index > profile
-    // temp. using dummy email
-    $dummyEmail = "mats.thys@gmail.com";
+    session_start();
+
+    $sessionUser = $_SESSION['legato-user'];
+    $userEmail = $sessionUser->getEmail();
+    $userProfile = Profile::loadMyProfile($userEmail);
+    // var_dump("this- " . $userProfile["email"]);
+
+    $user = new User();
 
     if (!empty($_POST)) {
         $user->setNewFirstname($_POST['newFirstname']);
@@ -17,11 +20,6 @@
         $user->setNewDateOfBirth($_POST['newDateOfBirth']);
         $user->setNewBio($_POST['newBio']);
 
-        session_start();
-        //$_SESSION['email'] = $dummyEmail;
-        //$_SESSION['email'] = $user->getEmail();
-
-        var_dump($_SESSION['email']);
         $result = $user->updateProfile();
     }
 
@@ -47,11 +45,10 @@
                   <div class="d-flex flex-column align-items-center text-center">
                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
                     <div class="mt-3">
-                      <h4>John Doe</h4>
+                      <h4><?php echo ($userProfile["firstname"] . " " . $userProfile["lastname"]); ?></h4>
                       <p class="text-secondary mb-1">Title -> job</p>
-                      <p class="text-muted font-size-sm">Where i life?</p>
-                      <button class="btn btn-primary">Follow</button>
-                      
+                      <p class="text-muted font-size-sm">Where do I live?</p>
+                      <button type="button" id="btn-private" class="btn btn-primary">Set private</button>
                     </div>
                   </div>
                 </div>
@@ -66,7 +63,7 @@
                       <h6 class="mb-0">Full Name</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      Kenneth Valdez
+                      <?php echo ($userProfile["firstname"] . " " . $userProfile["lastname"]); ?>
                     </div>
                   </div>
                   <hr>
@@ -75,7 +72,7 @@
                       <h6 class="mb-0">Email</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      fip@jukmuh.al
+                    <?php echo $userProfile["email"]; ?>
                     </div>
                   </div>
                   <hr>
@@ -84,7 +81,7 @@
                       <h6 class="mb-0">Password</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      *********
+                    ********
                     </div>
                   </div>
                   <hr>
@@ -93,7 +90,7 @@
                       <h6 class="mb-0">Date of birth</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      12/04/1980
+                    <?php echo $userProfile["date_of_birth"]; ?>
                     </div>
                   </div>
                   <hr>
@@ -102,7 +99,7 @@
                       <h6 class="mb-0">Bio</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      About myself
+                    <?php echo $user->getBio(); ?>
                     </div>
                   </div>
                 </div>
@@ -194,7 +191,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="text-right">
                         <a id="cancelProfile" name="cancel" class="btn btn-secondary" href="profile.php">Cancel</a>
-                        <button id="upateProfile" type="submit" id="submit" name="submit" class="btn btn-primary">Update</button>
+                        <button id="updateProfile" type="submit" id="submit" name="submit" class="btn btn-primary">Update</button>
                     </div>
                 </div>
             </div>
@@ -202,7 +199,48 @@
     </form>
 </div>
 
+<?php
+  $loggedInUserId = Db::getUserByEmail($userEmail)->getId();
+
+  // check if user is private
+  // only private users should see follower requests
+  if(Db::getUserPrivacyStatus($loggedInUserId)){
+    $followerIds = Db::getFollowerRequests($loggedInUserId);
+  }
+  else{
+    $followerIds = [];
+  }
+?>
+<div class="row row-space-2">
+  <h1>Follower requests</h1>
+  <?php foreach($followerIds as $followerId): ?>
+    <div class="col-md-6 m-b-2 follower-<?php echo $followerId?>">
+        <div class="p-10 bg-black">
+          <div class="media media-xs overflow-visible">
+              <a class="media-left" href="#">
+                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="image_friend" class="media-object img-circle">
+              </a>
+              <div class="media-body valign-middle">
+                <b class="text-inverse"><?php echo Db::getUserById($followerId)->getUsername(); ?></b>
+              </div>
+              <div class="btn-group" role="group" aria-label="Basic outlined example">
+                <button type="button" class="btn btn-outline-success accept" id="btn-accept-<?php echo $followerId ?>">Accept</button>
+                <button type="button" class="btn btn-outline-danger decline" id="btn-decline-<?php echo $followerId ?>">Decline</button>
+              </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-success accept" role="alert"></div>
+<div class="alert alert-danger decline" role="alert"></div>
+<?php endforeach; ?>
 <?php include_once("inc/footer.inc.php");?>
+
+<script type="text/javascript">
+    let userId = <?php echo $loggedInUserId; ?>
+</script>
 <script src="/js/profile.js"></script>
+
 </body>
 </html>

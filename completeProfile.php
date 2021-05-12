@@ -2,26 +2,34 @@
 
     include_once(__DIR__ . "/autoload.php");
     include_once(__DIR__ . "/classes/Db.php");
-    
+
 
     $user = new User();
 
     session_start();
+    //var_dump($_SESSION);
+    /*
     if (! isset($_SESSION['legato-user'])) {
         exit;
-    }
+    }*/
+    // get email from session user
+    $sessionUser = $_SESSION['legato-user'];
+    $userEmail = $sessionUser->getEmail();
+    $user = DB::getUserByEmail($userEmail);
+    $userId = $user->getId();
 
-    if(!empty($_POST['bio']) 
+
+    if(!empty($_POST['bio'])
     && !empty($_FILES['file'])){
         try{
-        
-            $uploadResult = FileManager::uploadFile($_FILES['file']);
-    
+
+            $uploadResult = FileManager::uploadFile($_FILES['file'], $userId);
+
             if($uploadResult['success'] == true){
                 $user->setBio($_POST['bio']);
                 $user->setFile_path($uploadResult['file_path']);
-                $user->setEmail($_SESSION['legato-user']->getEmail());
-                $result = Db::completeProfile($user);
+                $user->setEmail($_SESSION['email']);
+                $result = User::completeProfile($user);
                 header("Location: index.php");
             }
         }
@@ -68,37 +76,6 @@
             <div class="form-group">
                 <!--<label style="visibility: hidden;" for="exampleInputPassword1">Password</label>-->
                 <textarea name="bio" class="form-control" id="bio" placeholder="Biography" cols="30" rows="4"></textarea>
-            </div>
-            <p id="frm-p">What genres are you into?</p>
-
-
-
-
-            <div class="form-group" id="genres">
-                <!-- LOOP OVER GENRES -->
-                <select name="genre1" id="genre">
-                    <option selected>-</option>
-                    <?php $allGenres = Db::getAllGenres();
-                        for($i = 0; $i < count($allGenres); $i++):?>
-                        <option value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
-                    <?php endfor; ?>
-                </select>
-                
-                <select name="genre2" id="genre">
-                <option selected>-</option>
-                    <?php $allGenres = Db::getAllGenres();
-                        for($i = 0; $i < count($allGenres); $i++):?>
-                        <option value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
-                    <?php endfor; ?>
-                </select>
-
-                <select name="genre3" id="genre">
-                <option selected>-</option>
-                    <?php $allGenres = Db::getAllGenres();
-                        for($i = 0; $i < count($allGenres); $i++):?>
-                        <option value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
-                    <?php endfor; ?>
-                </select>
             </div>
             <div class="form-group">
                 <a href="index.php" class="col-4 btn btn-outline-secondary btn-sm">Skip</a>

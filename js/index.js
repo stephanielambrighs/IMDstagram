@@ -1,17 +1,35 @@
 let button = document.getElementById("btn-feed");
 let form = document.getElementById("form");
-form.style.display = "grid";
+let loc = document.querySelector(".p-location");
+
+window.addEventListener('load', function () {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        loc.innerHTML = "Geolocation is not supported by this browser.";
+    }
+})
+
+function showPosition(position) {
+    document.getElementById("location-latitude").value = position.coords.latitude;
+    document.getElementById("location-longitude").value = position.coords.longitude;
+}
+
+form.style.display = "none";
 let click = true;
+
+
+
 button.addEventListener("click", function(e) {
     if(click == true){
-        console.log("hidden");
+        console.log("visible");
         click = false;
-        form.style.display = "none";
+        form.style.display = "grid";
     }
     else{
-        console.log("visible");
+        console.log("hidden");
         click = true;
-        form.style.display= "grid";
+        form.style.display= "none";
     }
     e.preventDefault();
 });
@@ -37,7 +55,7 @@ let postReportButtons = document.querySelectorAll(".dropdown-item.btn-report");
 postReportButtons.forEach(function(reportButton) {
     reportButton.addEventListener("click", function() {
 
-        postId = reportButton.id.replace("post-", "");
+        postId = reportButton.id.replace("btn-report-post-", "");
 
         // add the user and post to the reports table
         // only unique combinations of userId and postId will be added
@@ -98,6 +116,7 @@ function addEntryToReportsTable(postId){
     });
 };
 
+
 //Comments
 
 document.querySelectorAll(".btn-comment").forEach(item => {
@@ -127,4 +146,14 @@ document.querySelectorAll(".btn-comment").forEach(item => {
         console.error('Error:', error);
         });
     });
-})
+});
+
+window.addEventListener('load', (event) => {
+    // console.log('page is fully loaded');
+    if(postPlacedSuccess){
+        setTimeout(() => {
+            document.querySelector(".alert.alert-success.feed").style.display = "none";
+        }, 4000);
+    }
+});
+

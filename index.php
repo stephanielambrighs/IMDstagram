@@ -8,9 +8,10 @@ if(isset($_SESSION["legato-user"])){
     
 
     // get email from session user
-    $user = $_SESSION['legato-user'];
-    $userEmail = $user->getEmail();
-    $userId =  DB::getUserByEmail($userEmail)->getId();
+    $sessionUser = $_SESSION['legato-user'];
+    $userEmail = $sessionUser->getEmail();
+    $user = DB::getUserByEmail($userEmail);
+    $userId = $user->getId();
 
     // if a post is done, add it to the db
     if(!empty($_POST['title'])
@@ -19,7 +20,8 @@ if(isset($_SESSION["legato-user"])){
     && !empty($_FILES['file'])){
         try{
             // update file
-            $uploadResult = FileManager::uploadFile($_FILES['file']);
+            $uploadResult = FileManager::uploadFile($_FILES['file'], $userId);
+
 
             if($uploadResult['success'] == true){
                 $post = new Post();
@@ -27,16 +29,21 @@ if(isset($_SESSION["legato-user"])){
                 $post->setDescription($_POST['description']);
                 $post->setGenre_id($_POST['genre_id']);
                 $post->setFile_path($uploadResult['file_path']);
+                $post->setUser_id($userId);
+                $post->setLatitude($_POST['latitude']);
+                $post->setLongitude($_POST['longitude']);
 
-                //$post->setUser_id($userId);
-                //$result = Db::insertPost($post);
+                $result = Db::insertPost($post);
+                // var_dump($result);
+                $postPlacedSuccess = true;
             }
         }
         catch(Exception $e){
             $error = $e->getMessage();
             var_dump($error);
         }
-    }else{
+    }
+    else{
         $uploadTitle = false;
         $uploadGenre = false;
         $uploadFile = false;
@@ -80,15 +87,22 @@ if(isset($_SESSION["legato-user"])){
 <?php include_once("inc/nav.inc.php"); ?>
 
 <div class="add-feed">
-    <button id="btn-feed" type="button" class="btn btn-info"><img src="/images/plus_image.png" alt="add"></button>
+    <button id="btn-feed" type="button" class="btn btn-info">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+    Add feed</button>
 </div>
 
-<form class="form-feed" id="form" action="#" method="POST" enctype="multipart/form-data">
+<form class="form-feed" id="form" action="index.php" method="POST" enctype="multipart/form-data">
     <div class="mb-3">
+        <input type="text" name="latitude" style="visibility: hidden;" id="location-latitude">
+        <input type="text" name="longitude" style="visibility: hidden; display: block;" id="location-longitude">
         <label for="exampleFormControlInput1" class="form-label">Title</label>
         <input type="text" name="title" class="form-control" id="title" placeholder="Title...">
         <?php if($uploadTitle == false && isset($uploadTitle)): ?>
-            <div class="alert alert-danger"><?php echo "Sorry, this field cannot be empty."; ?></div>
+            <div class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
         <?php endif; ?>
     </div>
     <div class="mb-3">
@@ -102,29 +116,36 @@ if(isset($_SESSION["legato-user"])){
         <?php endfor; ?>
         </select>
         <?php if(isset($uploadGenre)): ?>
-            <div class="alert alert-danger"><?php echo "Sorry, this field cannot be empty."; ?></div>
+            <div class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
         <?php endif; ?>
     </div>
     <div class="mb-3">
         <label for="formFile" class="form-label">Upload file</label>
         <input class="form-control" name="file" type="file" id="file">
         <?php if(isset($uploadResult) && $uploadResult['success'] == false): ?>
-            <div class="alert alert-danger"><?php echo $uploadResult['message']; ?></div>
+            <div class="alert alert-danger form"><?php echo $uploadResult['message']; ?></div>
         <?php endif;?>
         <?php if(isset($uploadFile)): ?>
-            <div class="alert alert-danger"><?php echo "Sorry, this field cannot be empty."; ?></div>
+            <div class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
         <?php endif; ?>
     </div>
     <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label">Description</label>
         <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" type="text"></textarea>
         <?php if(isset($uploadDescription)): ?>
-            <div class="alert alert-danger"><?php echo "Sorry, this field cannot be empty."; ?></div>
+            <div class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
         <?php endif; ?>
     </div>
     <button id="submit" type="submit" value="Upload" class="btn btn-info">Submit</button>
 </form>
 
+
+
+<?php if(isset($postPlacedSuccess) == true): ?>
+    <div class="alert alert-success feed" role="alert">
+        <?php echo "Successfully placed a post"?>
+    </div>
+<?php endif;?>
 
 <div class="container">
   <div class="row">
@@ -138,6 +159,7 @@ if(isset($_SESSION["legato-user"])){
 <script type="text/javascript">
     let pagePostCount = '<?php echo $currentPagePostCount; ?>';
     let postsPerPage = '<?php echo $postsPerPage; ?>';
+    let postPlacedSuccess = '<?php echo $postPlacedSuccess?>';
 </script>
 
 
