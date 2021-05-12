@@ -1,6 +1,8 @@
 <?php
 
+
 require_once(__DIR__ . "/../autoload.php");
+
 
 class Db {
 
@@ -57,10 +59,23 @@ class Db {
     }
 
     public static function insertPost($post){
+        $lat = $post->getLatitude();
+        $long = $post->getLongitude();
+        
+        $key = "AtGFLVCTd5bH2t5y-lMYSfYfwFmWAQL-DBg-YNuMPBUxGag7GrKORKLZSOqTsLx9";
+        $base_url = "http://dev.virtualearth.net/REST/v1/Locations/";
+        $url = $base_url . $lat . "," . $long . "?key=" . $key;
+
+        $response_api = json_decode(file_get_contents($url));
+        $city = $response_api->resourceSets[0]->resources[0]->address->locality;
+
+        var_dump($response_api->resourceSets[0]->resources[0]->address->locality);
+        var_dump("yo");
+
         $conn = self::getConnection();
         $statement = $conn->prepare("
-            INSERT INTO posts (`title`, `description`, `genre_id`, `upload_date`, `user_id`, `type_id`, `file_path`, `inactive`)
-            VALUES (:title, :description, :genre_id, :upload_date, :user_id, :type_id, :file_path, :inactive);
+            INSERT INTO posts (`title`, `description`, `genre_id`, `upload_date`, `user_id`, `type_id`, `file_path`, `inactive`, `location`)
+            VALUES (:title, :description, :genre_id, :upload_date, :user_id, :type_id, :file_path, :inactive, :location);
         ");
         $statement->bindValue(':title', $post->getTitle());
         $statement->bindValue(':description', $post->getDescription());
@@ -70,6 +85,7 @@ class Db {
         $statement->bindValue(':type_id', $post->getType_id());
         $statement->bindValue(':file_path', $post->getFile_path());
         $statement->bindValue(":inactive", $post->getInactive());
+        $statement->bindValue(':location', $city);
         $result = $statement->execute();
         // var_dump($result);
         // var_dump($statement->errorInfo());
@@ -126,8 +142,9 @@ class Db {
 
                 OR
 
-                    /* 2) Posts of private profiles IF the current
-                          logged in user is in list of followers */
+                        /* 2) Posts of private profiles IF the current
+                              logged in user is in list of followers
+                              AND is accepted as a follower */
                         (
                             SELECT profile_private
                             FROM users
@@ -138,6 +155,7 @@ class Db {
                             SELECT follower_id
                             FROM followers
                             WHERE followers.user_id = posts.user_id
+                            AND accepted = 1
                         )
 
                 OR
@@ -172,6 +190,43 @@ class Db {
         return $postList;
     }
 
+    public static function getAllPostsWithTag($limit, $tag){
+        $conn = self::getConnection();
+        $hashtag = '%'.$tag.'%';
+        $statement = $conn->prepare("
+            SELECT *
+            FROM posts
+            WHERE description LIKE :tag
+            ORDER BY upload_date DESC
+            LIMIT :limit
+        ");
+
+        $statement->bindValue(":limit", $limit, PDO::PARAM_INT);
+        $statement->bindValue(":tag", $hashtag, PDO::PARAM_STR);
+        var_dump("Achter bindValue()");
+        $statement->execute();
+        var_dump("Achter execute()");
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        var_dump("Achter fetchAll()");
+        // var_dump($statement->errorInfo());
+
+        $postList = [];
+        foreach($result as $db_post){
+            $post = new Post();
+            $post->setId($db_post['id']);
+            $post->setTitle($db_post['title']);
+            $post->setDescription($db_post['description']);
+            $post->setGenre_id($db_post['genre_id']);
+            $post->setUpload_date($db_post['upload_date']);
+            $post->setUser_id($db_post['user_id']);
+            $post->setType_id($db_post['type_id']);
+            $post->setFile_path($db_post['file_path']);
+            array_push($postList, $post);
+            // var_dump($postList);
+        }
+        return $postList;
+    }
+    
     public static function getAllReportedPosts(){
         $conn = self::getConnection();
         $statement = $conn->prepare("
@@ -184,6 +239,37 @@ class Db {
             ) >= 3
             ORDER BY upload_date DESC
         ");
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        // var_dump($statement->errorInfo());
+
+        $postList = [];
+        foreach($result as $db_post){
+            $post = new Post();
+            $post->setId($db_post['id']);
+            $post->setTitle($db_post['title']);
+            $post->setDescription($db_post['description']);
+            $post->setGenre_id($db_post['genre_id']);
+            $post->setUpload_date($db_post['upload_date']);
+            $post->setUser_id($db_post['user_id']);
+            $post->setType_id($db_post['type_id']);
+            $post->setFile_path($db_post['file_path']);
+            array_push($postList, $post);
+            // var_dump($postList);
+        }
+        return $postList;
+    }
+
+    public static function getAllReportedPostsWithTag($tag){
+        $conn = self::getConnection();
+        $hashtag = '%'.$tag.'%';
+        $statement = $conn->prepare("
+            SELECT *
+            FROM posts
+            WHERE description LIKE :tag
+            ORDER BY upload_date DESC
+        ");
+        $statement->bindValue(':tag', $hashtag, PDO::PARAM_STR);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         // var_dump($statement->errorInfo());
@@ -234,8 +320,6 @@ class Db {
 
 
     public static function getUserByEmail($userEmail){
-        // genre opvragen -> database
-        // object maken en dit object teruggeven
         $conn = self::getConnection();
         $statement = $conn->prepare("SELECT * FROM `users` WHERE email = :email");
         $statement->bindValue(":email", $userEmail);
@@ -254,8 +338,6 @@ class Db {
     }
 
     public static function getUserById($userId){
-        // genre opvragen -> database
-        // object maken en dit object teruggeven
         $conn = self::getConnection();
         $statement = $conn->prepare("SELECT * FROM `users` WHERE id = :id");
         $statement->bindValue(":id", $userId);
@@ -286,8 +368,8 @@ class Db {
 
     public static function getProfileImgPath($userId){
         $conn = self::getConnection();
-        $statement = $conn->prepare("SELECT profile_img_path FROM `profiles` WHERE user_id = :user_id");
-        $statement->bindValue(":user_id", $userId);
+        $statement = $conn->prepare("SELECT profile_img_path FROM `users` WHERE id = :id");
+        $statement->bindValue(":id", $userId);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         return $result['profile_img_path'];
@@ -394,6 +476,66 @@ class Db {
         }
         $result = $statement->execute();
         // var_dump($result);
+        return $result;
+    }
+
+    public static function getFollowerRequests($userId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            SELECT follower_id
+            FROM followers
+            WHERE user_id = :user_id
+            AND accepted = 0
+        ");
+        $statement->bindValue(":user_id", $userId);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        // create list with userids of the followers
+        $followerIdList = [];
+        foreach ($result as $followerId) {
+            array_push($followerIdList, intval($followerId['follower_id']));
+        }
+        return $followerIdList;
+    }
+
+    public static function getFollowerRowId($userId, $followerId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            SELECT id
+            FROM followers
+            WHERE user_id = :user_id
+            AND follower_id = :follower_id
+        ");
+        $statement->bindValue(":user_id", $userId);
+        $statement->bindValue(":follower_id", $followerId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return intval($result['id']);
+    }
+
+
+    public static function setFollowerAccept($followersRowId, $accepted){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            UPDATE followers
+            SET accepted = :accepted
+            WHERE id = :followers_row_id
+        ");
+        $statement->bindValue(":followers_row_id", $followersRowId);
+        $statement->bindValue(":accepted", $accepted);
+        $result = $statement->execute();
+        // var_dump($result);
+        return $result;
+    }
+
+    public static function deleteFollowersRow($followersRowId){
+        $conn = self::getConnection();
+        $statement = $conn->prepare("
+            DELETE FROM followers
+            WHERE id = :followers_row_id
+        ");
+        $statement->bindValue(":followers_row_id", $followersRowId);
+        $result = $statement->execute();
         return $result;
     }
 

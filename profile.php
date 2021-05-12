@@ -199,10 +199,46 @@
     </form>
 </div>
 
+<?php
+  $loggedInUserId = Db::getUserByEmail($userEmail)->getId();
+
+  // check if user is private
+  // only private users should see follower requests
+  if(Db::getUserPrivacyStatus($loggedInUserId)){
+    $followerIds = Db::getFollowerRequests($loggedInUserId);
+  }
+  else{
+    $followerIds = [];
+  }
+?>
+<div class="row row-space-2">
+  <h1>Follower requests</h1>
+  <?php foreach($followerIds as $followerId): ?>
+    <div class="col-md-6 m-b-2 follower-<?php echo $followerId?>">
+        <div class="p-10 bg-black">
+          <div class="media media-xs overflow-visible">
+              <a class="media-left" href="#">
+                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="image_friend" class="media-object img-circle">
+              </a>
+              <div class="media-body valign-middle">
+                <b class="text-inverse"><?php echo Db::getUserById($followerId)->getUsername(); ?></b>
+              </div>
+              <div class="btn-group" role="group" aria-label="Basic outlined example">
+                <button type="button" class="btn btn-outline-success accept" id="btn-accept-<?php echo $followerId ?>">Accept</button>
+                <button type="button" class="btn btn-outline-danger decline" id="btn-decline-<?php echo $followerId ?>">Decline</button>
+              </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-success accept" role="alert"></div>
+<div class="alert alert-danger decline" role="alert"></div>
+<?php endforeach; ?>
 <?php include_once("inc/footer.inc.php");?>
 
 <script type="text/javascript">
-    var userId = <?php echo Db::getUserByEmail($userEmail)->getId(); ?>
+    let userId = <?php echo $loggedInUserId; ?>
 </script>
 <script src="/js/profile.js"></script>
 

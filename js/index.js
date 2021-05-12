@@ -1,7 +1,25 @@
 let button = document.getElementById("btn-feed");
 let form = document.getElementById("form");
+let loc = document.querySelector(".p-location");
+
+window.addEventListener('load', function () {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        loc.innerHTML = "Geolocation is not supported by this browser.";
+    }
+})
+
+function showPosition(position) {
+    document.getElementById("location-latitude").value = position.coords.latitude;
+    document.getElementById("location-longitude").value = position.coords.longitude;
+}
+
 form.style.display = "none";
 let click = true;
+
+
+
 button.addEventListener("click", function(e) {
     if(click == true){
         console.log("visible");
@@ -98,6 +116,38 @@ function addEntryToReportsTable(postId){
     });
 };
 
+
+//Comments
+
+document.querySelectorAll(".btn-comment").forEach(item => {
+    item.addEventListener("click", function(){
+        //console.log("Morgane");
+        //Zoek postid en comment tekst
+        let postid = this.dataset.postid;
+        let text = this.previousElementSibling.value;
+        console.log(postid);
+        console.log(text);
+
+        //post naar databank (AJAX)
+        let formData = new FormData();
+        formData.append('text', text);
+        formData.append('postid', postid);
+        formData.append("userId", userId);
+
+        fetch('ajax/savecomment.php', {
+        method: 'POST',
+        body: formData
+        })
+        .then(response => response.json())
+        .then(result => {
+        console.log('Success:', result);
+        })
+        .catch(error => {
+        console.error('Error:', error);
+        });
+    });
+});
+
 window.addEventListener('load', (event) => {
     // console.log('page is fully loaded');
     if(postPlacedSuccess){
@@ -164,3 +214,4 @@ document.querySelectorAll(".btn-info-like").forEach(item => {
         });
     });
 });
+
