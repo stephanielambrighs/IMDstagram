@@ -298,8 +298,6 @@ class Post {
         return "1 second ago";
     }
 
-
-    
 }
 
 

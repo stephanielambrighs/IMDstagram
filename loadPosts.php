@@ -32,7 +32,7 @@
     // loop over posts to generate html
     foreach($allPosts as $post){
 
-        // get user file path for profile picture
+        //get user file path for profile picture
         $post_user_file_path =  Db::getProfileImgPath($post->getUser_id());
 
         // set default if none found
@@ -43,7 +43,10 @@
         // get some data from the db
         $genre = Db::getGenreById($post->getGenre_id());
         $user = Db::getUserById($post->getUser_id());
+        $like = Like::getNumberLike($post->getId());
+        $userLike = Like::getLikeStatusUser($post->getId(), $userId);
         $postUniqueName = "post-" . $post->getId();
+        $countLikes = $like[0];
 
 
 
@@ -134,10 +137,25 @@
                     <h4>' . $genre->getName() . '</h4>
                     <p>' . $descriptions . $tagLinks . '</p>
                 </div>
-            </div>
+            </div>';
 
+            if ($like[0] == 1){
+                $htmlOutput .= '
+                <div class="col-3">
+                    <p id="'.$post->getId().'">' . $like[0] . ' like</p>
+                </div>
+                ';
+            }else{
+                $htmlOutput .= '
+                <div class="col-3">
+                    <p id="'.$post->getId().'">' . $like[0] . ' likes</p>
+                </div>
+                ';
+            }
+    
+            $htmlOutput .='
             <div class="col-3 ' . $postUniqueName .'">
-                <button type="button" class="btn btn-info"><img src="/images/like_image.png" alt="Likes">300 Likes</button>
+                <button type="button" class="btn btn-info-like" data-postid="'.$post->getId().'">'.$userLike.'</button>
                 <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
                 <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
             </div>
