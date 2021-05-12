@@ -32,13 +32,13 @@
     // loop over posts to generate html
     foreach($allPosts as $post){
 
-        // get user file path for profile picture
-        //$post_user_file_path =  Db::getProfileImgPath($post->getUser_id());
+        //get user file path for profile picture
+        $post_user_file_path =  Db::getProfileImgPath($post->getUser_id());
 
         // set default if none found
-       // if (!$post_user_file_path) {
-         //   $post_user_file_path = "data/uploads/default.png";
-        //}
+        if (!$post_user_file_path) {
+            $post_user_file_path = "data/uploads/default.png";
+        }
 
         // get some data from the db
         $genre = Db::getGenreById($post->getGenre_id());
