@@ -31,6 +31,8 @@ if(isset($_SESSION["legato-user"])){
                 $post->setUser_id($userId);
                 $post->insert();
                 $postPlacedSuccess = true;
+            }else{
+                $postPlacedFailed = true;
             }
         }
         catch(Exception $e){
@@ -38,13 +40,6 @@ if(isset($_SESSION["legato-user"])){
             var_dump($error);
         }
     }
-    else{
-        $uploadTitle = false;
-        $uploadGenre = false;
-        $uploadFile = false;
-        $uploadDescription = false;
-    }
-
 
 
     //Code searchfield hieer
@@ -94,45 +89,45 @@ if(isset($_SESSION["legato-user"])){
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Title</label>
         <input type="text" name="title" class="form-control" id="title" placeholder="Title...">
-        <div id="msg-title" class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
+        <div id="msg-title" class="alert alert-danger form"></div>
     </div>
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Genre</label>
-        <select class="form-select" name="genre_id" id="inputGroupSelect04" aria-label="Example select with button addon">
-            <option selected>-</option>
+        <select id="dropdown-genres" class="form-select" name="genre_id" aria-label="Example select with button addon">
+            <option  selected>-</option>
         <?php
         $allGenres = Db::getAllGenres();
         for($i = 0; $i < count($allGenres); $i++):?>
-            <option id="dropdown-genres" value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
+            <option value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
         <?php endfor; ?>
         </select>
-        <?php if(isset($uploadGenre)): ?>
-            <div id="msg-genres" class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
-        <?php endif; ?>
+            <div id="msg-genres" class="alert alert-danger form"></div>
     </div>
     <div class="mb-3">
         <label for="formFile" class="form-label">Upload file</label>
         <input class="form-control" name="file" type="file" id="file">
-        <?php if(isset($uploadResult) && $uploadResult['success'] == false): ?>
+        <?php if($uploadResult['success'] == false): ?>
             <div class="alert alert-danger form"><?php echo $uploadResult['message']; ?></div>
         <?php endif;?>
-        <?php if(isset($uploadFile)): ?>
-            <div id="msg-uploadfile" class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
-        <?php endif; ?>
+            <div id="msg-uploadfile" class="alert alert-danger form"></div>
     </div>
     <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label">Description</label>
         <textarea class="form-control" name="description" id="description" rows="3" type="text"></textarea>
-        <?php if(isset($uploadDescription)): ?>
-            <div id="msg-description"  class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
-        <?php endif; ?>
+        <div id="msg-description"  class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
     </div>
     <button id="submit" type="submit" value="Upload" class="btn btn-info">Submit</button>
 </form>
 
 <?php if(isset($postPlacedSuccess) == true): ?>
     <div class="alert alert-success feed" role="alert">
-        <?php echo "Successfully placed a post"?>
+        <?php echo "Successfully placed post"?>
+    </div>
+<?php endif;?>
+
+<?php if(isset($postPlacedFailed) == true): ?>
+    <div class="alert alert-danger feed" role="alert">
+        <?php echo "Failed to place post"?>
     </div>
 <?php endif;?>
 
@@ -149,6 +144,7 @@ if(isset($_SESSION["legato-user"])){
     let pagePostCount = '<?php echo $currentPagePostCount; ?>';
     let postsPerPage = '<?php echo $postsPerPage; ?>';
     let postPlacedSuccess = '<?php echo $postPlacedSuccess?>';
+    let postPlacedFailed = '<?php echo $postPlacedFailed?>';
 </script>
 
 

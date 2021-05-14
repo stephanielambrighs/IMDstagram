@@ -104,5 +104,133 @@ window.addEventListener('load', (event) => {
         setTimeout(() => {
             document.querySelector(".alert.alert-success.feed").style.display = "none";
         }, 4000);
+    }else if(postPlacedFailed){
+        setTimeout(() => {
+            document.querySelector(".alert.alert-danger.feed").style.display = "none";
+        }, 4000);
     }
 });
+
+
+let title = document.querySelector("#title");
+let description = document.querySelector("#description");
+let genre = document.querySelector("#dropdown-genres");
+let uploadFile = document.querySelector("#file");
+let btnSubmit = document.querySelector("#submit");
+
+
+// btnSubmit.setAttribute('disabled', 'disabled');
+
+title.addEventListener("keyup", function(){
+    if(checkTitle()){
+        hideMessage("#msg-title");
+    }
+    else{
+        showMessage("#msg-title");
+    }
+    checkBtn();
+});
+
+description.addEventListener("keyup", function(){
+    if(checkDescription()){
+        hideMessage("#msg-description");
+    }
+    else{
+        showMessage("#msg-description");
+    }
+    checkBtn();
+});
+
+genre.addEventListener("change", function(){
+    // alert(genre.selectedIndex);
+    // console.log(genre);
+    if(checkGenre()){
+        hideMessage("#msg-genres");
+    }
+    else{
+        showMessage("#msg-genres");
+    }
+    checkBtn();
+});
+
+uploadFile.addEventListener("change", function(){
+    // alert(genre.selectedIndex);
+    if(checkUploadFile()){
+        hideMessage("#msg-uploadfile");
+    }
+    else{
+        showMessage("#msg-uploadfile");
+    }
+    checkBtn();
+});
+
+
+function checkBtn(){
+    if(checkDescription() == true && checkTitle() == true && checkGenre() == true && checkUploadFile() == true){
+        enableBtn();
+    }else{
+        disableBtn();
+    }
+}
+
+function disableBtn(){
+    btnSubmit.setAttribute('disabled', 'disabled');
+}
+
+function enableBtn(){
+    btnSubmit.removeAttribute('disabled');
+}
+
+function showMessage(msgQueryselector){
+    document.querySelector(msgQueryselector).innerHTML = "Sorry, this field cannot be empty.";
+    document.querySelector(msgQueryselector).style.display = "grid";
+}
+
+function hideMessage(msgQueryselector){
+    document.querySelector(msgQueryselector).innerHTML = "";
+    document.querySelector(msgQueryselector).style.display = "none";
+}
+
+window.addEventListener('load',  (event) => {
+    disableBtn();
+});
+
+
+// 4 methodes
+
+function checkTitle(){
+    if(title.value === ""){
+        return false;
+    }
+    else{
+       return true;
+    }
+}
+
+function checkDescription(){
+    if(description.value === ""){
+        return false;
+    }
+    else{
+       return true;
+    }
+}
+
+function checkGenre(){
+    // console.log(genre.value);
+    if(genre.selectedIndex == 0){
+        return false;
+    }
+    else{
+       return true;
+    }
+}
+
+function checkUploadFile(){
+    if(uploadFile.value === ""){
+        return false;
+    }
+    else{
+       return true;
+    }
+}
