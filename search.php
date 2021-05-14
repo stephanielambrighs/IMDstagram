@@ -22,6 +22,10 @@
         $searchTagInput = new Tag();
         $searchTagInput->setTag($_POST["search"]);
         $searchTagOutput = $searchTagInput->searchTag();
+
+        $searchLocationInput = new Post();
+        $searchLocationInput->setLocation($_POST["search"]);
+        $searchLocationOutput = $searchLocationInput->searchLocation();
     }
 
 ?>
