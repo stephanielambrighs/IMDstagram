@@ -9,7 +9,7 @@ class Like {
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId()
     {
         return $this->id;
@@ -19,7 +19,7 @@ class Like {
      * Set the value of id
      *
      * @return  self
-     */ 
+     */
     public function setId($id)
     {
         $this->id = $id;
@@ -29,7 +29,7 @@ class Like {
 
     /**
      * Get the value of postId
-     */ 
+     */
     public function getPostId()
     {
         return $this->postId;
@@ -39,7 +39,7 @@ class Like {
      * Set the value of postId
      *
      * @return  self
-     */ 
+     */
     public function setPostId($postId)
     {
         $this->postId = $postId;
@@ -49,7 +49,7 @@ class Like {
 
     /**
      * Get the value of userId
-     */ 
+     */
     public function getUserId()
     {
         return $this->userId;
@@ -59,7 +59,7 @@ class Like {
      * Set the value of userId
      *
      * @return  self
-     */ 
+     */
     public function setUserId($userId)
     {
         $this->userId = $userId;
@@ -69,7 +69,7 @@ class Like {
 
     public static function setClickLike($postId, $userId){
         $conn = Db::getConnection();
-        
+
         $statement = $conn->prepare("SELECT active FROM post_likes WHERE user_id = :userId AND post_id = :postId");
         $statement->bindValue("postId", $postId);
         $statement->bindValue("userId", $userId);
@@ -102,8 +102,8 @@ class Like {
                 $statement->bindValue(":active", 0);
             }
             $result = $statement->execute();
-        } 
-        
+        }
+
         if($result){
             return $var;
         }
@@ -111,7 +111,7 @@ class Like {
             return "error";
         }
 
-        
+
     }
 
     public static function getNumberLike($postId){
@@ -142,9 +142,9 @@ class Like {
         $statement->bindValue(':userId', $userId);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
-        var_dump($result);
-        var_dump("post: ".$postId);
-        var_dump("user: ".$userId);
+        // var_dump($result);
+        // var_dump("post: ".$postId);
+        // var_dump("user: ".$userId);
 
         if($result['COUNT(id)'] == 0){
             $var = 'like';
