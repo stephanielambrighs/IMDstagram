@@ -158,6 +158,16 @@ class Post {
             return $searchPostOutput;
     }
 
+    public function searchLocation(){
+        $conn = Db::getConnection();
+        $searchPostInput = $this->getLocation();
+        $statement = $conn->prepare("SELECT location FROM posts WHERE title LIKE '%$searchPostInput%'");
+        $statement->execute();
+        $searchPostOutput = array();
+        $searchPostOutput[] = $statement->fetchall();
+        return $searchPostOutput;
+    }
+
 
 
     public function getUploadedTimeAgo()
