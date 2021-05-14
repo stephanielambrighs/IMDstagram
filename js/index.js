@@ -1,7 +1,25 @@
 let button = document.getElementById("btn-feed");
 let form = document.getElementById("form");
+let loc = document.querySelector(".p-location");
+
+window.addEventListener('load', function () {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        loc.innerHTML = "Geolocation is not supported by this browser.";
+    }
+})
+
+function showPosition(position) {
+    document.getElementById("location-latitude").value = position.coords.latitude;
+    document.getElementById("location-longitude").value = position.coords.longitude;
+}
+
 form.style.display = "none";
 let click = true;
+
+
+
 button.addEventListener("click", function(e) {
     if(click == true){
         console.log("visible");
@@ -98,6 +116,38 @@ function addEntryToReportsTable(postId){
         console.log("Error: ", error);
     });
 };
+
+
+//Comments
+
+document.querySelectorAll(".btn-comment").forEach(item => {
+    item.addEventListener("click", function(){
+        //console.log("Morgane");
+        //Zoek postid en comment tekst
+        let postid = this.dataset.postid;
+        let text = this.previousElementSibling.value;
+        console.log(postid);
+        console.log(text);
+
+        //post naar databank (AJAX)
+        let formData = new FormData();
+        formData.append('text', text);
+        formData.append('postid', postid);
+        formData.append("userId", userId);
+
+        fetch('ajax/savecomment.php', {
+        method: 'POST',
+        body: formData
+        })
+        .then(response => response.json())
+        .then(result => {
+        console.log('Success:', result);
+        })
+        .catch(error => {
+        console.error('Error:', error);
+        });
+    });
+});
 
 window.addEventListener('load', (event) => {
     // console.log('page is fully loaded');
@@ -234,4 +284,64 @@ function checkUploadFile(){
     else{
        return true;
     }
-}
+};
+
+
+//Likes
+document.querySelectorAll(".btn-info-like").forEach(item => {
+    item.addEventListener("click", function(){
+        //console.log("Morgane");
+        //Zoek postid en comment tekst
+        myBody = new FormData();
+        let postId = this.dataset.postid;
+        myBody.append("postId", postId);
+        myBody.append("userId", userId);
+        //myBody.append("countLikes", countLikes);
+
+        console.log(postId);
+        console.log(userId);
+        //console.log(this.innerHTML)
+        //console.log(countLikes);
+        likes = document.getElementById(postId);
+       // likes.dataset.likeid = postId;
+
+
+        fetch("ajax/clickLike.php", {
+            method: "POST",
+            body: myBody,
+        })
+        .then(response => response.json())
+        .then(data => {
+            status = data['status'];
+            count = data['count'];
+            console.log(count);
+            console.log(likes);
+            if(status == 'like'){
+                //console.log(data['status']);
+                this.innerHTML = status;
+                if(count == 1){
+                    likes.innerHTML = count+" like";
+                }
+                else{
+                    likes.innerHTML = count+" likes";
+                }
+                //console.log(image.innerHTML);
+            }else{
+                //console.log(data['status']);
+                this.innerHTML = status;
+                if(count == 1){
+                    likes.innerHTML = count+" like";
+                }
+                else{
+                    likes.innerHTML = count+" likes";
+                }
+                //console.log(image.innerHTML);
+            }
+        })
+        .catch((error) => {
+            console.log("Error: ", error);
+        });
+    });
+});
+
+

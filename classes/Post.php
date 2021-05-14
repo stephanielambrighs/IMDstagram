@@ -1,16 +1,21 @@
 <?php
 
 
+
 class Post {
     private $id = 0;
     private $title = "";
     private $description = "";
+    private $tag = "";
     private $genre_id = 0;
     private $upload_date = 0;
     private $user_id = 0;
     private $type_id = 1;
     private $file_path = "";
     private $inactive = 0;
+    private $latitude;
+    private $longitude;
+    private $location = "";
 
 
 
@@ -70,10 +75,24 @@ class Post {
         return $this;
     }
 
+
+    public function getTag()
+    {
+            return $this->tag;
+    }
+
+    public function setTag($tag)
+    {
+            $this->tag = $tag;
+
+            return $this;
+    }
+
     public function getGenre_id()
     {
             return $this->genre_id;
     }
+
 
     public function setGenre_id($genre_id)
     {
@@ -155,6 +174,67 @@ class Post {
         return $this;
     }
 
+    /**
+     * Get the value of latitude
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * Set the value of latitude
+     *
+     * @return  self
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of longitude
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * Set the value of longitude
+     *
+     * @return  self
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of location
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * Set the value of location
+     *
+     * @return  self
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+
 
     public function searchPost(){
             $conn = Db::getConnection();
@@ -228,10 +308,19 @@ class Post {
     }
 
     public function insert(){
+        $key = "AtGFLVCTd5bH2t5y-lMYSfYfwFmWAQL-DBg-YNuMPBUxGag7GrKORKLZSOqTsLx9";
+        $base_url = "http://dev.virtualearth.net/REST/v1/Locations/";
+        $url = $base_url .  $this->getLatitude() . "," .  $this->getLongitude() . "?key=" . $key;
+
+        $response_api = json_decode(file_get_contents($url));
+        $city = $response_api->resourceSets[0]->resources[0]->address->locality;
+
+        // var_dump($response_api->resourceSets[0]->resources[0]->address->locality);
+
         $conn = Db::getConnection();
         $statement = $conn->prepare("
-            INSERT INTO posts (`title`, `description`, `genre_id`, `upload_date`, `user_id`, `type_id`, `file_path`, `inactive`)
-            VALUES (:title, :description, :genre_id, :upload_date, :user_id, :type_id, :file_path, :inactive);
+            INSERT INTO posts (`title`, `description`, `genre_id`, `upload_date`, `user_id`, `type_id`, `file_path`, `inactive`, `location`)
+            VALUES (:title, :description, :genre_id, :upload_date, :user_id, :type_id, :file_path, :inactive, :location);
         ");
         $statement->bindValue(':title', $this->getTitle());
         $statement->bindValue(':description', $this->getDescription());
@@ -241,15 +330,10 @@ class Post {
         $statement->bindValue(':type_id', $this->getType_id());
         $statement->bindValue(':file_path', $this->getFile_path());
         $statement->bindValue(":inactive", $this->getInactive());
+        $statement->bindValue(':location', $city);
         $result = $statement->execute();
         // var_dump($result);
         // var_dump($statement->errorInfo());
     }
 
-
 }
-
-
-
-
-?>

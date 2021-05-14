@@ -1,6 +1,6 @@
 <?php
 
-    include_once(__DIR__ . "/../classes/Db.php");
+    require_once("autoload.php");
 
     // amount of posts per page
     $postsPerPage = 20;
@@ -14,9 +14,11 @@
 
     // get posts from db
     if ($isAdminPage){
-        $allPosts = Db::getAllReportedPosts();
+        var_dump("if key =".$key);
+        $allPosts = Db::getAllReportedPostsWithTag($key);
     }else{
-        $allPosts = Db::getAllPosts($currentPagePostCount, $userId);
+        var_dump("else key =".$key);
+        $allPosts = Db::getAllPostsWithTag($currentPagePostCount, $key);
     }
 
     $htmlOutput = '';
@@ -28,11 +30,12 @@
         <div class="alert alert-danger" role="alert"></div>
         ';
     }
+
     // loop over posts to generate html
     foreach($allPosts as $post){
 
         // get user file path for profile picture
-        $post_user_file_path = Db::getProfileImgPath($post->getUser_id());
+        $post_user_file_path =  Db::getProfileImgPath($post->getUser_id());
 
         // set default if none found
         if (!$post_user_file_path) {
@@ -42,10 +45,7 @@
         // get some data from the db
         $genre = Db::getGenreById($post->getGenre_id());
         $user = Db::getUserById($post->getUser_id());
-        $like = Like::getNumberLike($post->getId());
-        $userLike = Like::getLikeStatusUser($post->getId(), $userId);
         $postUniqueName = "post-" . $post->getId();
-        $countLikes = $like[0];
 
 
 
@@ -65,7 +65,7 @@
         }else{
             $descriptions = $description;
         }
-
+        
         $counter = strpos($description, "#", $counter);
         while($counter > 0){
             //var_dump("Er zit een # in".$post->getId());
@@ -81,16 +81,15 @@
 
         //var_dump($tags);
         //var_dump('Number of tags: '.$numberOfTags);
-
+       
         //Foreach loop voor de tags
         $tagLinks = "";
         foreach($tags as $tag){
             $urlTag = substr($tag, 1);
-            $tagLinks .= ' <a href="feed.php?tag='.$urlTag.'">'.$tag.'</a>';
-
+            $tagLinks .= ' <a href="feed.php?v='.$urlTag.'">'.$tag.'</a>';
+            
         }
-
-
+        
 
 
 
@@ -137,38 +136,12 @@
                     <h4>' . $genre->getName() . '</h4>
                     <p>' . $descriptions . $tagLinks . '</p>
                 </div>
-            </div>';
-
-            if ($like[0] == 1){
-                $htmlOutput .= '
-                <div class="col-3">
-                    <p id="'.$post->getId().'">' . $like[0] . ' like</p>
-                </div>
-                ';
-            }else{
-                $htmlOutput .= '
-                <div class="col-3">
-                    <p id="'.$post->getId().'">' . $like[0] . ' likes</p>
-                </div>
-                ';
-            }
-
-            $htmlOutput .='
-            <div class="col-3 ' . $postUniqueName .'">
-                <button type="button" class="btn btn-info-like" data-postid="'.$post->getId().'">'.$userLike.'</button>
-                <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
-                <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
             </div>
 
-            <div class="post__comments">
-                <div class="post__comments__form">
-                    <input type="text" name="comment-input" id="comment-text" placeholder="Whats on your mind">
-                    <a href="" class="btn btn-comment" id="btn-comment" data-postid="'.$post->getId().'">Add comment'.$post->getId().'</a>
-                </div>
-
-                <ul class="post__comments__list">
-                    <li>This is a first comment</li>
-                </ul>
+            <div class="col-3 ' . $postUniqueName .'">
+                <button type="button" class="btn btn-info"><img src="/images/like_image.png" alt="Likes">300 Likes</button>
+                <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
+                <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
             </div>
         ';
     }
