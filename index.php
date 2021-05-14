@@ -26,9 +26,9 @@ if(isset($_SESSION["legato-user"])){
                 $post = new Post();
                 $post->setTitle($_POST['title']);
                 $post->setDescription($_POST['description']);
-                $post->setGenre_id($_POST['genre_id']);
+                $post->setGenre_id(intval($_POST['genre_id']));
                 $post->setFile_path($uploadResult['file_path']);
-                $post->setUser_id($userId);
+                $post->setUser_id(intval($userId));
                 $post->insert();
                 $postPlacedSuccess = true;
             }else{
@@ -134,7 +134,7 @@ if(isset($_SESSION["legato-user"])){
 <div class="container">
   <div class="row">
 
-  <?php include 'loadPosts.php';?>
+  <?php include 'ajax/loadPosts.php';?>
 
   </div>
 </div>

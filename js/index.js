@@ -22,7 +22,7 @@ document.querySelector("#btn-load-more").addEventListener("click", function() {
     pagePostCount = parseInt(pagePostCount) + parseInt(postsPerPage);
     myBody.append("pagePostCount", pagePostCount);
 
-    fetch("loadPosts.php", {
+    fetch("ajax/loadPosts.php", {
         method: "POST",
         body: myBody,
     })
@@ -37,8 +37,9 @@ let postReportButtons = document.querySelectorAll(".dropdown-item.btn-report");
 postReportButtons.forEach(function(reportButton) {
     reportButton.addEventListener("click", function() {
 
-        postId = reportButton.id.replace("btn-report-post-", "");
+        let postId = reportButton.id.replace("btn-report-post-", "");
 
+        // console.log(postId);
         // add the user and post to the reports table
         // only unique combinations of userId and postId will be added
         addEntryToReportsTable(postId);
@@ -51,7 +52,7 @@ function checkReportCount(postId){
     myBody = new FormData();
     myBody.append("postId", postId);
 
-    fetch("getReportsCount.php", {
+    fetch("ajax/getReportsCount.php", {
         method: "POST",
         body: myBody,
     })
@@ -83,7 +84,7 @@ function addEntryToReportsTable(postId){
     myBody.append("postId", postId);
     myBody.append("userId", userId);
 
-    fetch("addEntryToReportsTable.php", {
+    fetch("ajax/addEntryToReportsTable.php", {
         method: "POST",
         body: myBody,
     })

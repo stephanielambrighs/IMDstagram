@@ -1,6 +1,6 @@
 <?php
 
-    require_once("autoload.php");
+    include_once(__DIR__ . "/../classes/Db.php");
 
     // amount of posts per page
     $postsPerPage = 20;
@@ -28,9 +28,9 @@
         <div class="alert alert-danger" role="alert"></div>
         ';
     }
-
     // loop over posts to generate html
     foreach($allPosts as $post){
+
 
         // get user file path for profile picture
         $post_user_file_path =  Db::getProfileImgPath($post->getUser_id());
@@ -44,6 +44,7 @@
         $genre = Db::getGenreById($post->getGenre_id());
         $user = Db::getUserById($post->getUser_id());
         $postUniqueName = "post-" . $post->getId();
+
 
         // generate html output
         $htmlOutput .= '
