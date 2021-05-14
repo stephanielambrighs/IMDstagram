@@ -5,7 +5,7 @@ session_start();
 
 if(isset($_SESSION["legato-user"])){
 
-    
+
 
     // get email from session user
     $sessionUser = $_SESSION['legato-user'];
@@ -27,15 +27,16 @@ if(isset($_SESSION["legato-user"])){
                 $post = new Post();
                 $post->setTitle($_POST['title']);
                 $post->setDescription($_POST['description']);
-                $post->setGenre_id($_POST['genre_id']);
+                $post->setGenre_id(intval($_POST['genre_id']));
                 $post->setFile_path($uploadResult['file_path']);
-                $post->setUser_id($userId);
+                $post->setUser_id(intval($userId));
                 $post->setLatitude($_POST['latitude']);
                 $post->setLongitude($_POST['longitude']);
+                $result = $post->insert();
 
-                $result = Db::insertPost($post);
-                // var_dump($result);
                 $postPlacedSuccess = true;
+            }else{
+                $postPlacedFailed = true;
             }
         }
         catch(Exception $e){
@@ -43,14 +44,7 @@ if(isset($_SESSION["legato-user"])){
             var_dump($error);
         }
     }
-    else{
-        $uploadTitle = false;
-        $uploadGenre = false;
-        $uploadFile = false;
-        $uploadDescription = false;
-    }
 
-    //Code searchfield hier
 //     if(isset($_POST["search"])){
 //         $searchQuery = $_POST["search"];
 //         $query = mysql_query("select * LIKE '%$searchQuery%'") or die("could not search");
@@ -99,40 +93,32 @@ if(isset($_SESSION["legato-user"])){
         <input type="text" name="longitude" style="visibility: hidden; display: block;" id="location-longitude">
         <label for="exampleFormControlInput1" class="form-label">Title</label>
         <input type="text" name="title" class="form-control" id="title" placeholder="Title...">
-        <?php if($uploadTitle == false && isset($uploadTitle)): ?>
-            <div class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
-        <?php endif; ?>
+        <div id="msg-title" class="alert alert-danger form"></div>
     </div>
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Genre</label>
-        <select class="form-select" name="genre_id" id="inputGroupSelect04" aria-label="Example select with button addon">
-            <option selected>-</option>
+        <select id="dropdown-genres" class="form-select" name="genre_id" aria-label="Example select with button addon">
+            <option  selected>-</option>
         <?php
         $allGenres = Db::getAllGenres();
         for($i = 0; $i < count($allGenres); $i++):?>
             <option value="<?php echo ($i + 1)?>"><?php echo $allGenres[$i]->name; ?></option>
         <?php endfor; ?>
         </select>
-        <?php if(isset($uploadGenre)): ?>
-            <div class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
-        <?php endif; ?>
+            <div id="msg-genres" class="alert alert-danger form"></div>
     </div>
     <div class="mb-3">
         <label for="formFile" class="form-label">Upload file</label>
         <input class="form-control" name="file" type="file" id="file">
-        <?php if(isset($uploadResult) && $uploadResult['success'] == false): ?>
+        <?php if($uploadResult['success'] == false): ?>
             <div class="alert alert-danger form"><?php echo $uploadResult['message']; ?></div>
         <?php endif;?>
-        <?php if(isset($uploadFile)): ?>
-            <div class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
-        <?php endif; ?>
+            <div id="msg-uploadfile" class="alert alert-danger form"></div>
     </div>
     <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-        <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" type="text"></textarea>
-        <?php if(isset($uploadDescription)): ?>
-            <div class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
-        <?php endif; ?>
+        <textarea class="form-control" name="description" id="description" rows="3" type="text"></textarea>
+        <div id="msg-description"  class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
     </div>
     <button id="submit" type="submit" value="Upload" class="btn btn-info">Submit</button>
 </form>
@@ -141,14 +127,20 @@ if(isset($_SESSION["legato-user"])){
 
 <?php if(isset($postPlacedSuccess) == true): ?>
     <div class="alert alert-success feed" role="alert">
-        <?php echo "Successfully placed a post"?>
+        <?php echo "Successfully placed post"?>
+    </div>
+<?php endif;?>
+
+<?php if(isset($postPlacedFailed) == true): ?>
+    <div class="alert alert-danger feed" role="alert">
+        <?php echo "Failed to place post"?>
     </div>
 <?php endif;?>
 
 <div class="container">
   <div class="row">
 
-  <?php include 'loadPosts.php';?>
+  <?php include 'ajax/loadPosts.php';?>
 
   </div>
 </div>
@@ -157,8 +149,8 @@ if(isset($_SESSION["legato-user"])){
 <script type="text/javascript">
     let pagePostCount = '<?php echo $currentPagePostCount; ?>';
     let postsPerPage = '<?php echo $postsPerPage; ?>';
-    let postPlacedSuccess = '<?php echo $postPlacedSuccess; ?>';
-    
+    let postPlacedSuccess = '<?php echo $postPlacedSuccess?>';
+    let postPlacedFailed = '<?php echo $postPlacedFailed?>';
 </script>
 
 

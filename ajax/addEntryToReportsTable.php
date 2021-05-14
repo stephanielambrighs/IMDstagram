@@ -1,6 +1,6 @@
 <?php
 
-require_once("autoload.php");
+include_once(__DIR__ . "/../classes/Db.php");
 
 if(!empty($_POST)){
     $postId = $_POST['postId'];

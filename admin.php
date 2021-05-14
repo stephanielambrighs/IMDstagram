@@ -48,7 +48,7 @@ if(isset($_SESSION["legato-user"])){
   <div class="row">
 
   <?php
-    include 'loadPosts.php';
+    include 'ajax/loadPosts.php';
   ?>
 
   </div>

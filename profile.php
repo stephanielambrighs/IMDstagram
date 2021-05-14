@@ -200,11 +200,12 @@
 </div>
 
 <?php
-  $loggedInUserId = Db::getUserByEmail($userEmail)->getId();
+  $loggedInUser = Db::getUserByEmail($userEmail);
+  $loggedInUserId = $loggedInUser->getId();
 
   // check if user is private
   // only private users should see follower requests
-  if(Db::getUserPrivacyStatus($loggedInUserId)){
+  if($loggedInUser->getUserPrivacyStatus()){
     $followerIds = Db::getFollowerRequests($loggedInUserId);
   }
   else{
