@@ -77,7 +77,7 @@ class Post {
 
     public function setGenre_id($genre_id)
     {
-        if(is_string($genre_id)){
+        if(is_int($genre_id)){
             $this->genre_id = $genre_id;
         }
         return $this;
@@ -102,7 +102,7 @@ class Post {
 
     public function setUser_id($user_id)
     {
-        if(is_string($user_id)){
+        if(is_int($user_id)){
             $this->user_id = $user_id;
         }
         return $this;
@@ -115,7 +115,7 @@ class Post {
 
     public function setType_id($type_id)
     {
-        if(is_string($type_id)){
+        if(is_int($type_id)){
             $this->type_id = $type_id;
         }
         return $this;

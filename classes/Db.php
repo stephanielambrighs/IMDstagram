@@ -160,13 +160,13 @@ class Db {
         $postList = [];
         foreach($result as $db_post){
             $post = new Post();
-            $post->setId($db_post['id']);
+            $post->setId(intval($db_post['id']));
             $post->setTitle($db_post['title']);
             $post->setDescription($db_post['description']);
-            $post->setGenre_id($db_post['genre_id']);
+            $post->setGenre_id(intval($db_post['genre_id']));
             $post->setUpload_date($db_post['upload_date']);
-            $post->setUser_id($db_post['user_id']);
-            $post->setType_id($db_post['type_id']);
+            $post->setUser_id(intval($db_post['user_id']));
+            $post->setType_id(intval($db_post['type_id']));
             $post->setFile_path($db_post['file_path']);
             array_push($postList, $post);
             // var_dump($postList);
@@ -193,13 +193,13 @@ class Db {
         $postList = [];
         foreach($result as $db_post){
             $post = new Post();
-            $post->setId($db_post['id']);
+            $post->setId(intval($db_post['id']));
             $post->setTitle($db_post['title']);
             $post->setDescription($db_post['description']);
-            $post->setGenre_id($db_post['genre_id']);
+            $post->setGenre_id(intval($db_post['genre_id']));
             $post->setUpload_date($db_post['upload_date']);
-            $post->setUser_id($db_post['user_id']);
-            $post->setType_id($db_post['type_id']);
+            $post->setUser_id(intval($db_post['user_id']));
+            $post->setType_id(intval($db_post['type_id']));
             $post->setFile_path($db_post['file_path']);
             array_push($postList, $post);
             // var_dump($postList);
@@ -355,7 +355,8 @@ class Db {
             WHERE id = :post_id
         ");
         $statement->bindValue(':post_id', $postId);
-        return $statement->execute();
+        $result = $statement->execute();
+        return $result;
     }
 
 
