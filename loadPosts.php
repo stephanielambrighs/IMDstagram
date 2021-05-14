@@ -2,13 +2,6 @@
 
     require_once("autoload.php");
 
-    //get geo location
-    $ip_adress = $_SERVER['REMOTE_ADDR'];
-    $geopluginURL = 'http://www.geoplugin.net/hp.g?id='.$ip_adress;
-    $addrDetailsArr = unserialize(file_get_contents($geopluginURL));
-    $city = $addrDetailsArr['geoplugin_city'];
-    $country = $addrDetailsArr['geoplugin_countryName'];
-
     // amount of posts per page
     $postsPerPage = 20;
 
@@ -40,7 +33,7 @@
     foreach($allPosts as $post){
 
         // get user file path for profile picture
-        $post_user_file_path =  Db::getProfileImgPath($post->getUser_id());
+        //$post_user_file_path =  Db::getProfileImgPath($post->getUser_id());
 
         // set default if none found
         if (!$post_user_file_path) {
@@ -56,7 +49,7 @@
         $htmlOutput .= '
             <div class="col-9 ' . $postUniqueName .'">
                 <!-- <img src="https://images.pexels.com/photos/908602/pexels-photo-908602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="user_image"> -->
-                <img src="' . $post_user_file_path . '" alt="user_image">
+                <!--img src="' . $post_user_file_path . '" alt="user_image"-->
                 <h2>' .$user->getUsername() . '</h2>
                 <div class="btn-group" role="group">
                 <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -89,6 +82,9 @@
             </div>
             <div>
                 <p>' . $post->getUploadedTimeAgo() .'</p>
+            </div>
+            <div>
+                <p>' . $location . '</p>
             </div>
 
             <div class="feed ' . $postUniqueName .'">
