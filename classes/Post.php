@@ -39,7 +39,7 @@ class Post {
     public function setId($id)
     {
         if (is_int($id)) {
-                $this->id = $id;
+            $this->id = $id;
         }
         return $this;
     }
@@ -51,9 +51,10 @@ class Post {
 
     public function setTitle($title)
     {
+        if(is_string($title)){
             $this->title = $title;
-
-            return $this;
+        }
+        return $this;
     }
 
     public function getDescription()
@@ -63,9 +64,10 @@ class Post {
 
     public function setDescription($description)
     {
+        if(is_string($description)){
             $this->description = $description;
-
-            return $this;
+        }
+        return $this;
     }
 
     public function getGenre_id()
@@ -75,9 +77,10 @@ class Post {
 
     public function setGenre_id($genre_id)
     {
+        if(is_string($genre_id)){
             $this->genre_id = $genre_id;
-
-            return $this;
+        }
+        return $this;
     }
 
     public function getUpload_date()
@@ -99,9 +102,10 @@ class Post {
 
     public function setUser_id($user_id)
     {
+        if(is_string($user_id)){
             $this->user_id = $user_id;
-
-            return $this;
+        }
+        return $this;
     }
 
     public function getType_id()
@@ -111,9 +115,10 @@ class Post {
 
     public function setType_id($type_id)
     {
+        if(is_string($type_id)){
             $this->type_id = $type_id;
-
-            return $this;
+        }
+        return $this;
     }
 
     public function getFile_path()
@@ -123,9 +128,10 @@ class Post {
 
     public function setFile_path($file_path)
     {
+        if(is_string($file_path)){
             $this->file_path = $file_path;
-
-            return $this;
+        }
+        return $this;
     }
 
     /**
@@ -143,8 +149,9 @@ class Post {
      */
     public function setInactive($inactive)
     {
-        $this->inactive = $inactive;
-
+        if(is_bool($inactive)){
+            $this->inactive = $inactive;
+        }
         return $this;
     }
 
