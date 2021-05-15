@@ -14,9 +14,11 @@
 
     // get posts from db
     if ($isAdminPage){
-        $allPosts = Db::getAllReportedPosts();
+        var_dump("if key =".$key);
+        $allPosts = Db::getAllReportedPostsWithTag($key);
     }else{
-        $allPosts = Db::getAllPosts($currentPagePostCount, $userId);
+        var_dump("else key =".$key);
+        $allPosts = Db::getAllPostsWithTag($currentPagePostCount, $key);
     }
 
     $htmlOutput = '';
@@ -44,6 +46,52 @@
         $genre = Db::getGenreById($post->getGenre_id());
         $user = Db::getUserById($post->getUser_id());
         $postUniqueName = "post-" . $post->getId();
+
+
+
+
+        // Get tags out of description
+        $description = $post->getDescription();
+        $descriptions;
+        $tags = [];
+        $numberOfTags = 0;
+        $counter = 0; //Is pointer binnenin de description
+        //$tags[0] = "";
+        $tagLength = 0;
+
+        // Kijken of er een # in de description zit => Neem het deel voor de #
+        if(strpos($description, "#") > 0){
+            $descriptions = strstr($description, "#", true);
+        }else{
+            $descriptions = $description;
+        }
+        
+        $counter = strpos($description, "#", $counter);
+        while($counter > 0){
+            //var_dump("Er zit een # in".$post->getId());
+            if(strpos(substr($description, $counter), " ") == 0){
+                $tagLength = strlen(substr($description, $counter));
+            }else{
+                $tagLength = strpos(substr($description, $counter), " ");
+            }
+            $tags[$numberOfTags] = substr($description, $counter, $tagLength);
+            $numberOfTags++;
+            $counter = strpos($description, "#", $counter+1);
+        }
+
+        //var_dump($tags);
+        //var_dump('Number of tags: '.$numberOfTags);
+       
+        //Foreach loop voor de tags
+        $tagLinks = "";
+        foreach($tags as $tag){
+            $urlTag = substr($tag, 1);
+            $tagLinks .= ' <a href="feed.php?v='.$urlTag.'">'.$tag.'</a>';
+            
+        }
+        
+
+
 
         // generate html output
         $htmlOutput .= '
@@ -86,7 +134,7 @@
                 <div class="col-6">
                     <h3>' . $post->getTitle() .'</h3>
                     <h4>' . $genre->getName() . '</h4>
-                    <p>' . $post->getDescription() . '</p>
+                    <p>' . $descriptions . $tagLinks . '</p>
                 </div>
             </div>
 
@@ -96,7 +144,6 @@
                 <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
             </div>
         ';
-
     }
 
     // return the generated htlm

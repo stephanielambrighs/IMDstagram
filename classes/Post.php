@@ -1,10 +1,12 @@
 <?php
 
 
+
 class Post {
     private $id = 0;
     private $title = "";
     private $description = "";
+    private $tag = "";
     private $genre_id = 0;
     private $upload_date = 0;
     private $user_id = 0;
@@ -41,9 +43,10 @@ class Post {
 
     public function setId($id)
     {
+        if (is_int($id)) {
             $this->id = $id;
-
-            return $this;
+        }
+        return $this;
     }
 
     public function getTitle()
@@ -53,9 +56,10 @@ class Post {
 
     public function setTitle($title)
     {
+        if(is_string($title)){
             $this->title = $title;
-
-            return $this;
+        }
+        return $this;
     }
 
     public function getDescription()
@@ -65,7 +69,21 @@ class Post {
 
     public function setDescription($description)
     {
+        if(is_string($description)){
             $this->description = $description;
+        }
+        return $this;
+    }
+
+
+    public function getTag()
+    {
+            return $this->tag;
+    }
+
+    public function setTag($tag)
+    {
+            $this->tag = $tag;
 
             return $this;
     }
@@ -75,11 +93,13 @@ class Post {
             return $this->genre_id;
     }
 
+
     public function setGenre_id($genre_id)
     {
+        if(is_int($genre_id)){
             $this->genre_id = $genre_id;
-
-            return $this;
+        }
+        return $this;
     }
 
     public function getUpload_date()
@@ -101,9 +121,10 @@ class Post {
 
     public function setUser_id($user_id)
     {
+        if(is_int($user_id)){
             $this->user_id = $user_id;
-
-            return $this;
+        }
+        return $this;
     }
 
     public function getType_id()
@@ -113,9 +134,10 @@ class Post {
 
     public function setType_id($type_id)
     {
+        if(is_int($type_id)){
             $this->type_id = $type_id;
-
-            return $this;
+        }
+        return $this;
     }
 
     public function getFile_path()
@@ -125,9 +147,10 @@ class Post {
 
     public function setFile_path($file_path)
     {
+        if(is_string($file_path)){
             $this->file_path = $file_path;
-
-            return $this;
+        }
+        return $this;
     }
 
     /**
@@ -145,14 +168,15 @@ class Post {
      */
     public function setInactive($inactive)
     {
-        $this->inactive = $inactive;
-
+        if(is_bool($inactive)){
+            $this->inactive = $inactive;
+        }
         return $this;
     }
 
     /**
      * Get the value of latitude
-     */ 
+     */
     public function getLatitude()
     {
         return $this->latitude;
@@ -162,7 +186,7 @@ class Post {
      * Set the value of latitude
      *
      * @return  self
-     */ 
+     */
     public function setLatitude($latitude)
     {
         $this->latitude = $latitude;
@@ -172,7 +196,7 @@ class Post {
 
     /**
      * Get the value of longitude
-     */ 
+     */
     public function getLongitude()
     {
         return $this->longitude;
@@ -182,7 +206,7 @@ class Post {
      * Set the value of longitude
      *
      * @return  self
-     */ 
+     */
     public function setLongitude($longitude)
     {
         $this->longitude = $longitude;
@@ -192,7 +216,7 @@ class Post {
 
     /**
      * Get the value of location
-     */ 
+     */
     public function getLocation()
     {
         return $this->location;
@@ -202,7 +226,7 @@ class Post {
      * Set the value of location
      *
      * @return  self
-     */ 
+     */
     public function setLocation($location)
     {
         $this->location = $location;
@@ -283,14 +307,33 @@ class Post {
         return "1 second ago";
     }
 
+    public function insert(){
+        $key = "AtGFLVCTd5bH2t5y-lMYSfYfwFmWAQL-DBg-YNuMPBUxGag7GrKORKLZSOqTsLx9";
+        $base_url = "http://dev.virtualearth.net/REST/v1/Locations/";
+        $url = $base_url .  $this->getLatitude() . "," .  $this->getLongitude() . "?key=" . $key;
 
-    
+        $response_api = json_decode(file_get_contents($url));
+        $city = $response_api->resourceSets[0]->resources[0]->address->locality;
+
+        // var_dump($response_api->resourceSets[0]->resources[0]->address->locality);
+
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("
+            INSERT INTO posts (`title`, `description`, `genre_id`, `upload_date`, `user_id`, `type_id`, `file_path`, `inactive`, `location`)
+            VALUES (:title, :description, :genre_id, :upload_date, :user_id, :type_id, :file_path, :inactive, :location);
+        ");
+        $statement->bindValue(':title', $this->getTitle());
+        $statement->bindValue(':description', $this->getDescription());
+        $statement->bindValue(':genre_id', $this->getGenre_id());
+        $statement->bindValue(':upload_date', Db::get_current_time());
+        $statement->bindValue(':user_id', $this->getUser_id());
+        $statement->bindValue(':type_id', $this->getType_id());
+        $statement->bindValue(':file_path', $this->getFile_path());
+        $statement->bindValue(":inactive", $this->getInactive());
+        $statement->bindValue(':location', $city);
+        $result = $statement->execute();
+        // var_dump($result);
+        // var_dump($statement->errorInfo());
+    }
+
 }
-
-
-    
-
-
-
-
-?>

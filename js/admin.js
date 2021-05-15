@@ -14,7 +14,8 @@ let postDeletePostButtons = document.querySelectorAll(".dropdown-item.btn-delete
 postDeletePostButtons.forEach(function(DeletePostButton) {
     DeletePostButton.addEventListener("click", function() {
 
-        postId = DeletePostButton.id.replace("btn-delete-post-post-", "");
+        let postId = DeletePostButton.id.replace("btn-delete-post-post-", "");
+        console.log(postId);
         deletePost(postId);
 
     });
@@ -25,7 +26,7 @@ function removeStrikesFromPost(postId){
     myBody = new FormData();
     myBody.append("postId", postId);
 
-    fetch("removeStrikesFromPost.php", {
+    fetch("ajax/removeStrikesFromPost.php", {
         method: "POST",
         body: myBody,
     })
@@ -52,7 +53,7 @@ function deletePost(postId){
     myBody = new FormData();
     myBody.append("postId", postId);
 
-    fetch("deletePost.php", {
+    fetch("ajax/deletePost.php", {
         method: "POST",
         body: myBody,
     })
@@ -61,12 +62,12 @@ function deletePost(postId){
         // console.log("Success: ", data);
         if (data['status'] == "success"){
             hidePost(postId);
-            showMessage(".alert.alert-success", "Successfully deleted post!");
+            showMessage(".alert.alert-success", data['message']);
         }
         else{
-            showMessage(".alert.alert-danger", "Failed to delete post!");
+            showMessage(".alert.alert-danger", data['message']);
         }
-        // alert(data['message']);
+
     })
     .catch((error) => {
         // console.log("Error: ", error);
