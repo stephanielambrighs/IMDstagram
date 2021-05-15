@@ -2,34 +2,9 @@
 
     require_once("autoload.php");
 
-    // // amount of posts per page
-    // $postsPerPage = 20;
-
-    // // get amount of posts to load (default = $postsPerPage)
-    // if (isset($_POST['pagePostCount'])){
-    //     $currentPagePostCount = $_POST['pagePostCount'];
-    // }else{
-    //     $currentPagePostCount = $postsPerPage;
-    // }
-
-    // get posts from db
-    // if ($isAdminPage){
-    //     var_dump("if key =".$key);
-        $allPosts = Db::getAllReportedPostsWithTag($_POST["search"]);
-    // }else{
-    //     var_dump("else key =".$key);
-    //     $allPosts = Db::getAllPostsWithTag($currentPagePostCount, $key);
-    // }
-
+    $allPosts = Db::getAllPostsWithTag($_POST["search"]);
+    
     $htmlOutput = '';
-
-    // add success/error message block
-    // if($isAdminPage){
-    //     $htmlOutput .= '
-    //     <div class="alert alert-success" role="alert"></div>
-    //     <div class="alert alert-danger" role="alert"></div>
-    //     ';
-    // }
 
     // loop over posts to generate html
     foreach($allPosts as $post){
@@ -46,9 +21,6 @@
         $genre = Db::getGenreById($post->getGenre_id());
         $user = Db::getUserById($post->getUser_id());
         $postUniqueName = "post-" . $post->getId();
-
-
-
 
         // Get tags out of description
         $description = $post->getDescription();
