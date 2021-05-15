@@ -11,21 +11,10 @@
         $user = DB::getUserByEmail($userEmail);
 
         // create search objects
-        $searchUserInput = new User();
-        $searchUserInput->setUsername($_POST["search"]);
-        $searchUserOutput = $searchUserInput->searchUser();
-
-        $searchPostInput = new Post();
-        $searchPostInput->setTitle($_POST["search"]);
-        $searchPostOutput = $searchPostInput->searchPost();
-
-        $searchTagInput = new Tag();
-        $searchTagInput->setTag($_POST["search"]);
-        $searchTagOutput = $searchTagInput->searchTag();
-
-        $searchLocationInput = new Post();
-        $searchLocationInput->setLocation($_POST["search"]);
-        $searchLocationOutput = $searchLocationInput->searchLocation();
+        $searchUserOutput = User::searchUser($_POST["search"]);
+        $searchPostOutput = Post::searchPost($_POST["search"]);
+        // $searchTagOutput = $searchTagInput->searchTag();
+        $searchLocationOutput = Post::searchLocation($_POST['search']);
     }
 
 ?>
@@ -60,9 +49,15 @@
         <?php endforeach; ?>
         </ul>
     </div>
+
     <div class="searchResult">
         <h3>Tags</h3>
-        <?php foreach($searchTagOutput[0] as $key => $tag): ?>
+            <?php include 'loadPostsTag.php';?>
+    </div>
+
+    <div class="searchResult">
+        <h3>Location</h3>
+        <?php foreach($searchLocationOutput[0] as $key => $tag): ?>
             <li><a class="s-item" href="#"><?php echo "{$tag[0]}\n"; ?></a></li>
         <?php endforeach; ?>
     </div>
