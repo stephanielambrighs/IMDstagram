@@ -89,8 +89,6 @@ if(isset($_SESSION["legato-user"])){
 
 <form class="form-feed" id="form" action="index.php" method="POST" enctype="multipart/form-data">
     <div class="mb-3">
-        <input type="text" name="latitude" style="visibility: hidden;" id="location-latitude">
-        <input type="text" name="longitude" style="visibility: hidden; display: block;" id="location-longitude">
         <label for="exampleFormControlInput1" class="form-label">Title</label>
         <input type="text" name="title" class="form-control" id="title" placeholder="Title...">
         <div id="msg-title" class="alert alert-danger form"></div>
@@ -119,6 +117,8 @@ if(isset($_SESSION["legato-user"])){
         <label for="exampleFormControlTextarea1" class="form-label">Description</label>
         <textarea class="form-control" name="description" id="description" rows="3" type="text"></textarea>
         <div id="msg-description"  class="alert alert-danger form"><?php echo "Sorry, this field cannot be empty."; ?></div>
+        <input type="text" name="latitude" style="visibility: hidden;" id="location-latitude">
+        <input type="text" name="longitude" style="visibility: hidden; display: block;" id="location-longitude">
     </div>
     <button id="submit" type="submit" value="Upload" class="btn btn-info">Submit</button>
 </form>
