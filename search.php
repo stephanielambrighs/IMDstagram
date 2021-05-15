@@ -43,23 +43,17 @@
     </div>
     <div class="searchResult">
         <h3>Posts</h3>
-        <ul>
-        <?php foreach($searchPostOutput[0] as $key => $post): ?>
-            <li><a class="s-item" href="#"><?php echo "{$post[0]}\n"; ?></a></li>
-        <?php endforeach; ?>
-        </ul>
+        <?php include 'loadPostsTitle.php'; ?>
     </div>
 
     <div class="searchResult">
         <h3>Tags</h3>
-            <?php include 'loadPostsTag.php';?>
+        <?php include 'loadPostsTag.php'; ?>
     </div>
 
     <div class="searchResult">
         <h3>Location</h3>
-        <?php foreach($searchLocationOutput[0] as $key => $tag): ?>
-            <li><a class="s-item" href="#"><?php echo "{$tag[0]}\n"; ?></a></li>
-        <?php endforeach; ?>
+        <?php include 'loadPostsLocation.php'; ?>
     </div>
 </main>
 
