@@ -16,6 +16,22 @@ button.addEventListener("click", function(e) {
     e.preventDefault();
 });
 
+$(document).ready(function() {
+    var readURL = function(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('.post-img').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $(".file-upload").on('change', function(){
+        readURL(this);
+    });
+});
 
 document.querySelector("#btn-load-more").addEventListener("click", function() {
     myBody = new FormData();

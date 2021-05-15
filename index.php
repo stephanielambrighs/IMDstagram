@@ -115,7 +115,10 @@ if(isset($_SESSION["legato-user"])){
     </div>
     <div class="mb-3">
         <label for="formFile" class="form-label">Upload file</label>
-        <input class="form-control" name="file" type="file" id="file">
+        <div>
+            <img class="post-img" src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="Post Image">
+        </div>
+        <input class="form-control file-upload" name="file" type="file" id="file">
         <?php if(isset($uploadResult) && $uploadResult['success'] == false): ?>
             <div class="alert alert-danger form"><?php echo $uploadResult['message']; ?></div>
         <?php endif;?>
