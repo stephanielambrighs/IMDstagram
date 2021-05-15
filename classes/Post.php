@@ -148,24 +148,26 @@ class Post {
     }
 
 
-    public function searchPost(){
+    public static function searchPost($search){
+        $input = '%'.$search.'%';
             $conn = Db::getConnection();
-            $searchPostInput = $this->getTitle();
-            $statement = $conn->prepare("SELECT title FROM posts WHERE title LIKE '%$searchPostInput%'");
+            $statement = $conn->prepare("SELECT title FROM posts WHERE title LIKE :title");
+            $statement->bindValue(':title', $input);
             $statement->execute();
             $searchPostOutput = array();
             $searchPostOutput[] = $statement->fetchall();
             return $searchPostOutput;
     }
 
-    public function searchLocation(){
+    public static function searchLocation($search){
+        $input = '%'.$search.'%';
         $conn = Db::getConnection();
-        $searchPostInput = $this->getLocation();
-        $statement = $conn->prepare("SELECT location FROM posts WHERE title LIKE '%$searchPostInput%'");
+        $statement = $conn->prepare("SELECT location FROM posts WHERE location LIKE :location");
+        $statement->bindValue(':location', $input);
         $statement->execute();
-        $searchPostOutput = array();
-        $searchPostOutput[] = $statement->fetchall();
-        return $searchPostOutput;
+        $searchOutput = array();
+        $searchOutput[] = $statement->fetchall();
+        return $searchOutput;
     }
 
 
