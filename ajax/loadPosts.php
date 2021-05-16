@@ -36,7 +36,7 @@
 
         // set default if none found
         if (!$post_user_file_path) {
-            $post_user_file_path = "data/uploads/default.png";
+            $post_user_file_path = FileManager::getLocation()."/default.png";
         }
 
         // get some data from the db

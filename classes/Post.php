@@ -142,6 +142,7 @@ class Post {
 
     public function getFile_path()
     {
+            var_dump($this->file_path);
             return $this->file_path;
     }
 

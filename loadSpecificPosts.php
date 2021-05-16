@@ -39,7 +39,7 @@
 
         // set default if none found
         if (!$post_user_file_path) {
-            $post_user_file_path = "data/uploads/default.png";
+            $post_user_file_path = FileManager::getLocation()."/default.png";
         }
 
         // get some data from the db
@@ -65,7 +65,7 @@
         }else{
             $descriptions = $description;
         }
-        
+
         $counter = strpos($description, "#", $counter);
         while($counter > 0){
             //var_dump("Er zit een # in".$post->getId());
@@ -81,15 +81,15 @@
 
         //var_dump($tags);
         //var_dump('Number of tags: '.$numberOfTags);
-       
+
         //Foreach loop voor de tags
         $tagLinks = "";
         foreach($tags as $tag){
             $urlTag = substr($tag, 1);
             $tagLinks .= ' <a href="feed.php?v='.$urlTag.'">'.$tag.'</a>';
-            
+
         }
-        
+
 
 
 
