@@ -33,7 +33,7 @@ class Db {
         $statement = $conn->prepare("SELECT id, bio FROM profiles");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        var_dump($statement->errorInfo());
+        // var_dump($statement->errorInfo());
 
         $profilesList = [];
         foreach ($result as $db_profile) {
@@ -48,7 +48,7 @@ class Db {
         $statement = $conn->prepare("SELECT id, name FROM genre");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        var_dump($statement->errorInfo());
+        // var_dump($statement->errorInfo());
 
         $genreList = [];
         foreach($result as $db_genre){
@@ -171,11 +171,11 @@ class Db {
 
         $statement->bindValue(":limit", $limit, PDO::PARAM_INT);
         $statement->bindValue(":tag", $hashtag, PDO::PARAM_STR);
-        var_dump("Achter bindValue()");
+        // var_dump("Achter bindValue()");
         $statement->execute();
-        var_dump("Achter execute()");
+        // var_dump("Achter execute()");
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        var_dump("Achter fetchAll()");
+        // var_dump("Achter fetchAll()");
         // var_dump($statement->errorInfo());
 
         $postList = [];

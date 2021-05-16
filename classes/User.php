@@ -562,7 +562,7 @@ class User
         $userId = $this->getId();
         $followerId = $this->getFollowerId();
 
-        var_dump("🥲" . $userId . $followerId);
+        // var_dump("🥲" . $userId . $followerId);
 
         $statement->bindValue(":userMail", $userId);
         $statement->bindValue(":followerMail", $followerId);
