@@ -1,6 +1,6 @@
 <?php
 
-    include_once(__DIR__ . "/../classes/Db.php");
+    require_once("autoload.php");
 
     // amount of posts per page
     $postsPerPage = 20;
@@ -28,11 +28,12 @@
         <div class="alert alert-danger" role="alert"></div>
         ';
     }
+
     // loop over posts to generate html
     foreach($allPosts as $post){
 
         // get user file path for profile picture
-        $post_user_file_path = Db::getProfileImgPath($post->getUser_id());
+        $post_user_file_path =  Db::getProfileImgPath($post->getUser_id());
 
         // set default if none found
         if (!$post_user_file_path) {
@@ -42,57 +43,7 @@
         // get some data from the db
         $genre = Db::getGenreById($post->getGenre_id());
         $user = Db::getUserById($post->getUser_id());
-        $like = Like::getNumberLike($post->getId());
-        $userLike = Like::getLikeStatusUser($post->getId(), $userId);
         $postUniqueName = "post-" . $post->getId();
-        $countLikes = $like[0];
-
-
-
-
-        // Get tags out of description
-        $description = $post->getDescription();
-        $descriptions;
-        $tags = [];
-        $numberOfTags = 0;
-        $counter = 0; //Is pointer binnenin de description
-        //$tags[0] = "";
-        $tagLength = 0;
-
-        // Kijken of er een # in de description zit => Neem het deel voor de #
-        if(strpos($description, "#") > 0){
-            $descriptions = strstr($description, "#", true);
-        }else{
-            $descriptions = $description;
-        }
-
-        $counter = strpos($description, "#", $counter);
-        while($counter > 0){
-            //var_dump("Er zit een # in".$post->getId());
-            if(strpos(substr($description, $counter), " ") == 0){
-                $tagLength = strlen(substr($description, $counter));
-            }else{
-                $tagLength = strpos(substr($description, $counter), " ");
-            }
-            $tags[$numberOfTags] = substr($description, $counter, $tagLength);
-            $numberOfTags++;
-            $counter = strpos($description, "#", $counter+1);
-        }
-
-        //var_dump($tags);
-        //var_dump('Number of tags: '.$numberOfTags);
-
-        //Foreach loop voor de tags
-        $tagLinks = "";
-        foreach($tags as $tag){
-            $urlTag = substr($tag, 1);
-            $tagLinks .= ' <a href="feed.php?tag='.$urlTag.'">'.$tag.'</a>';
-
-        }
-
-
-
-
 
         // generate html output
         $htmlOutput .= '
@@ -126,6 +77,7 @@
         $htmlOutput .= '
             </div>
                 <p>' . $post->getUploadedTimeAgo() .'</p>
+                <p>' . $post->getLocation() .'</p>
             </div>
 
             <div class="feed ' . $postUniqueName .'">
@@ -135,43 +87,17 @@
                 <div class="col-6">
                     <h3>' . $post->getTitle() .'</h3>
                     <h4>' . $genre->getName() . '</h4>
-                    <p>' . $descriptions . $tagLinks . '</p>
+                    <p>' . $post->getDescription() . '</p>
                 </div>
-            </div>';
+            </div>
 
-            if ($like[0] == 1){
-                $htmlOutput .= '
-                <div class="col-3">
-                    <p id="'.$post->getId().'">' . $like[0] . ' like</p>
-                </div>
-                ';
-            }else{
-                $htmlOutput .= '
-                <div class="col-3">
-                    <p id="'.$post->getId().'">' . $like[0] . ' likes</p>
-                </div>
-                ';
-            }
-
-            $htmlOutput .='
             <div class="col-3 ' . $postUniqueName .'">
-                <button type="button" class="btn btn-info-like" data-postid="'.$post->getId().'">'.$userLike.'</button>
+                <button type="button" class="btn btn-info"><img src="/images/like_image.png" alt="Likes">300 Likes</button>
                 <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
                 <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
             </div>
-
-            <div class="post__comments">
-                <div class="post__comments__form">
-                    <input type="text" name="comment-input" id="comment-text" placeholder="Whats on your mind">
-                    <a href="" class="btn btn-comment" id="btn-comment" data-postid="'.$post->getId().'">Add comment'.$post->getId().'</a>
-                </div>
-
-                <ul class="post__comments__list">
-                    <li>This is a first comment</li>
-                </ul>
-                <p>' . $post->getLocation() .'</p>
-            </div>
         ';
+
     }
 
     // return the generated htlm

@@ -32,6 +32,8 @@ if(isset($_SESSION["legato-user"])){
                 $post->setUser_id(intval($userId));
                 $post->setLatitude($_POST['latitude']);
                 $post->setLongitude($_POST['longitude']);
+                $location = $post->showLocation();
+                $post->setLocation($location);
                 $result = $post->insert();
 
                 $postPlacedSuccess = true;
