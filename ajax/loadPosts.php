@@ -170,10 +170,9 @@
                     <input type="text" name="comment-input" id="comment-text" placeholder="Whats on your mind">
                     <a href="" class="btn btn-comment" id="btn-comment" data-postid="'.$post->getId().'">Add comment'.$post->getId().'</a>
                 </div>
-
-                <ul class="post__comments__list">
-                    <li>This is a first comment</li>
-                </ul>
+                <div id="comment_' . $post->getId() . '">'
+                . $htmlPostOutput .
+            '</div>
             </div>
         ';
     }
