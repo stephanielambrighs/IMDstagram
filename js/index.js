@@ -127,6 +127,7 @@ document.querySelectorAll(".btn-comment").forEach(item => {
         let postid = this.dataset.postid;
         let text = this.previousElementSibling.value;
         console.log(postid);
+        console.log(userId);
         console.log(text);
 
         //post naar databank (AJAX)
