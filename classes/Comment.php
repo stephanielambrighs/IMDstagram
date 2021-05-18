@@ -72,22 +72,48 @@
             return $this;
         }
 
-        public function saveComment(){
+        public static function saveComment($userId, $postId, $text){
             $timeNow = new DateTime(Db::get_current_time());
             $time = $timeNow->format('Y-m-d H:i:s');
             //$datetime_object = datetime.strptime($timeNow, '%b %d %Y %I:%M%p')
             $conn = Db::getConnection();
-            $statement = $conn->prepare("insert into comments (user_id, post_id, comment_date, text) values (:userId :postId, :timeNow, :text)");
+            //$statement = $conn->prepare("insert into comments (user_id, post_id, text) values (:userId, :postId, :text)");
 
-            $statement->bindValue(':userId', $this->userId);
-            $statement->bindValue(':postId', $this->postId);
+            $statement = $conn->prepare("insert into comments (user_id, post_id, comment_date, text) values (:userId, :postId, :timeNow, :text)");
+            $statement->bindValue(':userId', $userId);
+            $statement->bindValue(':postId', $postId);
             $statement->bindValue(':timeNow', $time, PDO::PARAM_STR);
-            $statement->bindValue(':text', $this->text);
+            $statement->bindValue(':text', $text);
 
 
             $result = $statement->execute();
-            // var_dump($result);
-
             return $result;
+        }
+
+        public static function getAllComments($postId){
+            $conn = Db::getConnection();
+            $statement = $conn->prepare("
+                SELECT *
+                FROM comments
+                WHERE post_id = :postId
+                ORDER BY comment_date ASC
+            ");
+          
+            $statement->bindValue(":postId", $postId);
+            $statement->execute();
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+            // var_dump($statement->errorInfo());
+    
+            $commentList = [];
+            foreach($result as $db_comment){
+                $comment = new Comment();
+                $comment->setId($db_comment['id']);
+                $comment->setText($db_comment['text']);
+                $comment->setPostId($db_comment['post_id']);
+                $comment->setUserId($db_comment['user_id']);
+                $comment->setCommentDate($db_comment['comment_date']);
+                array_push($commentList, $comment);
+            }
+            return $commentList;
         }
     }
