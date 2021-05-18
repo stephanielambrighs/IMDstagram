@@ -20,6 +20,7 @@
     }
 
     $htmlOutput = '';
+    $htmlPostOutput = '';
 
     // add success/error message block
     if($isAdminPage){
