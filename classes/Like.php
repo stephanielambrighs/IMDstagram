@@ -22,7 +22,9 @@ class Like {
      */
     public function setId($id)
     {
-        $this->id = $id;
+        if(is_int($id)){
+            $this->id = $id;
+        }
 
         return $this;
     }
@@ -42,7 +44,9 @@ class Like {
      */
     public function setPostId($postId)
     {
-        $this->postId = $postId;
+        if(is_int($postId)){
+            $this->postId = $postId;
+        }
 
         return $this;
     }
@@ -62,7 +66,9 @@ class Like {
      */
     public function setUserId($userId)
     {
-        $this->userId = $userId;
+        if(is_int($userId)){
+            $this->userId = $userId;
+        }
 
         return $this;
     }
