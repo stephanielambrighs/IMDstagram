@@ -21,7 +21,9 @@
          */
         public function setText($text)
         {
-            $this->text = $text;
+            if(is_string($text)){
+                $this->text = $text;
+            }
 
             return $this;
         }
@@ -41,8 +43,10 @@
          */
         public function setPostId($postId)
         {
-            $this->postId = $postId;
-
+            if(is_int($postId)){
+                $this->postId = $postId;
+            }
+    
             return $this;
         }
 
@@ -61,7 +65,9 @@
          */
         public function setUserId($userId)
         {
-            $this->userId = $userId;
+            if(is_int($userId)){
+                $this->userId = $userId;
+            }
 
             return $this;
         }
