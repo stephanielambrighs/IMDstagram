@@ -90,7 +90,12 @@
 
         }
 
-
+        foreach($comments as $comment){
+            $htmlPostOutput .= '
+            <h3>' . $comment->getText() . '</h3>
+            <p>' . $comment->getUploadedTimeAgo() . '</p>
+            ';
+        }
 
 
 
