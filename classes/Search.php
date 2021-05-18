@@ -18,7 +18,9 @@ class Search
      */
     public function setEmailTarget($emailTarget)
     {
-        $this->emailTarget = $emailTarget;
+        if(is_string($emailTarget)){
+            $this->emailTarget = $emailTarget;
+        }
 
         return $this;
     }
