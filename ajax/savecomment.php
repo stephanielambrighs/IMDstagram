@@ -10,29 +10,21 @@
 
     if(!empty($_POST)){
         //Nieuwe comment maken
-        $c = new Comment();
-        $userId = $c->setUserId($_POST['userId']);
-        $postId = $c->setPostId($_POST['postid']);
-        $text = $c->setText($_POST['text']);
+        $userId = $_POST['userId'];
+        $postId = $_POST['postid'];
+        $text = $_POST['text'];
 
         //Comment opslaan
-        $addCommentSuccess = $c->saveComment();
+        $addCommentSuccess = Comment::saveComment($userId, $postId, $text);
+        $getCommentsPost = Comment::getAllComments($postId);
+        // $getTimeComment = Comment::getUploadedTimeAgo();
+        //$c->saveComment();
 
         //Seccues boodschap teruggeven
-        if($addCommentSuccess){
             $response = [
-                'status' => 'success',
-                'text' => htmlspecialchars($c->getText()),
-                'message' => 'Comment saved'
+                'text' => $text
             ];
-        }
-        else {
-            $response = [
-                'status' => 'failed',
-                'messsage' => 'Failed to add a comment'
-            ];
-        }
-
+        
         header('Content-Type: application/json');
         echo json_encode($response);
     }
