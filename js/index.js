@@ -121,20 +121,26 @@ function addEntryToReportsTable(postId){
 //Comments
 
 document.querySelectorAll(".btn-comment").forEach(item => {
-    item.addEventListener("click", function(){
+    item.addEventListener("click", function(e){
+        e.preventDefault();
         //console.log("Morgane");
         //Zoek postid en comment tekst
-        let postid = this.dataset.postid;
+        let postId = this.dataset.postid;
         let text = this.previousElementSibling.value;
-        console.log(postid);
-        console.log(userId);
-        console.log(text);
+        
 
         //post naar databank (AJAX)
-        let formData = new FormData();
+        formData = new FormData();
         formData.append('text', text);
-        formData.append('postid', postid);
-        formData.append("userId", userId);
+        formData.append('postid', postId);
+        formData.append('userId', userId);
+
+        console.log(postId);
+        console.log(text);
+        console.log(userId);
+
+        comments = document.getElementById('comment_'+postId);
+        console.log(comments);
 
         fetch('ajax/savecomment.php', {
         method: 'POST',
@@ -142,18 +148,23 @@ document.querySelectorAll(".btn-comment").forEach(item => {
         })
         .then(response => response.json())
         .then(data => {
-        text = data['text'];
+            //addComment = data['addComment'];
+            //getCommentsPost = data['getCommentsPost'];
+            //console.log(getCommentsPost);
+            text = data['text'];
+            console.log(text);
+            console.log("tekst");
 
-        var h3 = document.createElement("H3");
-        h3.innerHTML = text;
-        customElements.appendChild(h3);
-
-        var p = document.createElement("P");
-        p.innerHTML = text;
-        customElements.appendChild(p);
+            var h3 = document.createElement("H3");  
+            h3.innerHTML = text;                
+            comments.appendChild(h3); 
+            
+            var p = document.createElement("P");  
+            p.innerHTML = "Just now";                
+            comments.appendChild(p);
         })
         .catch(error => {
-        console.error('Error:', error);
+            //console.error('Error:', error);
         });
     });
 });
