@@ -141,8 +141,16 @@ document.querySelectorAll(".btn-comment").forEach(item => {
         body: formData
         })
         .then(response => response.json())
-        .then(result => {
-        console.log('Success:', result);
+        .then(data => {
+        text = data['text'];
+
+        var h3 = document.createElement("H3");
+        h3.innerHTML = text;
+        customElements.appendChild(h3);
+
+        var p = document.createElement("P");
+        p.innerHTML = text;
+        customElements.appendChild(p);
         })
         .catch(error => {
         console.error('Error:', error);
