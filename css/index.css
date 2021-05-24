@@ -208,7 +208,18 @@ div.alert.alert-success.feed {
     border-radius: 2%;
 }
 
-div.alert.alert-danger.form {
+div.alert.alert-danger.feed {
     display: grid;
+    grid-template-columns: 100% auto;
+    height: 40px;
+    border-color: #F2DEDE;
+    text-align: center;
+    color: #B04465;
+    background-color: #F2DEDE;
+    border-radius: 2%;
+}
+
+div.alert.alert-danger.form {
+    display: none;
     height: 50px;
 }

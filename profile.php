@@ -1,11 +1,13 @@
 <?php
 
     include_once(__DIR__ . "/autoload.php");
-    
+
     session_start();
 
-    $userProfile = Profile::loadMyProfile($_SESSION['legato-user']->getEmail());
-    var_dump("this- " . $userProfile["email"]);
+    $sessionUser = $_SESSION['legato-user'];
+    $userEmail = $sessionUser->getEmail();
+    $userProfile = Profile::loadMyProfile($userEmail);
+    // var_dump("this- " . $userProfile["email"]);
 
     $user = new User();
 
@@ -17,7 +19,7 @@
         $user->setNewUsername($_POST['newUsername']);
         $user->setNewDateOfBirth($_POST['newDateOfBirth']);
         $user->setNewBio($_POST['newBio']);
-        
+
         $result = $user->updateProfile();
     }
 
@@ -45,8 +47,8 @@
                     <div class="mt-3">
                       <h4><?php echo ($userProfile["firstname"] . " " . $userProfile["lastname"]); ?></h4>
                       <p class="text-secondary mb-1">Title -> job</p>
-                      <p class="text-muted font-size-sm">Where i life?</p>
-                      
+                      <p class="text-muted font-size-sm">Where do I live?</p>
+                      <button type="button" id="btn-private" class="btn btn-primary">Set private</button>
                     </div>
                   </div>
                 </div>
@@ -189,7 +191,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="text-right">
                         <a id="cancelProfile" name="cancel" class="btn btn-secondary" href="profile.php">Cancel</a>
-                        <button id="upateProfile" type="submit" id="submit" name="submit" class="btn btn-primary">Update</button>
+                        <button id="updateProfile" type="submit" id="submit" name="submit" class="btn btn-primary">Update</button>
                     </div>
                 </div>
             </div>
@@ -197,7 +199,49 @@
     </form>
 </div>
 
+<?php
+  $loggedInUser = Db::getUserByEmail($userEmail);
+  $loggedInUserId = $loggedInUser->getId();
+
+  // check if user is private
+  // only private users should see follower requests
+  if($loggedInUser->getUserPrivacyStatus()){
+    $followerIds = Db::getFollowerRequests($loggedInUserId);
+  }
+  else{
+    $followerIds = [];
+  }
+?>
+<div class="row row-space-2">
+  <h1>Follower requests</h1>
+  <?php foreach($followerIds as $followerId): ?>
+    <div class="col-md-6 m-b-2 follower-<?php echo $followerId?>">
+        <div class="p-10 bg-black">
+          <div class="media media-xs overflow-visible">
+              <a class="media-left" href="#">
+                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="image_friend" class="media-object img-circle">
+              </a>
+              <div class="media-body valign-middle">
+                <b class="text-inverse"><?php echo Db::getUserById($followerId)->getUsername(); ?></b>
+              </div>
+              <div class="btn-group" role="group" aria-label="Basic outlined example">
+                <button type="button" class="btn btn-outline-success accept" id="btn-accept-<?php echo $followerId ?>">Accept</button>
+                <button type="button" class="btn btn-outline-danger decline" id="btn-decline-<?php echo $followerId ?>">Decline</button>
+              </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-success accept" role="alert"></div>
+<div class="alert alert-danger decline" role="alert"></div>
+<?php endforeach; ?>
 <?php include_once("inc/footer.inc.php");?>
+
+<script type="text/javascript">
+    let userId = <?php echo $loggedInUserId; ?>
+</script>
 <script src="/js/profile.js"></script>
+
 </body>
 </html>

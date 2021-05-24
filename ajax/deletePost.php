@@ -1,6 +1,6 @@
 <?php
 
-require_once("autoload.php");
+include_once(__DIR__ . "/../classes/Db.php");
 
 if(!empty($_POST)){
     $postId = $_POST['postId'];
@@ -11,6 +11,7 @@ if(!empty($_POST)){
 
         // now delete the post
         $deletePostSuccess = Db::deletePost($postId);
+
 
         if ($deletePostSuccess){
             $response = [

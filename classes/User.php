@@ -1,5 +1,6 @@
 <?php
 include_once(__DIR__ . "/Db.php");
+include_once(__DIR__ . "/FileManager.php");
 
 date_default_timezone_set("Europe/Brussels");
 //echo "The time is " . date("h:i:sa");
@@ -15,7 +16,7 @@ class User
     private $avatar;
     private $bio;
     private $dateOfBirth;
-    private $file_path = "data/uploads/default.png";
+    private $file_path = null;
 
     private $genre;
     private $followerId;
@@ -195,6 +196,9 @@ class User
      */
     public function getFile_path()
     {
+        if($this->file_path == null){
+            return FileManager::getLocation()."/default.png";
+        }
         return $this->file_path;
     }
 
@@ -251,7 +255,7 @@ class User
 
     /**
      * Get the value of followerId
-     */ 
+     */
     public function getFollowerId()
     {
         return $this->followerId;
@@ -261,7 +265,7 @@ class User
      * Set the value of followerId
      *
      * @return  self
-     */ 
+     */
     public function setFollowerId($followerId)
     {
         $this->followerId = $followerId;
@@ -558,8 +562,8 @@ class User
         $userId = $this->getId();
         $followerId = $this->getFollowerId();
 
-        var_dump("🥲" . $userId . $followerId);
-        
+        // var_dump("🥲" . $userId . $followerId);
+
         $statement->bindValue(":userMail", $userId);
         $statement->bindValue(":followerMail", $followerId);
 
@@ -582,19 +586,21 @@ class User
 
     }
 
-    public function searchUser(){
+    public static function searchUser($search){
+        $input = '%'.$search.'%';
         $conn = Db::getConnection();
-        $searchUserInput = $this->getUsername();
-        $statement = $conn->prepare("SELECT username FROM users WHERE username LIKE '%$searchUserInput%'");
+        $statement = $conn->prepare("SELECT username FROM users WHERE username LIKE :user");
+        $statement->bindValue(':user', $input);
         $statement->execute();
         $searchUserOutput = array();
         $searchUserOutput[] = $statement->fetchall();
         return $searchUserOutput;
     }
 
+
     public function checkAge() {
         return true;
-        
+
         /*$origin = new DateTime($_POST['date_of_birth']);
         $target = new DateTime('d-m-Y');
         $interval = $origin->diff($target);
@@ -625,9 +631,9 @@ class User
 
         $statement = $conn->prepare("UPDATE users
 
-        SET email=COALESCE(NULLIF(:newEmail, ''), email), username=COALESCE(NULLIF(:newUsername, ''), username), 
-        password=COALESCE(NULLIF(:newPassword, ''), password), firstname=COALESCE(NULLIF(:newFirstname, ''), firstname), 
-        lastname=COALESCE(NULLIF(:newLastname, ''), lastname), date_of_birth=COALESCE(NULLIF(:newDateOfBirth, ''), date_of_birth) 
+        SET email=COALESCE(NULLIF(:newEmail, ''), email), username=COALESCE(NULLIF(:newUsername, ''), username),
+        password=COALESCE(NULLIF(:newPassword, ''), password), firstname=COALESCE(NULLIF(:newFirstname, ''), firstname),
+        lastname=COALESCE(NULLIF(:newLastname, ''), lastname), date_of_birth=COALESCE(NULLIF(:newDateOfBirth, ''), date_of_birth)
         where email = :email ");
 
         $statement->bindValue(":newEmail", $newEmail);
@@ -662,5 +668,41 @@ class User
         return $this;
     }
 
-    
+    public function getUserPrivacyStatus(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("
+            SELECT profile_private
+            FROM users
+            WHERE id = :user_id
+        ");
+        $statement->bindValue(':user_id', $this->getId());
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        // var_dump($result['profile_private']);
+        if ($result['profile_private'] == "1"){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function setUserPrivacyStatus($profilePrivate){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("
+            UPDATE users
+            SET profile_private = :profile_private
+            WHERE id = :user_id
+        ");
+        $statement->bindValue(':user_id', $this->getId());
+        if($profilePrivate){
+            $statement->bindValue(':profile_private', 1);
+        }else{
+            $statement->bindValue(':profile_private', 0);
+        }
+        $result = $statement->execute();
+        // var_dump($result);
+        return $result;
+    }
+
 }

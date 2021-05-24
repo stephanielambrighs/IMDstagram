@@ -10,11 +10,13 @@
 
         $res = $follow->follow();
 
-        /*$response = [
-            'status' => 'succes',
-            'body' => htmlspecialchars($follow->get)
-            'message' => 'Follow succes'
-        ]*/
+        // $response = [
+        //     'status' => 'success',
+        //     'body' => htmlspecialchars($follow->get),
+        //     'message' => 'Follow succes'
+        // ]
     }
 
+    header('Content-Type: application/json');
+    echo json_encode($response);
 ?>
