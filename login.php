@@ -9,9 +9,7 @@
   
           if($user->login()){
             session_start();
-            
-            $dbUser = Db::getUserByEmail($_POST['email']);
-            $_SESSION["legato-user"] = $dbUser;
+            $_SESSION["legato-user"] = $user;
             header("Location: index.php");
           }
           else{
