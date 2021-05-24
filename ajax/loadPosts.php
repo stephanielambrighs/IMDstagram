@@ -45,6 +45,7 @@
         $user = Db::getUserById($post->getUser_id());
         $like = Like::getNumberLike($post->getId());
         $userLike = Like::getLikeStatusUser($post->getId(), $userId);
+        $comments = Comment::getAllComments($post->getId());
         $postUniqueName = "post-" . $post->getId();
         $countLikes = $like[0];
 
