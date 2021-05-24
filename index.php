@@ -5,7 +5,7 @@ session_start();
 
 if(isset($_SESSION["legato-user"])){
 
-
+    var_dump($_SESSION["legato-user"]);
 
     // get email from session user
     $sessionUser = $_SESSION['legato-user'];
