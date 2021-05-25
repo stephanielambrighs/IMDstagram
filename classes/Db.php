@@ -33,7 +33,7 @@ class Db {
         $statement = $conn->prepare("SELECT id, bio FROM profiles");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        var_dump($statement->errorInfo());
+        // var_dump($statement->errorInfo());
 
         $profilesList = [];
         foreach ($result as $db_profile) {
@@ -48,7 +48,7 @@ class Db {
         $statement = $conn->prepare("SELECT id, name FROM genre");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        var_dump($statement->errorInfo());
+        // var_dump($statement->errorInfo());
 
         $genreList = [];
         foreach($result as $db_genre){
@@ -171,11 +171,11 @@ class Db {
 
         $statement->bindValue(":limit", $limit, PDO::PARAM_INT);
         $statement->bindValue(":tag", $hashtag, PDO::PARAM_STR);
-        var_dump("Achter bindValue()");
+        // var_dump("Achter bindValue()");
         $statement->execute();
-        var_dump("Achter execute()");
+        // var_dump("Achter execute()");
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        var_dump("Achter fetchAll()");
+        // var_dump("Achter fetchAll()");
         // var_dump($statement->errorInfo());
 
         $postList = [];
@@ -472,5 +472,111 @@ class Db {
         $result = $statement->execute();
         return $result;
     }
+
+    public static function getAllPostsWithTitle($tag){
+        $conn = self::getConnection();
+        $title = '%'.$tag.'%';
+        $statement = $conn->prepare("
+            SELECT *
+            FROM posts
+            WHERE title LIKE :tag
+            ORDER BY upload_date DESC
+        ");
+
+        $statement->bindValue(":tag", $title, PDO::PARAM_STR);
+        //var_dump("Achter bindValue()");
+        $statement->execute();
+        //var_dump("Achter execute()");
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        //var_dump("Achter fetchAll()");
+        //var_dump($statement->errorInfo());
+
+        $postList = [];
+        foreach($result as $db_post){
+            $post = new Post();
+            $post->setId($db_post['id']);
+            $post->setTitle($db_post['title']);
+            $post->setDescription($db_post['description']);
+            $post->setGenre_id($db_post['genre_id']);
+            $post->setUpload_date($db_post['upload_date']);
+            $post->setUser_id($db_post['user_id']);
+            $post->setType_id($db_post['type_id']);
+            $post->setFile_path($db_post['file_path']);
+            array_push($postList, $post);
+            // var_dump($postList);
+        }
+        return $postList;
+    }
+
+    public static function getAllPostsWithTagSearch($tag){
+        $conn = self::getConnection();
+        $hashtag = '%'.$tag.'%';
+        $statement = $conn->prepare("
+            SELECT *
+            FROM posts
+            WHERE description LIKE :tag
+            ORDER BY upload_date DESC
+        ");
+
+        $statement->bindValue(":tag", $hashtag, PDO::PARAM_STR);
+        //var_dump("Achter bindValue()");
+        $statement->execute();
+        //var_dump("Achter execute()");
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        //var_dump("Achter fetchAll()");
+        //var_dump($statement->errorInfo());
+
+        $postList = [];
+        foreach($result as $db_post){
+            $post = new Post();
+            $post->setId($db_post['id']);
+            $post->setTitle($db_post['title']);
+            $post->setDescription($db_post['description']);
+            $post->setGenre_id($db_post['genre_id']);
+            $post->setUpload_date($db_post['upload_date']);
+            $post->setUser_id($db_post['user_id']);
+            $post->setType_id($db_post['type_id']);
+            $post->setFile_path($db_post['file_path']);
+            array_push($postList, $post);
+            // var_dump($postList);
+        }
+        return $postList;
+    }
+
+    public static function getAllPostsWithLocation($tag){
+        $conn = self::getConnection();
+        $location = '%'.$tag.'%';
+        $statement = $conn->prepare("
+            SELECT *
+            FROM posts
+            WHERE location LIKE :tag
+            ORDER BY upload_date DESC
+        ");
+
+        $statement->bindValue(":tag", $location, PDO::PARAM_STR);
+        //var_dump("Achter bindValue()");
+        $statement->execute();
+        //var_dump("Achter execute()");
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        //var_dump("Achter fetchAll()");
+        //var_dump($statement->errorInfo());
+
+        $postList = [];
+        foreach($result as $db_post){
+            $post = new Post();
+            $post->setId($db_post['id']);
+            $post->setTitle($db_post['title']);
+            $post->setDescription($db_post['description']);
+            $post->setGenre_id($db_post['genre_id']);
+            $post->setUpload_date($db_post['upload_date']);
+            $post->setUser_id($db_post['user_id']);
+            $post->setType_id($db_post['type_id']);
+            $post->setFile_path($db_post['file_path']);
+            array_push($postList, $post);
+            // var_dump($postList);
+        }
+        return $postList;
+    }
+
 
 }

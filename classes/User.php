@@ -1,5 +1,6 @@
 <?php
 include_once(__DIR__ . "/Db.php");
+include_once(__DIR__ . "/FileManager.php");
 
 date_default_timezone_set("Europe/Brussels");
 //echo "The time is " . date("h:i:sa");
@@ -15,7 +16,7 @@ class User
     private $avatar;
     private $bio;
     private $dateOfBirth;
-    private $file_path = "data/uploads/default.png";
+    private $file_path = null;
 
     private $genre;
     private $followerId;
@@ -195,6 +196,9 @@ class User
      */
     public function getFile_path()
     {
+        if($this->file_path == null){
+            return FileManager::getLocation()."/default.png";
+        }
         return $this->file_path;
     }
 
@@ -558,7 +562,7 @@ class User
         $userId = $this->getId();
         $followerId = $this->getFollowerId();
 
-        var_dump("🥲" . $userId . $followerId);
+        // var_dump("🥲" . $userId . $followerId);
 
         $statement->bindValue(":userMail", $userId);
         $statement->bindValue(":followerMail", $followerId);
@@ -582,15 +586,17 @@ class User
 
     }
 
-    public function searchUser(){
+    public static function searchUser($search){
+        $input = '%'.$search.'%';
         $conn = Db::getConnection();
-        $searchUserInput = $this->getUsername();
-        $statement = $conn->prepare("SELECT username FROM users WHERE username LIKE '%$searchUserInput%'");
+        $statement = $conn->prepare("SELECT username FROM users WHERE username LIKE :user");
+        $statement->bindValue(':user', $input);
         $statement->execute();
         $searchUserOutput = array();
         $searchUserOutput[] = $statement->fetchall();
         return $searchUserOutput;
     }
+
 
     public function checkAge() {
         return true;

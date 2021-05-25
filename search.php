@@ -11,17 +11,9 @@
         $user = DB::getUserByEmail($userEmail);
 
         // create search objects
-        $searchUserInput = new User();
-        $searchUserInput->setUsername($_POST["search"]);
-        $searchUserOutput = $searchUserInput->searchUser();
-
-        $searchPostInput = new Post();
-        $searchPostInput->setTitle($_POST["search"]);
-        $searchPostOutput = $searchPostInput->searchPost();
-
-        $searchTagInput = new Tag();
-        $searchTagInput->setTag($_POST["search"]);
-        $searchTagOutput = $searchTagInput->searchTag();
+        $searchUserOutput = User::searchUser($_POST["search"]);
+        $searchPostOutput = Post::searchPost($_POST["search"]);
+        $searchLocationOutput = Post::searchLocation($_POST['search']);
     }
 
 ?>
@@ -50,17 +42,17 @@
     </div>
     <div class="searchResult">
         <h3>Posts</h3>
-        <ul>
-        <?php foreach($searchPostOutput[0] as $key => $post): ?>
-            <li><a class="s-item" href="#"><?php echo "{$post[0]}\n"; ?></a></li>
-        <?php endforeach; ?>
-        </ul>
+        <?php include 'loadPostsTitle.php'; ?>
     </div>
+
     <div class="searchResult">
         <h3>Tags</h3>
-        <?php foreach($searchTagOutput[0] as $key => $tag): ?>
-            <li><a class="s-item" href="#"><?php echo "{$tag[0]}\n"; ?></a></li>
-        <?php endforeach; ?>
+        <?php include 'loadPostsTag.php'; ?>
+    </div>
+
+    <div class="searchResult">
+        <h3>Location</h3>
+        <?php include 'loadPostsLocation.php'; ?>
     </div>
 </main>
 

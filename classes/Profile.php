@@ -31,11 +31,11 @@
         }
         // ======================================
 
-        public static function loadProfile ($emailTarget) {
+        public static function loadProfile ($idTarget) {
             $conn = Db::getConnection();
 
-            $statement = $conn->prepare("select * from users where username = :username");
-            $statement->bindValue(':username', $emailTarget);
+            $statement = $conn->prepare("select * from users where id = :id");
+            $statement->bindValue(':id', $idTarget);
             $statement->execute();
             $result = $statement->fetch(PDO::FETCH_ASSOC);
 
