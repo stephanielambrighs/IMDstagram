@@ -3,18 +3,21 @@
 
     session_start();
 
-    if(isset($_SESSION["legato-user"])){
 
-        // get email from session user
-        $sessionUser = $_SESSION['legato-user'];
-        $userEmail = $sessionUser->getEmail();
-        $user = DB::getUserByEmail($userEmail);
+if(isset($_SESSION["legato-user"])){
 
-        // create search objects
-        $searchUserOutput = User::searchUser($_GET["search"]);
-        $searchPostOutput = Post::searchPost($_GET["search"]);
-        $searchLocationOutput = Post::searchLocation($_GET['search']);
-    }
+    // get email from session user
+    $sessionUser = $_SESSION['legato-user'];
+    $userEmail = $sessionUser->getEmail();
+    $user = DB::getUserByEmail($userEmail);
+
+    // create search objects
+    $searchUserOutput = User::searchUser($_GET["search"]);
+    $searchPostOutput = Post::searchPost($_GET["search"]);
+    $searchLocationOutput = Post::searchLocation($_GET['search']);
+}else{
+    header("Location: login.php");
+}
 
 ?>
 <!DOCTYPE html>

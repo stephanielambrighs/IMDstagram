@@ -106,7 +106,7 @@
             <div class="col-9 ' . $postUniqueName .'">
                 <!-- <img src="https://images.pexels.com/photos/908602/pexels-photo-908602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="user_image"> -->
                 <img src="' . $post_user_file_path . '" alt="user_image">
-                <h2>' .$user->getUsername() . '</h2>
+                <a href="someonesProfile.php?id='.$user->getId() . ' "><h2>' .$user->getUsername() . '</h2></a>
                 <div class="btn-group" role="group">
                 <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">

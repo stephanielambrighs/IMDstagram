@@ -43,10 +43,8 @@ class Post {
 
     public function setId($id)
     {
-        if (is_int($id)) {
-            $this->id = $id;
-        }
-        return $this;
+        $this->id = $id;
+       return $this;
     }
 
     public function getTitle()
@@ -58,6 +56,9 @@ class Post {
     {
         if(is_string($title)){
             $this->title = $title;
+        }
+        else{
+            throw new Exception("Title must be a string");
         }
         return $this;
     }
@@ -71,6 +72,8 @@ class Post {
     {
         if(is_string($description)){
             $this->description = $description;
+        }else{
+            throw new Exception("Description must be a string");
         }
         return $this;
     }
@@ -96,9 +99,8 @@ class Post {
 
     public function setGenre_id($genre_id)
     {
-        if(is_int($genre_id)){
-            $this->genre_id = $genre_id;
-        }
+
+        $this->genre_id = $genre_id;
         return $this;
     }
 
@@ -121,9 +123,8 @@ class Post {
 
     public function setUser_id($user_id)
     {
-        if(is_int($user_id)){
-            $this->user_id = $user_id;
-        }
+
+        $this->user_id = $user_id;
         return $this;
     }
 
@@ -134,9 +135,7 @@ class Post {
 
     public function setType_id($type_id)
     {
-        if(is_int($type_id)){
-            $this->type_id = $type_id;
-        }
+        $this->type_id = $type_id;
         return $this;
     }
 
@@ -149,6 +148,8 @@ class Post {
     {
         if(is_string($file_path)){
             $this->file_path = $file_path;
+        }else{
+            throw new Exception("File_path must be a string");
         }
         return $this;
     }
@@ -170,6 +171,9 @@ class Post {
     {
         if(is_bool($inactive)){
             $this->inactive = $inactive;
+        }
+        else{
+            throw new Exception("Inactive must be a boolean");
         }
         return $this;
     }

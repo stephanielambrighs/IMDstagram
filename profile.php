@@ -1,15 +1,22 @@
 <?php
 
-    include_once(__DIR__ . "/autoload.php");
+  include_once(__DIR__ . "/autoload.php");
 
-    session_start();
+  session_start();
+
+if(isset($_SESSION["legato-user"])){
 
     $sessionUser = $_SESSION['legato-user'];
     $userEmail = $sessionUser->getEmail();
     $userProfile = Profile::loadMyProfile($userEmail);
-    // var_dump("this- " . $userProfile["email"]);
 
     $user = new User();
+    $user = DB::getUserByEmail($userEmail);
+    $userId = $user->getId();
+    if ($user->getAdmin()){
+      // set admin bool for loadPosts.php
+      $isAdminPage = true;
+    }
 
     if (!empty($_POST)) {
         $user->setNewFirstname($_POST['newFirstname']);
@@ -22,6 +29,10 @@
 
         $result = $user->updateProfile();
     }
+}else{
+  // if not logged in redirect to login.php
+  header("Location: login.php");
+}
 
 
 ?><!DOCTYPE html>
@@ -43,9 +54,9 @@
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex flex-column align-items-center text-center">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                    <img src="<?php echo $userProfile['profile_img_path']; ?>" alt="Admin" class="rounded-circle" width="150" height="150">
                     <div class="mt-3">
-                      <h4><?php echo ($userProfile["firstname"] . " " . $userProfile["lastname"]); ?></h4>
+                      <h4 style="color: black;"><?php echo ($userProfile["firstname"] . " " . $userProfile["lastname"]); ?></h4>
                       <p class="text-secondary mb-1">Title -> job</p>
                       <p class="text-muted font-size-sm">Where do I live?</p>
                       <button type="button" id="btn-private" class="btn btn-primary">Set private</button>

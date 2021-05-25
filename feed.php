@@ -1,11 +1,21 @@
 <?php
     require_once("autoload.php");
     session_start();
+if(isset($_SESSION["legato-user"])){
 
+    $user = new User();
+    $user = DB::getUserByEmail($userEmail);
+    $userId = $user->getId();
+    if ($user->getAdmin()){
+      // set admin bool for loadPosts.php
+      $isAdminPage = true;
+    }
     $key = $_GET['tag'];
     //var_dump($key);
+}else{
+    header("Location: login.php");
+}
 
-    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +29,7 @@
     <title><?php echo $key; ?></title>
 </head>
 <body>
-    <?php //include_once("inc/nav.inc.php"); ?>
+    <?php include_once("inc/nav.inc.php"); ?>
     <div class="container">
   <div class="row">
 

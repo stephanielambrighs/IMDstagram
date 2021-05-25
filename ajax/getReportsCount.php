@@ -7,7 +7,7 @@ if(!empty($_POST)){
 
     $reportCount = Db::getReportCount($postId);
     $response = [
-        'reportcount' => $reportCount
+        'reportcount' => htmlspecialchars($reportCount)
     ];
 
     header('Content-Type: application/json');

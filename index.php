@@ -5,13 +5,19 @@ session_start();
 
 if(isset($_SESSION["legato-user"])){
 
-
-
-    // get email from session user
+    // Get user from register
     $sessionUser = $_SESSION['legato-user'];
     $userEmail = $sessionUser->getEmail();
+
+    // Fully update user from DB
     $user = DB::getUserByEmail($userEmail);
+    $_SESSION['legato-user'] = $user;
+
+    // Get user from session (updated user)
+    $user = $_SESSION['legato-user'];
     $userId = $user->getId();
+
+    var_dump($_SESSION["legato-user"]);
 
     // if a post is done, add it to the db
     if(!empty($_POST['title'])
@@ -41,7 +47,7 @@ if(isset($_SESSION["legato-user"])){
         }
         catch(Exception $e){
             $error = $e->getMessage();
-            // var_dump($error);
+            var_dump($error);
         }
     }
 
@@ -61,6 +67,8 @@ if(isset($_SESSION["legato-user"])){
 //     }
 
 
+}else{
+    header("Location: login.php");
 }
 
 ?><!DOCTYPE html>
