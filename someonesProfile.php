@@ -2,14 +2,22 @@
 
 include_once(__DIR__ . "/autoload.php");
 
+
 session_start();
 
 if(isset($_SESSION["legato-user"])){
   // var_dump($_SESSION['legato-user']);
-  $someonesMail = $_GET["email"];
+  //$someonesMail = $_GET["email"];
   // var_dump($someonesMail);
 
-  $someonesProfile = Profile::loadProfile($someonesMail);
+   
+    // var_dump($_SESSION['legato-user']);
+    $someonesId = $_GET["id"];
+    $someonesProfile = Profile::loadProfile($someonesId);
+    //var_dump($someonesProfile);
+
+
+  //$someonesProfile = Profile::loadProfile($someonesMail);
 
   $user = new User();
 }else{
@@ -36,12 +44,12 @@ if(isset($_SESSION["legato-user"])){
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex flex-column align-items-center text-center">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                    <img src="<?php echo $someonesProfile['profile_img_path']; ?>" alt="Admin" class="rounded-circle" width="150" height="150">
                     <div class="mt-3">
-                      <h4><?php echo ($someonesProfile["firstname"] . " " . $someonesProfile["lastname"]); ?></h4>
+                      <h4 style="color: black;"><?php echo ($someonesProfile["firstname"] . " " . $someonesProfile["lastname"]); ?></h4>
                       <p class="text-secondary mb-1">Title -> job</p>
                       <p class="text-muted font-size-sm">Where i life?</p>
-                      <button data-followerid="<?php echo $someonesMail ?>" data-userid="<?php echo $_SESSION['legato-user']->getEmail() ?>" id="btn-follow" class="btn btn-primary">Follow</button>
+                      <button data-followerid="<?php echo $someonesId ?>" data-userid="<?php echo $_SESSION['legato-user']->getEmail() ?>" id="btn-follow" class="btn btn-primary">Follow</button>
 
                     </div>
                   </div>

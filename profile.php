@@ -54,9 +54,9 @@ if(isset($_SESSION["legato-user"])){
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex flex-column align-items-center text-center">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                    <img src="<?php echo $userProfile['profile_img_path']; ?>" alt="Admin" class="rounded-circle" width="150" height="150">
                     <div class="mt-3">
-                      <h4><?php echo ($userProfile["firstname"] . " " . $userProfile["lastname"]); ?></h4>
+                      <h4 style="color: black;"><?php echo ($userProfile["firstname"] . " " . $userProfile["lastname"]); ?></h4>
                       <p class="text-secondary mb-1">Title -> job</p>
                       <p class="text-muted font-size-sm">Where do I live?</p>
                       <button type="button" id="btn-private" class="btn btn-primary">Set private</button>
