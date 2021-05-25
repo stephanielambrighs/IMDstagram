@@ -61,6 +61,8 @@ if(isset($_SESSION["legato-user"])){
 //     }
 
 
+}else{
+    header("Location: login.php");
 }
 
 ?><!DOCTYPE html>

@@ -1,15 +1,20 @@
 <?php
 
-    include_once(__DIR__ . "/autoload.php");
+include_once(__DIR__ . "/autoload.php");
 
-    session_start();
-    // var_dump($_SESSION['legato-user']);
-    $someonesMail = $_GET["email"];
-    // var_dump($someonesMail);
+session_start();
 
-    $someonesProfile = Profile::loadProfile($someonesMail);
+if(isset($_SESSION["legato-user"])){
+  // var_dump($_SESSION['legato-user']);
+  $someonesMail = $_GET["email"];
+  // var_dump($someonesMail);
 
-    $user = new User();
+  $someonesProfile = Profile::loadProfile($someonesMail);
+
+  $user = new User();
+}else{
+  header("Location: login.php");
+}
 
 
 ?><!DOCTYPE html>
