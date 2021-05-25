@@ -2,9 +2,33 @@
     require_once(__DIR__."/../autoload.php");
 
     class Comment{
+        private $id;
         private $text;
         private $postId;
         private $userId;
+        private $commentDate;
+
+        /**
+         * Get the value of id
+         */
+        public function getId()
+        {
+            return $this->id;
+        }
+
+        /**
+         * Set the value of text
+         *
+         * @return self
+         */
+        public function setId($id)
+        {
+            if(is_int($id)){
+                $this->id = $id;
+            }
+
+            return $this;
+        }
 
         /**
          * Get the value of text
@@ -71,6 +95,87 @@
 
             return $this;
         }
+
+        /**
+         * Get the value of commentDate
+         */
+        public function getCommentDate()
+        {
+            return $this->commentDate;
+        }
+
+        /**
+         * Set the value of text
+         *
+         * @return self
+         */
+        public function setCommentDate($commentDate)
+        {
+            if(is_int($commentDate)){
+                $this->commentDate = $commentDate;
+            }
+
+            return $this;
+        }
+
+        public function getUploadedTimeAgo()
+    {
+        // calculate time difference
+        $timeUploaded = new DateTime($this->getCommentDate());
+        $timeNow = new DateTime(Db::get_current_time());
+        $timeDelta = $timeUploaded->diff($timeNow);
+
+        // years ago
+        if($timeDelta->y > 1){
+            return $timeDelta->y . " years ago";
+        }
+        else if($timeDelta->y > 0){
+            return $timeDelta->y . " year ago";
+        }
+
+        // months ago
+        if($timeDelta->m > 1){
+            return $timeDelta->m . " months ago";
+        }
+        else if($timeDelta->m > 0){
+            return $timeDelta->m . " month ago";
+        }
+
+        // days ago
+        if($timeDelta->d > 1){
+            return $timeDelta->d . " days ago";
+        }
+        else if($timeDelta->d > 0){
+            return $timeDelta->d . " day ago";
+        }
+
+        // hours ago
+        if($timeDelta->h > 1){
+            return $timeDelta->h . " hours ago";
+        }
+        else if($timeDelta->h > 0){
+            return $timeDelta->h . " hour ago";
+        }
+
+        // minutes ago
+        if($timeDelta->i > 1){
+            return $timeDelta->i . " minutes ago";
+        }
+        else if($timeDelta->i > 0){
+            return $timeDelta->i . " minute ago";
+        }
+
+        // seconds ago
+        if($timeDelta->s > 1){
+            return $timeDelta->s . " seconds ago";
+        }
+        else if($timeDelta->s > 0){
+            return $timeDelta->s . " second ago";
+        }
+
+
+        //return "1 second ago";
+    }
 
         public static function saveComment($userId, $postId, $text){
             $timeNow = new DateTime(Db::get_current_time());
