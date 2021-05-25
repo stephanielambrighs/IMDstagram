@@ -25,6 +25,8 @@
         {
             if(is_int($id)){
                 $this->id = $id;
+            }else{
+                throw new Exception("Id must be an int");
             }
 
             return $this;
@@ -47,6 +49,8 @@
         {
             if(is_string($text)){
                 $this->text = $text;
+            }else{
+                throw new Exception("Text must be a string");
             }
 
             return $this;
@@ -69,6 +73,8 @@
         {
             if(is_int($postId)){
                 $this->postId = $postId;
+            }else{
+                throw new Exception("Post id must be an int");
             }
     
             return $this;
@@ -91,6 +97,8 @@
         {
             if(is_int($userId)){
                 $this->userId = $userId;
+            }else{
+                throw new Exception("User id must be an int");
             }
 
             return $this;
@@ -111,8 +119,10 @@
          */
         public function setCommentDate($commentDate)
         {
-            if(is_int($commentDate)){
+            if(is_string($commentDate)){
                 $this->commentDate = $commentDate;
+            }else{
+                throw new Exception("Comment date must be a string");
             }
 
             return $this;
@@ -173,8 +183,8 @@
             return $timeDelta->s . " second ago";
         }
 
-
-        //return "1 second ago";
+        return "1 second ago";
+        
     }
 
         public static function saveComment($userId, $postId, $text){
@@ -212,10 +222,10 @@
             $commentList = [];
             foreach($result as $db_comment){
                 $comment = new Comment();
-                $comment->setId($db_comment['id']);
+                $comment->setId(intval($db_comment['id']));
                 $comment->setText($db_comment['text']);
-                $comment->setPostId($db_comment['post_id']);
-                $comment->setUserId($db_comment['user_id']);
+                $comment->setPostId(intval($db_comment['post_id']));
+                $comment->setUserId(intval($db_comment['user_id']));
                 $comment->setCommentDate($db_comment['comment_date']);
                 array_push($commentList, $comment);
             }
