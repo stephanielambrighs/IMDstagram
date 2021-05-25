@@ -36,7 +36,7 @@
         <h3>Users</h3>
         <ul>
         <?php foreach($searchUserOutput[0] as $key => $username): ?>
-            <li><a class="s-item" href="someonesProfile.php?email=<?php echo $username[0] ?>"><?php echo "{$username[0]}\n"; ?></a></li>
+            <li><a class="s-item" href="someonesProfile.php?email=<?php echo $username[0] ?>"><?php echo htmlspecialchars("{$username[0]}\n"); ?></a></li>
         <?php endforeach; ?>
         </ul>
     </div>
