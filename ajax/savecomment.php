@@ -17,7 +17,7 @@
 
             //Seccues boodschap teruggeven
                 $response = [
-                    'text' => $text
+                    'text' => htmlspecialchars($text)
                 ];
             
             header('Content-Type: application/json');
