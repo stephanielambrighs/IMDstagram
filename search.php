@@ -11,9 +11,9 @@
         $user = DB::getUserByEmail($userEmail);
 
         // create search objects
-        $searchUserOutput = User::searchUser($_POST["search"]);
-        $searchPostOutput = Post::searchPost($_POST["search"]);
-        $searchLocationOutput = Post::searchLocation($_POST['search']);
+        $searchUserOutput = User::searchUser($_GET["search"]);
+        $searchPostOutput = Post::searchPost($_GET["search"]);
+        $searchLocationOutput = Post::searchLocation($_GET['search']);
     }
 
 ?>
