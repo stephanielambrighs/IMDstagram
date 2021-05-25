@@ -43,12 +43,8 @@ class Post {
 
     public function setId($id)
     {
-        if (is_int($id)) {
-            $this->id = $id;
-        }else{
-            throw new Exception("Id must be a int");
-        }
-        return $this;
+        $this->id = $id;
+       return $this;
     }
 
     public function getTitle()
@@ -103,12 +99,8 @@ class Post {
 
     public function setGenre_id($genre_id)
     {
-        if(is_int($genre_id)){
-            $this->genre_id = $genre_id;
-        }
-        else{
-            throw new Exception("Gerne_id must be a int");
-        }
+
+        $this->genre_id = $genre_id;
         return $this;
     }
 
@@ -131,12 +123,8 @@ class Post {
 
     public function setUser_id($user_id)
     {
-        if(is_int($user_id)){
-            $this->user_id = $user_id;
-        }
-        else{
-            throw new Exception("User_id must be a int");
-        }
+
+        $this->user_id = $user_id;
         return $this;
     }
 
@@ -147,12 +135,7 @@ class Post {
 
     public function setType_id($type_id)
     {
-        if(is_int($type_id)){
-            $this->type_id = $type_id;
-        }
-        else{
-            throw new Exception("Type_id must be a int");
-        }
+        $this->type_id = $type_id;
         return $this;
     }
 

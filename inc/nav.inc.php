@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+<nav class="navbar navbar-expand-lg navbar-light ">
     <div class="container-fluid">
         <a href="index.php"><img src="/images/logo-02.svg" alt="legato_logo"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,7 +12,7 @@
         </div>
         <form class="form-inline my-2 my-lg-0" action="search.php" method="post">
             <input class="form-control mr-sm-2" type="text" placeholder="Search..." name="search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="searchBTN" value="Search">Search</button>
+            <button id="btn_search" class="btn btn-outline-success my-2 my-sm-0" type="submit" name="searchBTN" value="Search">Search</button>
         </form>
         </div>
         <?php if($user->getAdmin()):?>
