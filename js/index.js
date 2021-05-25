@@ -78,6 +78,7 @@ function checkReportCount(postId){
     .then(data => {
         console.log("Success: ", data);
         let reportcount = data['reportcount'];
+        console.log(reportcount);
         if (data['reportcount'] >= 3){
             hidePost(postId);
         }

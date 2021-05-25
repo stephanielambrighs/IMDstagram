@@ -47,7 +47,7 @@ if(isset($_SESSION["legato-user"])){
         }
         catch(Exception $e){
             $error = $e->getMessage();
-            // var_dump($error);
+            var_dump($error);
         }
     }
 
@@ -67,6 +67,8 @@ if(isset($_SESSION["legato-user"])){
 //     }
 
 
+}else{
+    header("Location: login.php");
 }
 
 ?><!DOCTYPE html>

@@ -1,15 +1,22 @@
 <?php
 
-    include_once(__DIR__ . "/autoload.php");
+  include_once(__DIR__ . "/autoload.php");
 
-    session_start();
+  session_start();
+
+if(isset($_SESSION["legato-user"])){
 
     $sessionUser = $_SESSION['legato-user'];
     $userEmail = $sessionUser->getEmail();
     $userProfile = Profile::loadMyProfile($userEmail);
-    // var_dump("this- " . $userProfile["email"]);
 
     $user = new User();
+    $user = DB::getUserByEmail($userEmail);
+    $userId = $user->getId();
+    if ($user->getAdmin()){
+      // set admin bool for loadPosts.php
+      $isAdminPage = true;
+    }
 
     if (!empty($_POST)) {
         $user->setNewFirstname($_POST['newFirstname']);
@@ -22,6 +29,10 @@
 
         $result = $user->updateProfile();
     }
+}else{
+  // if not logged in redirect to login.php
+  header("Location: login.php");
+}
 
 
 ?><!DOCTYPE html>
