@@ -20,6 +20,8 @@ class Search
     {
         if(is_string($emailTarget)){
             $this->emailTarget = $emailTarget;
+        }else{
+            throw new Exception("Email target must be a string");
         }
 
         return $this;
