@@ -24,6 +24,8 @@ class Like {
     {
         if(is_int($id)){
             $this->id = $id;
+        }else{
+            throw new Exception("Id must be an int");
         }
 
         return $this;
@@ -46,6 +48,8 @@ class Like {
     {
         if(is_int($postId)){
             $this->postId = $postId;
+        }else{
+            throw new Exception("Post id must be an int");
         }
 
         return $this;
@@ -68,6 +72,8 @@ class Like {
     {
         if(is_int($userId)){
             $this->userId = $userId;
+        }else{
+            throw new Exception("User id must be an int");
         }
 
         return $this;
