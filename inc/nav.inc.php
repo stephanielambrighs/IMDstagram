@@ -10,7 +10,7 @@
             <a class="nav-link" href="profile.php">Profile</a>
             <a class="nav-link" href="logout.php">Log out</a>
         </div>
-        <form class="form-inline my-2 my-lg-0" action="search.php" method="post">
+        <form class="form-inline my-2 my-lg-0" action="search.php" method="get">
             <input class="form-control mr-sm-2" type="text" placeholder="Search..." name="search" aria-label="Search">
             <button id="btn_search" class="btn btn-outline-success my-2 my-sm-0" type="submit" name="searchBTN" value="Search">Search</button>
         </form>
