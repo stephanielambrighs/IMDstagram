@@ -555,21 +555,17 @@ class User
     }
 
     public function follow(){
-        echo "Ready for follow 😎";
         $conn = Db::getConnection();
-        $statement = $conn->prepare("insert into followers (user_id, follower_id) values ((select id from users where email=:userMail), (select id from users where username=:followerMail))");
-
-        $userId = $this->getId();
-        $followerId = $this->getFollowerId();
-
-        // var_dump("🥲" . $userId . $followerId);
-
-        $statement->bindValue(":userMail", $userId);
-        $statement->bindValue(":followerMail", $followerId);
-
+        $statement = $conn->prepare("
+            insert into followers (user_id, follower_id, accepted)
+            values (:user_id, :follower_id, 0)
+        ");
+        $statement->bindValue(":user_id", $this->getId());
+        $statement->bindValue(":follower_id", $this->getFollowerId());
         $result = $statement->execute();
         return $result;
     }
+
 
     public static function completeProfile($user){
         $conn = Db::getConnection();
@@ -589,7 +585,7 @@ class User
     public static function searchUser($search){
         $input = '%'.$search.'%';
         $conn = Db::getConnection();
-        $statement = $conn->prepare("SELECT username FROM users WHERE username LIKE :user");
+        $statement = $conn->prepare("SELECT username, id FROM users WHERE username LIKE :user");
         $statement->bindValue(':user', $input);
         $statement->execute();
         $searchUserOutput = array();

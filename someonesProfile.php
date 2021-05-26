@@ -10,16 +10,21 @@ if(isset($_SESSION["legato-user"])){
   //$someonesMail = $_GET["email"];
   // var_dump($someonesMail);
 
-   
+
     // var_dump($_SESSION['legato-user']);
     $someonesId = $_GET["id"];
     $someonesProfile = Profile::loadProfile($someonesId);
+
     //var_dump($someonesProfile);
 
 
   //$someonesProfile = Profile::loadProfile($someonesMail);
 
   $user = new User();
+  $user = $_SESSION['legato-user'];
+  $userId = $user->getId();
+
+
 }else{
   header("Location: login.php");
 }
@@ -49,7 +54,7 @@ if(isset($_SESSION["legato-user"])){
                       <h4 style="color: black;"><?php echo ($someonesProfile["firstname"] . " " . $someonesProfile["lastname"]); ?></h4>
                       <p class="text-secondary mb-1">Title -> job</p>
                       <p class="text-muted font-size-sm">Where i life?</p>
-                      <button data-followerid="<?php echo $someonesId ?>" data-userid="<?php echo $_SESSION['legato-user']->getEmail() ?>" id="btn-follow" class="btn btn-primary">Follow</button>
+                      <button id="btn-follow" class="btn btn-primary">Follow</button>
 
                     </div>
                   </div>
@@ -101,6 +106,12 @@ if(isset($_SESSION["legato-user"])){
     </div>
 </div>
 <?php include_once("inc/footer.inc.php");?>
+
+<script type="text/javascript">
+    let someonesId = '<?php echo $someonesId?>';
+    let userId = '<?php echo $userId?>';
+</script>
+
 <script src="/js/someonesProfile.js"></script>
 </body>
 </html>
