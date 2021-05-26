@@ -15,7 +15,7 @@
         if ($followersRowId > 0) {
             $response = [
                 'status' => 'Failed',
-                'message' => 'Follower Row already exists'
+                'message' => 'Follower row already exists'
             ];
         }
         else {
