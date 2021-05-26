@@ -1,6 +1,7 @@
 let button = document.getElementById("btn-feed");
 let form = document.getElementById("form");
 let loc = document.querySelector(".p-location");
+addEventListenersToReportButtons();
 
 window.addEventListener('load', function () {
     if (navigator.geolocation) {
@@ -47,12 +48,17 @@ document.querySelector("#btn-load-more").addEventListener("click", function() {
     .then(response => response.text())
     .then(data => {
         document.querySelector(".row").innerHTML = data;
+        addEventListenersToReportButtons();
     });
 });
 
 
-let postReportButtons = document.querySelectorAll(".dropdown-item.btn-report");
-postReportButtons.forEach(function(reportButton) {
+function addEventListenersToReportButtons() {
+    // alert("adding advent");
+    console.log("addEventListeners");
+
+    let postReportButtons = document.querySelectorAll(".dropdown-item.btn-report");
+    postReportButtons.forEach(function(reportButton) {
     reportButton.addEventListener("click", function() {
 
         let postId = reportButton.id.replace("btn-report-post-", "");
@@ -62,8 +68,9 @@ postReportButtons.forEach(function(reportButton) {
         // only unique combinations of userId and postId will be added
         addEntryToReportsTable(postId);
 
+        });
     });
-});
+}
 
 
 function checkReportCount(postId){
@@ -128,7 +135,7 @@ document.querySelectorAll(".btn-comment").forEach(item => {
         //Zoek postid en comment tekst
         let postId = this.dataset.postid;
         let text = this.previousElementSibling.value;
-        
+
 
         //post naar databank (AJAX)
         formData = new FormData();
@@ -156,12 +163,12 @@ document.querySelectorAll(".btn-comment").forEach(item => {
             console.log(text);
             console.log("tekst");
 
-            var h3 = document.createElement("H3");  
-            h3.innerHTML = text;                
-            comments.appendChild(h3); 
-            
-            var p = document.createElement("P");  
-            p.innerHTML = "Just now";                
+            var h3 = document.createElement("H3");
+            h3.innerHTML = text;
+            comments.appendChild(h3);
+
+            var p = document.createElement("P");
+            p.innerHTML = "Just now";
             comments.appendChild(p);
         })
         .catch(error => {
