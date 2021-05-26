@@ -58,7 +58,7 @@
         $tagLinks = "";
         foreach($tags as $tag){
             $urlTag = substr($tag, 1);
-            $tagLinks .= ' <a href="feed.php?v='.$urlTag.'">'.$tag.'</a>';
+            $tagLinks .= ' <a href="feed.php?v='.$urlTag.'">'. htmlspecialchars($tag) .'</a>';
             
         }
         
@@ -70,7 +70,7 @@
             <div class="col-9 ' . $postUniqueName .'">
                 <!-- <img src="https://images.pexels.com/photos/908602/pexels-photo-908602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="user_image"> -->
                 <img src="-->' . $post_user_file_path . '" alt="user_image">
-                <h2>' .$user->getUsername() . '</h2>
+                <h2>' . htmlspecialchars($user->getUsername()) . '</h2>
                 <div class="btn-group" role="group">
                 <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
@@ -88,9 +88,9 @@
                 <img src="' . $post->getFile_path() . '" alt="feed">
                 </div>
                 <div class="col-6">
-                    <h3>' . $post->getTitle() .'</h3>
+                    <h3>' . htmlspecialchars($post->getTitle()) .'</h3>
                     <h4>' . $genre->getName() . '</h4>
-                    <p>' . $descriptions . $tagLinks . '</p>
+                    <p>' . htmlspecialchars($descriptions) . $tagLinks . '</p>
                 </div>
             </div>
             <div class="col-3 ' . $postUniqueName .'">
