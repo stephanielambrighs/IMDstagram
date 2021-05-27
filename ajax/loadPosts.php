@@ -146,38 +146,57 @@
                 </div>
             </div>';
 
+            // if ($like[0] == 1){
+            //     $htmlOutput .= '
+            //     <div class="col-3">
+            //         <p id="'.$post->getId().'">' . $like[0] . ' like</p>
+            //     </div>
+            //     ';
+            // }else{
+            //     $htmlOutput .= '
+            //     <div class="col-3">
+            //         <p id="'.$post->getId().'">' . $like[0] . ' likes</p>
+            //     </div>
+            //     ';
+            // }
+
+            $htmlOutput .='
+            <div class="col-3 ' . $postUniqueName .'"> ';
             if ($like[0] == 1){
                 $htmlOutput .= '
-                <div class="col-3">
-                    <p id="'.$post->getId().'">' . $like[0] . ' like</p>
-                </div>
+                    <p class="like-count" id="'.$post->getId().'">' . $like[0] . ' like</p>
                 ';
             }else{
                 $htmlOutput .= '
-                <div class="col-3">
-                    <p id="'.$post->getId().'">' . $like[0] . ' likes</p>
-                </div>
+                    <p class="like-count" id="'.$post->getId().'">' . $like[0] . ' likes</p>
                 ';
             }
-
-            $htmlOutput .='
-            <div class="col-3 ' . $postUniqueName .'">
-                <button type="button" class="btn btn-info-like" data-postid="'.$post->getId().'">'.$userLike.'</button>
-                <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
-                <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
+            $htmlOutput .=
+                '<button type="button" class="btn btn-info-like" data-postid="'.$post->getId().'">'.$userLike.'</button>
+                <button type="button" class="btn btn-info"><img class="comment-image" src="/images/comments_image.png" alt="Comment"> comments</button>
             </div>
 
             <div class="post__comments">
                 <div class="post__comments__form">
                     <input type="text" name="comment-input" id="comment-text" placeholder="Whats on your mind">
-                    <a href="" class="btn btn-comment" id="btn-comment" data-postid="'.$post->getId().'">Add comment'.$post->getId().'</a>
+                    <a href="" class="btn btn-comment" id="btn-comment" data-postid="'.$post->getId().'">Add comment</a>
                 </div>
-                <div id="comment_' . $post->getId() . '">'
-                . $htmlPostOutput .
-            '</div>
+                <ul id="comment_' . $post->getId() .' class="post__comments__list"'. $htmlPostOutput .'
+                </ul>
             </div>
         ';
     }
 
-    // return the generated htlm
+    // return the generated html
     echo $htmlOutput;
+
+    // . $htmlPostOutput . '
+
+    // <div id="comment_' . $post->getId() . '">
+//     <ul class="post__comments__list">
+//     <li>This is a first comment</li>
+// </ul>
+
+
+// $htmlPostOutput .= '
+// <div id="comment_' . $post->getId() . '">
