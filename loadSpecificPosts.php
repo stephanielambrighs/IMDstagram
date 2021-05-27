@@ -22,6 +22,7 @@
     }
 
     $htmlOutput = '';
+    $htmlPostOutput = '';
 
     // add success/error message block
     if($isAdminPage){
@@ -45,7 +46,11 @@
         // get some data from the db
         $genre = Db::getGenreById($post->getGenre_id());
         $user = Db::getUserById($post->getUser_id());
+        $like = Like::getNumberLike($post->getId());
+        $userLike = Like::getLikeStatusUser($post->getId(), $userId);
+        $comments = Comment::getAllComments($post->getId());
         $postUniqueName = "post-" . $post->getId();
+        $countLikes = $like[0];
 
 
 
@@ -90,7 +95,12 @@
 
         }
 
-
+        foreach($comments as $comment){
+            $htmlPostOutput .= '
+            <h3>' . htmlspecialchars($comment->getText()) . '</h3>
+            <p>' . $comment->getUploadedTimeAgo() . '</p>
+            ';
+        }
 
 
         // generate html output
@@ -132,19 +142,39 @@
                 <img src="' . $post->getFile_path() . '" alt="feed">
                 </div>
                 <div class="col-6">
-                    <h3>' . $post->getTitle() .'</h3>
+                    <h3>' . htmlspecialchars($post->getTitle()) .'</h3>
                     <h4>' . $genre->getName() . '</h4>
-                    <p>' . $descriptions . $tagLinks . '</p>
+                    <p>' . htmlspecialchars($descriptions) . $tagLinks . '</p>
                 </div>
+            </div>';
+
+            $htmlOutput .='
+            <div class="col-3 ' . $postUniqueName .'"> ';
+            if ($like[0] == 1){
+                $htmlOutput .= '
+                    <p class="like-count" id="'.$post->getId().'">' . $like[0] . ' like</p>
+                ';
+            }else{
+                $htmlOutput .= '
+                    <p class="like-count" id="'.$post->getId().'">' . $like[0] . ' likes</p>
+                ';
+            }
+            $htmlOutput .=
+                '<button type="button" class="btn btn-info-like" data-postid="'.$post->getId().'">'.$userLike.'</button>
+                <button type="button" class="btn btn-info"><img class="comment-image" src="/images/comments_image.png" alt="Comment"> comments</button>
             </div>
 
-            <div class="col-3 ' . $postUniqueName .'">
-                <button type="button" class="btn btn-info"><img src="/images/like_image.png" alt="Likes">300 Likes</button>
-                <button type="button" class="btn btn-info"><img src="/images/comment_image.png" alt="Comment">5 comments</button>
-                <button type="button" class="btn btn-info"><img src="/images/share_image.png" alt="Shares">15 shares</button>
+            <div class="post__comments">
+                <div class="post__comments__form">
+                    <input type="text" name="comment-input" id="comment-text" placeholder="Whats on your mind">
+                    <a href="" class="btn btn-comment" id="btn-comment" data-postid="'.$post->getId().'">Add comment</a>
+                </div>
+                <div id="comment_' . $post->getId() . '"> 
+                    '. $htmlPostOutput .'
+                </div>
             </div>
         ';
     }
 
-    // return the generated htlm
+    // return the generated html
     echo $htmlOutput;
