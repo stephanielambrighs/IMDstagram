@@ -152,6 +152,8 @@ class Db {
             $post->setUser_id(intval($db_post['user_id']));
             $post->setType_id(intval($db_post['type_id']));
             $post->setFile_path($db_post['file_path']);
+
+            $post->setLocation($db_post['location']);
             array_push($postList, $post);
             // var_dump($postList);
         }

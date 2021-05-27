@@ -15,8 +15,12 @@ class Post {
     private $inactive = 0;
     private $latitude;
     private $longitude;
-    private $location = "";
+    private $location;
 
+    public function __toString()
+    {
+        return __CLASS__;
+    }
 
 
     // function __construct($id, $title, $description, $genre_id, $upload_date, $user_id, $type_id, $file_path)
@@ -234,7 +238,7 @@ class Post {
     public function setLocation($location)
     {
         $this->location = $location;
-
+        var_dump($this->location);
         return $this;
     }
 
@@ -323,12 +327,6 @@ class Post {
     }
 
     public function insert(){
-        $key = "AtGFLVCTd5bH2t5y-lMYSfYfwFmWAQL-DBg-YNuMPBUxGag7GrKORKLZSOqTsLx9";
-        $base_url = "http://dev.virtualearth.net/REST/v1/Locations/";
-        $url = $base_url .  $this->getLatitude() . "," .  $this->getLongitude() . "?key=" . $key;
-
-        $response_api = json_decode(file_get_contents($url));
-        $city = $response_api->resourceSets[0]->resources[0]->address->locality;
 
         // var_dump($response_api->resourceSets[0]->resources[0]->address->locality);
 
@@ -345,10 +343,24 @@ class Post {
         $statement->bindValue(':type_id', $this->getType_id());
         $statement->bindValue(':file_path', $this->getFile_path());
         $statement->bindValue(":inactive", $this->getInactive());
-        $statement->bindValue(':location', $city);
+        $statement->bindValue(':location', strval($this->showLocation()));
         $result = $statement->execute();
         // var_dump($result);
         // var_dump($statement->errorInfo());
     }
+
+    public function showLocation() {
+        $key = "AtGFLVCTd5bH2t5y-lMYSfYfwFmWAQL-DBg-YNuMPBUxGag7GrKORKLZSOqTsLx9";
+        $base_url = "http://dev.virtualearth.net/REST/v1/Locations/";
+        $url = $base_url .  $this->getLatitude() . "," .  $this->getLongitude() . "?key=" . $key;
+
+        $response_api = json_decode(file_get_contents($url));
+        $city = $response_api->resourceSets[0]->resources[0]->address->locality;
+
+        return $city;
+    }
+
+    
+
 
 }
