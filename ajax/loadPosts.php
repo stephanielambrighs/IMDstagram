@@ -94,7 +94,7 @@
 
         foreach($comments as $comment){
             $htmlPostOutput .= '
-            <h3>' . $comment->getText() . '</h3>
+            <h3>' . htmlspecialchars($comment->getText()) . '</h3>
             <p>' . $comment->getUploadedTimeAgo() . '</p>
             ';
         }
@@ -140,9 +140,9 @@
                 <img src="' . $post->getFile_path() . '" alt="feed">
                 </div>
                 <div class="col-6">
-                    <h3>' . $post->getTitle() .'</h3>
+                    <h3>' . htmlspecialchars($post->getTitle()) .'</h3>
                     <h4>' . $genre->getName() . '</h4>
-                    <p>' . $descriptions . $tagLinks . '</p>
+                    <p>' . htmlspecialchars($descriptions) . $tagLinks . '</p>
                 </div>
             </div>';
 
@@ -181,8 +181,9 @@
                     <input type="text" name="comment-input" id="comment-text" placeholder="Whats on your mind">
                     <a href="" class="btn btn-comment" id="btn-comment" data-postid="'.$post->getId().'">Add comment</a>
                 </div>
-                <ul id="comment_' . $post->getId() .' class="post__comments__list"'. $htmlPostOutput .'
-                </ul>
+                <div id="comment_' . $post->getId() . '"> 
+                    '. $htmlPostOutput .'
+                </div>
             </div>
         ';
     }
