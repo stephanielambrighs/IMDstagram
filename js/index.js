@@ -1,6 +1,7 @@
 let button = document.getElementById("btn-feed");
 let form = document.getElementById("form");
 let loc = document.querySelector(".p-location");
+addEventListenersToReportButtons();
 
 window.addEventListener('load', function () {
     if (navigator.geolocation) {
@@ -47,12 +48,17 @@ document.querySelector("#btn-load-more").addEventListener("click", function() {
     .then(response => response.text())
     .then(data => {
         document.querySelector(".row").innerHTML = data;
+        addEventListenersToReportButtons();
     });
 });
 
 
-let postReportButtons = document.querySelectorAll(".dropdown-item.btn-report");
-postReportButtons.forEach(function(reportButton) {
+function addEventListenersToReportButtons() {
+    // alert("adding advent");
+    console.log("addEventListeners");
+
+    let postReportButtons = document.querySelectorAll(".dropdown-item.btn-report");
+    postReportButtons.forEach(function(reportButton) {
     reportButton.addEventListener("click", function() {
 
         let postId = reportButton.id.replace("btn-report-post-", "");
@@ -62,8 +68,9 @@ postReportButtons.forEach(function(reportButton) {
         // only unique combinations of userId and postId will be added
         addEntryToReportsTable(postId);
 
+        });
     });
-});
+}
 
 
 function checkReportCount(postId){
@@ -122,30 +129,50 @@ function addEntryToReportsTable(postId){
 //Comments
 
 document.querySelectorAll(".btn-comment").forEach(item => {
-    item.addEventListener("click", function(){
+    item.addEventListener("click", function(e){
+        e.preventDefault();
         //console.log("Morgane");
         //Zoek postid en comment tekst
-        let postid = this.dataset.postid;
+        let postId = this.dataset.postid;
         let text = this.previousElementSibling.value;
-        console.log(postid);
-        console.log(text);
+
 
         //post naar databank (AJAX)
-        let formData = new FormData();
+        formData = new FormData();
         formData.append('text', text);
-        formData.append('postid', postid);
-        formData.append("userId", userId);
+        formData.append('postid', postId);
+        formData.append('userId', userId);
+
+        console.log(postId);
+        console.log(text);
+        console.log(userId);
+
+        comments = document.getElementById('comment_'+postId);
+        console.log(comments);
 
         fetch('ajax/savecomment.php', {
         method: 'POST',
         body: formData
         })
         .then(response => response.json())
-        .then(result => {
-        console.log('Success:', result);
+        .then(data => {
+            //addComment = data['addComment'];
+            //getCommentsPost = data['getCommentsPost'];
+            //console.log(getCommentsPost);
+            text = data['text'];
+            console.log(text);
+            console.log("tekst");
+
+            var h3 = document.createElement("H3");
+            h3.innerHTML = text;
+            comments.appendChild(h3);
+
+            var p = document.createElement("P");
+            p.innerHTML = "Just now";
+            comments.appendChild(p);
         })
         .catch(error => {
-        console.error('Error:', error);
+            //console.error('Error:', error);
         });
     });
 });

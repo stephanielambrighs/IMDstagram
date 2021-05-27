@@ -17,7 +17,7 @@ if(isset($_SESSION["legato-user"])){
     $user = $_SESSION['legato-user'];
     $userId = $user->getId();
 
-    var_dump($_SESSION["legato-user"]);
+    // var_dump($_SESSION["legato-user"]);
 
     // if a post is done, add it to the db
     if(!empty($_POST['title'])

@@ -2,21 +2,43 @@
     include_once(__DIR__ . "/../classes/User.php");
 
     if (!empty($_POST)) {
-        echo "😇";
 
-        $follow = new User();
-        $follow->setId($_POST['user_id']);
-        $follow->setFollowerId($_POST['follower_id']);
+        $user = new User();
+        $user->setId($_POST['user_id']);
+        $user->setFollowerId($_POST['follower_id']);
 
-        $res = $follow->follow();
 
-        // $response = [
-        //     'status' => 'success',
-        //     'body' => htmlspecialchars($follow->get),
-        //     'message' => 'Follow succes'
-        // ]
-    }
+        // check if exists
+        $followersRowId = Db::getFollowerRowId($user->getId(), $user->getFollowerId());
+
+        // if id > 0 then there already is a row in db
+        if ($followersRowId > 0) {
+            $response = [
+                'status' => 'Failed',
+                'message' => 'Follower row already exists'
+            ];
+        }
+        else {
+            // try to insert
+            $followSuccess = $user->follow();
+            if ($followSuccess) {
+                $response = [
+                    'status' => 'Success',
+                    'message' => 'Follow succes'
+                ];
+            }
+            else {
+                $response = [
+                    'status' => 'Failed',
+                    'message' => 'Follow failed'
+                ];
+            }
+        }
+
+
+
+    };
 
     header('Content-Type: application/json');
     echo json_encode($response);
-?>
+

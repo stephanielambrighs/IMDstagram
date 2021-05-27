@@ -20,6 +20,7 @@
     }
 
     $htmlOutput = '';
+    $htmlPostOutput = '';
 
     // add success/error message block
     if($isAdminPage){
@@ -44,6 +45,7 @@
         $user = Db::getUserById($post->getUser_id());
         $like = Like::getNumberLike($post->getId());
         $userLike = Like::getLikeStatusUser($post->getId(), $userId);
+        $comments = Comment::getAllComments($post->getId());
         $postUniqueName = "post-" . $post->getId();
         $countLikes = $like[0];
 
@@ -90,7 +92,12 @@
 
         }
 
-
+        foreach($comments as $comment){
+            $htmlPostOutput .= '
+            <h3>' . $comment->getText() . '</h3>
+            <p>' . $comment->getUploadedTimeAgo() . '</p>
+            ';
+        }
 
 
 
@@ -165,10 +172,9 @@
                     <input type="text" name="comment-input" id="comment-text" placeholder="Whats on your mind">
                     <a href="" class="btn btn-comment" id="btn-comment" data-postid="'.$post->getId().'">Add comment'.$post->getId().'</a>
                 </div>
-
-                <ul class="post__comments__list">
-                    <li>This is a first comment</li>
-                </ul>
+                <div id="comment_' . $post->getId() . '">'
+                . $htmlPostOutput .
+            '</div>
             </div>
         ';
     }

@@ -3,37 +3,24 @@
     include_once(__DIR__ . "/../classes/User.php");
     include_once(__DIR__ . "/../classes/Db.php");
 
-    //$user = $_SESSION['legato-user'];
-    //$userEmail = $user->getEmail();
-    //$userId =  Db::getUserByEmail($userEmail)->getId();
+        if(!empty($_POST)){
+            //Nieuwe comment maken
+            $userId = $_POST['userId'];
+            $postId = $_POST['postid'];
+            $text = $_POST['text'];
 
+            //Comment opslaan
+            $addCommentSuccess = Comment::saveComment($userId, $postId, $text);
+            $getCommentsPost = Comment::getAllComments($postId);
+            // $getTimeComment = Comment::getUploadedTimeAgo();
+            //$c->saveComment();
 
-    if(!empty($_POST)){
-        //Nieuwe comment maken
-        $c = new Comment();
-        $userId = $c->setUserId($_POST['userId']);
-        $postId = $c->setPostId($_POST['postid']);
-        $text = $c->setText($_POST['text']);
-
-        //Comment opslaan
-        $addCommentSuccess = $c->saveComment();
-
-        //Seccues boodschap teruggeven
-        if($addCommentSuccess){
-            $response = [
-                'status' => 'success',
-                'text' => htmlspecialchars($c->getText()),
-                'message' => 'Comment saved'
-            ];
+            //Seccues boodschap teruggeven
+                $response = [
+                    'text' => htmlspecialchars($text)
+                ];
+            
+            header('Content-Type: application/json');
+            echo json_encode($response);
         }
-        else {
-            $response = [
-                'status' => 'failed',
-                'messsage' => 'Failed to add a comment'
-            ];
-        }
-
-        header('Content-Type: application/json');
-        echo json_encode($response);
-    }
 ?>

@@ -1,36 +1,87 @@
 let showProfile = document.getElementById("showProfile");
 let editFormProfile = document.getElementById("editFormProfile");
-let follow = document.getElementById("btn-follow");
+let followButton = document.getElementById("btn-follow");
 
 
-let show = true;
-showProfile.style.display = "grid";
+// let show = true;
+// showProfile.style.display = "grid";
 //editFormProfile.style.display = "none";
 
 
-follow.addEventListener('click', function(e) {
-    console.log("clicked");
+followButton.addEventListener('click', function(e) {
 
-    let followerId = this.dataset.followerid;
-    let userId = this.dataset.userid;
+    getFollowStatus();
 
-    alert(followerId + " " + userId);
+    e.preventDefault();
+})
 
+
+function getFollowStatus(){
     let formData = new FormData();
-    formData.append("user_id", userId);
-    formData.append("follower_id", followerId);
+    formData.append("user_id", someonesId);
+    formData.append("follower_id", userId);
+
+    fetch("ajax/getFollowStatus.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log("Follow status: " + result['status']);
+
+        if (result['status'] == "present"){
+            unfollow();
+            followButton.innerHTML = "Follow";
+        }
+        else{
+            follow();
+            followButton.innerHTML = "Unfollow";
+        }
+
+    })
+    .catch(error => {
+        console.log("Error:", error);
+    })
+}
+
+
+function follow(){
+    let formData = new FormData();
+    formData.append("user_id", someonesId);
+    formData.append("follower_id", userId);
 
     fetch("ajax/follow.php", {
         method: "POST",
         body: formData
     })
-        .then(response => response.json())
-        .then(result => {
-            console.log("Succes:", result);
-        })
-        .catch(error => {
-            console.log("Error:", error);
-        })
+    .then(response => response.json())
+    // .then(response => response.text())
+    .then(result => {
+        console.log("Succes:", result);
+    })
+    .catch(error => {
+        console.log("Error:", error);
+    })
+}
 
-    e.preventDefault();
-})
+
+function unfollow(){
+    let formData = new FormData();
+    formData.append("user_id", someonesId);
+    formData.append("follower_id", userId);
+
+    fetch("ajax/unfollow.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    // .then(response => response.text())
+    .then(result => {
+        console.log("Succes:", result);
+    })
+    .catch(error => {
+        console.log("Error:", error);
+    })
+}
+
+

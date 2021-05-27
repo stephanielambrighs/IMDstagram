@@ -3,6 +3,7 @@
 
     session_start();
 
+
 if(isset($_SESSION["legato-user"])){
 
     // get email from session user
@@ -11,9 +12,9 @@ if(isset($_SESSION["legato-user"])){
     $user = DB::getUserByEmail($userEmail);
 
     // create search objects
-    $searchUserOutput = User::searchUser($_POST["search"]);
-    $searchPostOutput = Post::searchPost($_POST["search"]);
-    $searchLocationOutput = Post::searchLocation($_POST['search']);
+    $searchUserOutput = User::searchUser($_GET["search"]);
+    $searchPostOutput = Post::searchPost($_GET["search"]);
+    $searchLocationOutput = Post::searchLocation($_GET['search']);
 }else{
     header("Location: login.php");
 }
@@ -37,9 +38,9 @@ if(isset($_SESSION["legato-user"])){
     <div class="searchResult">
         <h3>Users</h3>
         <ul>
-        <?php foreach($searchUserOutput[0] as $key => $username): ?>
-            <li><a class="s-item" href="someonesProfile.php?email=<?php echo $username[0] ?>"><?php echo "{$username[0]}\n"; ?></a></li>
-        <?php endforeach; ?>
+            <?php foreach($searchUserOutput[0] as $searchUser): ?>
+                <li><a class="s-item" href="someonesProfile.php?id=<?php echo $searchUser['id'] ?>"><? echo htmlspecialchars("{$searchUser['username']}\n"); ?></a></li>
+            <?php endforeach; ?>
         </ul>
     </div>
     <div class="searchResult">
