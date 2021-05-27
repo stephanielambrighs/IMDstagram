@@ -31,8 +31,8 @@ if(isset($_SESSION["legato-user"])){
 
             if($uploadResult['success'] == true){
                 $post = new Post();
-                $post->setTitle($_POST['title']);
-                $post->setDescription($_POST['description']);
+                $post->setTitle(htmlspecialchars($_POST['title']));
+                $post->setDescription(htmlspecialchars($_POST['description']));
                 $post->setGenre_id(intval($_POST['genre_id']));
                 $post->setFile_path($uploadResult['file_path']);
                 $post->setUser_id(intval($userId));

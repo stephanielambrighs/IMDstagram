@@ -12,7 +12,7 @@ followButton.addEventListener('click', function(e) {
 
     getFollowStatus();
 
-    e.preventDefault();
+    // e.preventDefault();
 })
 
 
@@ -83,5 +83,3 @@ function unfollow(){
         console.log("Error:", error);
     })
 }
-
-
