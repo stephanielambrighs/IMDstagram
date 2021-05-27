@@ -58,7 +58,7 @@
         $tagLinks = "";
         foreach($tags as $tag){
             $urlTag = substr($tag, 1);
-            $tagLinks .= ' <a href="feed.php?v='.$urlTag.'">'.$tag.'</a>';
+            $tagLinks .= ' <a href="feed.php?v='.$urlTag.'">'. htmlspecialchars($tag) .'</a>';
             
         }
         
@@ -90,7 +90,7 @@
                 <div class="col-6">
                     <h3>' . htmlspecialchars($post->getTitle()) .'</h3>
                     <h4>' . $genre->getName() . '</h4>
-                    <p>' . htmlspecialchars($descriptions) . htmlspecialchars($tagLinks) . '</p>
+                    <p>' . htmlspecialchars($descriptions) . $tagLinks . '</p>
                 </div>
             </div>
             <div class="col-3 ' . $postUniqueName .'">
