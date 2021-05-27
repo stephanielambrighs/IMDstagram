@@ -16,6 +16,7 @@ class Post {
     private $latitude;
     private $longitude;
     private $location;
+    private $filter;
 
     public function __toString()
     {
@@ -242,6 +243,26 @@ class Post {
         return $this;
     }
 
+    /**
+     * Get the value of filter
+     */ 
+    public function getFilter()
+    {
+        return $this->filter;
+    }
+
+    /**
+     * Set the value of filter
+     *
+     * @return  self
+     */ 
+    public function setFilter($filter)
+    {
+        $this->filter = $filter;
+
+        return $this;
+    }
+
 
 
     public static function searchPost($search){
@@ -332,8 +353,8 @@ class Post {
 
         $conn = Db::getConnection();
         $statement = $conn->prepare("
-            INSERT INTO posts (`title`, `description`, `genre_id`, `upload_date`, `user_id`, `type_id`, `file_path`, `inactive`, `location`)
-            VALUES (:title, :description, :genre_id, :upload_date, :user_id, :type_id, :file_path, :inactive, :location);
+            INSERT INTO posts (`title`, `description`, `genre_id`, `upload_date`, `user_id`, `type_id`, `file_path`, `inactive`, `location`, `filter_id`)
+            VALUES (:title, :description, :genre_id, :upload_date, :user_id, :type_id, :file_path, :inactive, :location, :filter_id);
         ");
         $statement->bindValue(':title', $this->getTitle());
         $statement->bindValue(':description', $this->getDescription());
@@ -344,6 +365,7 @@ class Post {
         $statement->bindValue(':file_path', $this->getFile_path());
         $statement->bindValue(":inactive", $this->getInactive());
         $statement->bindValue(':location', strval($this->showLocation()));
+        $statement->bindValue(':filter_id', $this->getFilter());
         $result = $statement->execute();
         // var_dump($result);
         // var_dump($statement->errorInfo());
@@ -359,8 +381,4 @@ class Post {
 
         return $city;
     }
-
-    
-
-
 }

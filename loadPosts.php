@@ -82,7 +82,7 @@
 
             <div class="feed ' . $postUniqueName .'">
                 <div class="col-4">
-                <img src="' . $post->getFile_path() . '" alt="feed">
+                    <img src="' . $post->getFile_path() . '" alt="feed">
                 </div>
                 <div class="col-6">
                     <h3>' . $post->getTitle() .'</h3>

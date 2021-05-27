@@ -17,6 +17,10 @@ if(isset($_SESSION["legato-user"])){
     $user = $_SESSION['legato-user'];
     $userId = $user->getId();
 
+    // Get filters from DB
+    $filters = DB::getImageFilters();
+    // var_dump($filters);
+
     // var_dump($_SESSION["legato-user"]);
 
     // if a post is done, add it to the db
@@ -38,6 +42,8 @@ if(isset($_SESSION["legato-user"])){
                 $post->setUser_id(intval($userId));
                 $post->setLatitude($_POST['latitude']);
                 $post->setLongitude($_POST['longitude']);
+                $post->setFilter($_POST['filter']);
+
                 $location = $post->showLocation();
                 $post->setLocation($location);
                 $result = $post->insert();
@@ -82,6 +88,7 @@ if(isset($_SESSION["legato-user"])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cssgram.css">
     <link href="/css/index.css" rel="stylesheet">
     <title>Legato</title>
 </head>
@@ -116,8 +123,21 @@ if(isset($_SESSION["legato-user"])){
             <div id="msg-genres" class="alert alert-danger form"></div>
     </div>
     <div class="mb-3">
+        
+        <div class="text-center">
+            <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" id="avatar" class="avatar img-thumbnail image-filter" alt="avatar">
+        </div>
+
+        <select name="filter" id="filter" class="form-select">
+            <?php foreach($filters as $key=>$filter): ?>
+                <option data-class="<?php echo $filter->getClass(); ?>" value="<?php echo $filter->getId(); ?>"><?php echo $filter->getName(); ?></option>
+            <?php endforeach; ?>
+        </select>
+
+
+
         <label for="formFile" class="form-label">Upload file</label>
-        <input class="form-control" name="file" type="file" id="file">
+        <input class="form-control file-upload" name="file" type="file" id="file">
         <?php if($uploadResult['success'] == false): ?>
             <div class="alert alert-danger form"><?php echo $uploadResult['message']; ?></div>
         <?php endif;?>
@@ -180,3 +200,6 @@ if(isset($_SESSION["legato-user"])){
 
 </body>
 </html>
+
+<script src="js/main.js"></script>
+<script src="js/filter.js"></script>
