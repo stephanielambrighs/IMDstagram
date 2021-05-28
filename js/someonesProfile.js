@@ -9,17 +9,20 @@ let followButton = document.getElementById("btn-follow");
 
 
 followButton.addEventListener('click', function(e) {
-
-    getFollowStatus();
-
-    // e.preventDefault();
+    clickFollowButton();
 })
 
+window.addEventListener('load', (event) => {
+    getFollowStatus();
+});
 
-function getFollowStatus(){
+
+function clickFollowButton(){
     let formData = new FormData();
     formData.append("user_id", someonesId);
     formData.append("follower_id", userId);
+
+    // console.log(userId);
 
     fetch("ajax/getFollowStatus.php", {
         method: "POST",
@@ -36,6 +39,35 @@ function getFollowStatus(){
         else{
             follow();
             followButton.innerHTML = "Unfollow";
+        }
+
+    })
+    .catch(error => {
+        console.log("Error:", error);
+    })
+}
+
+
+function getFollowStatus(){
+    let formData = new FormData();
+    formData.append("user_id", someonesId);
+    formData.append("follower_id", userId);
+
+    console.log(userId);
+
+    fetch("ajax/getFollowStatus.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log("Follow status: " + result['status']);
+
+        if (result['status'] == "present"){
+            followButton.innerHTML = "Unfollow";
+        }
+        else{
+            followButton.innerHTML = "Follow";
         }
 
     })

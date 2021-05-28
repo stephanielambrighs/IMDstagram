@@ -6,22 +6,19 @@ session_start();
 if(isset($_SESSION["legato-user"])){
 
     // Get user from register
-    // $sessionUser = $_SESSION['legato-user'];
-    // $userEmail = $sessionUser->getEmail();
+    $sessionUser = $_SESSION['legato-user'];
+    $userEmail = $sessionUser->getEmail();
 
     // Fully update user from DB
-    // $user = DB::getUserByEmail($userEmail);
-    // $_SESSION['legato-user'] = $user;
+    $user = DB::getUserByEmail($userEmail);
 
     // Get user from session (updated user)
-    $user = $_SESSION['legato-user'];
     $userId = $user->getId();
 
     // Get filters from DB
     $filters = DB::getImageFilters();
-    // var_dump($filters);
 
-    // var_dump($_SESSION["legato-user"]);
+
 
     // if a post is done, add it to the db
     if(!empty($_POST['title'])
@@ -42,8 +39,7 @@ if(isset($_SESSION["legato-user"])){
                 $post->setUser_id(intval($userId));
                 $post->setLatitude($_POST['latitude']);
                 $post->setLongitude($_POST['longitude']);
-                $post->setFilter($_POST['filter']);
-
+                $post->setFilter(intval($_POST['filter']));
                 $location = $post->showLocation();
                 $post->setLocation($location);
                 $result = $post->insert();
@@ -123,7 +119,7 @@ if(isset($_SESSION["legato-user"])){
             <div id="msg-genres" class="alert alert-danger form"></div>
     </div>
     <div class="mb-3">
-        
+
         <div class="text-center">
             <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" id="avatar" class="avatar img-thumbnail image-filter" alt="avatar">
         </div>
