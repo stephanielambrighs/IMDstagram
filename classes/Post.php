@@ -16,7 +16,7 @@ class Post {
     private $latitude;
     private $longitude;
     private $location;
-    private $filter;
+    private $filter = 1;
 
     public function __toString()
     {
@@ -239,13 +239,12 @@ class Post {
     public function setLocation($location)
     {
         $this->location = $location;
-        var_dump($this->location);
         return $this;
     }
 
     /**
      * Get the value of filter
-     */ 
+     */
     public function getFilter()
     {
         return $this->filter;
@@ -255,7 +254,7 @@ class Post {
      * Set the value of filter
      *
      * @return  self
-     */ 
+     */
     public function setFilter($filter)
     {
         $this->filter = $filter;
@@ -367,8 +366,9 @@ class Post {
         $statement->bindValue(':location', strval($this->showLocation()));
         $statement->bindValue(':filter_id', $this->getFilter());
         $result = $statement->execute();
-        // var_dump($result);
+
         // var_dump($statement->errorInfo());
+        return $result;
     }
 
     public function showLocation() {

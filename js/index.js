@@ -16,7 +16,7 @@ function showPosition(position) {
     document.getElementById("location-longitude").value = position.coords.longitude;
 }
 
-form.style.display = "none";
+// form.style.display = "none";
 let click = true;
 
 
@@ -330,7 +330,8 @@ document.querySelectorAll(".btn-info-like").forEach(item => {
         console.log(userId);
         //console.log(this.innerHTML)
         //console.log(countLikes);
-        likes = document.getElementById(postId);
+        let likes = document.getElementById(postId);
+        // console.log(likes);
        // likes.dataset.likeid = postId;
 
 
