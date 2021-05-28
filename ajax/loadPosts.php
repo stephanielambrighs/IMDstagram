@@ -132,8 +132,8 @@
 
         $htmlOutput .= '
             </div>
-                <p>' . $post->getUploadedTimeAgo() .'</p></br>
                 <p>' . $post->getLocation() .'</p>
+                <p>' . $post->getUploadedTimeAgo() .'</p>
             </div>
 
             <div class="feed ' . $postUniqueName .'">

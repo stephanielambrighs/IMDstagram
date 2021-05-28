@@ -83,8 +83,9 @@ div.col-9 {
 }
 
 div.col-9 img {
-    width: 80px;
-    height: 80px;
+    margin-top: 30px;
+    width: 90px;
+    height: 90px;
     border-radius: 85%;
     justify-self: center;
 }
@@ -96,10 +97,17 @@ div.col-9 h2 {
 }
 
 div.col-9 p {
+    display: grid;
+    margin-top: -3px;
+    margin-bottom: -10px;
     justify-self: start;
-    grid-row-start: -1;
+    grid-row-start: 0;
     margin-left: 5%;
     grid-column-end: 3;
+}
+
+div.col-9 p:nth-child(0) {
+    margin-top: -10px;
 }
 
 .feed {
