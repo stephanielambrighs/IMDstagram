@@ -90,7 +90,7 @@ class Db {
         $conn = self::getConnection();
         $statement = $conn->prepare("
             SELECT *
-            FROM posts
+            FROM posts JOIN post_filter pf ON filter_id = pf.id
 
             /* Only posts with < 3 reports */
             WHERE (
@@ -153,11 +153,34 @@ class Db {
             $post->setType_id(intval($db_post['type_id']));
             $post->setFile_path($db_post['file_path']);
 
+            $post->setFilter($db_post['class']);
+
             $post->setLocation($db_post['location']);
             array_push($postList, $post);
             // var_dump($postList);
         }
         return $postList;
+    }
+
+    public static function getImageFilters() {
+        $conn = self::getConnection();
+        $statement = $conn->prepare("SELECT * FROM post_filter");
+
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        $filterList = [];
+
+        foreach($result as $db_filter) {
+            $filter = new Filter();
+            $filter->setId($db_filter['id']);
+            $filter->setName($db_filter['name']);
+            $filter->setClass($db_filter['class']);
+
+            array_push($filterList, $filter);
+            
+        }
+        return $filterList;
     }
 
     public static function getAllPostsWithTag($limit, $tag){
