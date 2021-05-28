@@ -31,6 +31,9 @@
     }
     // loop over posts to generate html
     foreach($allPosts as $post){
+        var_dump("🍌-- " . $post->showLocation());
+
+        var_dump($post);
 
         // get user file path for profile picture
         $post_user_file_path = Db::getProfileImgPath($post->getUser_id());
@@ -132,7 +135,8 @@
 
         $htmlOutput .= '
             </div>
-                <p>' . $post->getUploadedTimeAgo() .'</p>
+                <p>' . $post->getUploadedTimeAgo() .'</p></br>
+                <p>' . $post->getLocation() .'</p>
             </div>
 
             <div class="feed ' . $postUniqueName .'">
