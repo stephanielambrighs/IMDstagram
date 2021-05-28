@@ -6,12 +6,12 @@ session_start();
 if(isset($_SESSION["legato-user"])){
 
     // Get user from register
-    $sessionUser = $_SESSION['legato-user'];
-    $userEmail = $sessionUser->getEmail();
+    // $sessionUser = $_SESSION['legato-user'];
+    // $userEmail = $sessionUser->getEmail();
 
     // Fully update user from DB
-    $user = DB::getUserByEmail($userEmail);
-    $_SESSION['legato-user'] = $user;
+    // $user = DB::getUserByEmail($userEmail);
+    // $_SESSION['legato-user'] = $user;
 
     // Get user from session (updated user)
     $user = $_SESSION['legato-user'];

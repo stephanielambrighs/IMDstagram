@@ -33,31 +33,31 @@ if(isset($_SESSION["legato-user"])){
 </head>
 <body>
 <?php include_once("inc/nav.inc.php"); ?>
-<main style="background-color: #5E1161;">
-    <h2 class="h2">Results</h2>
-    <div class="searchResult">
-        <h3>Users</h3>
-        <ul>
-            <?php foreach($searchUserOutput[0] as $searchUser): ?>
-                <li><a class="s-item" href="someonesProfile.php?id=<?php echo $searchUser['id'] ?>"><? echo htmlspecialchars("{$searchUser['username']}\n"); ?></a></li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-    <div class="searchResult">
-        <h3>Posts</h3>
-        <?php include 'loadPostsTitle.php'; ?>
-    </div>
 
-    <div class="searchResult">
-        <h3>Tags</h3>
-        <?php include 'loadPostsTag.php'; ?>
-    </div>
+<h2 class="h2">Results</h2>
+<div class="searchResult">
+    <h3>Users</h3>
+    <ul>
+        <?php foreach($searchUserOutput[0] as $searchUser): ?>
+            <li><a class="s-item" href="someonesProfile.php?id=<?php echo $searchUser['id'] ?>"><? echo htmlspecialchars("{$searchUser['username']}\n"); ?></a></li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+<div class="searchResult">
+    <h3>Posts</h3>
+    <?php include 'loadPostsTitle.php'; ?>
+</div>
 
-    <div class="searchResult">
-        <h3>Location</h3>
-        <?php include 'loadPostsLocation.php'; ?>
-    </div>
-</main>
+<div class="searchResult">
+    <h3>Tags</h3>
+    <?php include 'loadPostsTag.php'; ?>
+</div>
+
+<div class="searchResult">
+    <h3>Location</h3>
+    <?php include 'loadPostsLocation.php'; ?>
+</div>
+
 
 <?php include_once("inc/footer.inc.php");?>
 <script src="/js/index.js"></script>
