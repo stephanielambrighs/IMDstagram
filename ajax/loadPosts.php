@@ -20,7 +20,7 @@
     }
 
     $htmlOutput = '';
-    $htmlPostOutput = '';
+
 
     // add success/error message block
     if($isAdminPage){
@@ -92,6 +92,7 @@
 
         }
 
+        $htmlPostOutput = '';
         foreach($comments as $comment){
             $htmlPostOutput .= '
             <h3>' . htmlspecialchars($comment->getText()) . '</h3>
@@ -180,7 +181,7 @@
             <div class="post__comments">
                 <div class="post__comments__form">
                     <input type="text" name="comment-input" id="comment-text" placeholder="Whats on your mind">
-                    <a href="" class="btn btn-comment" id="btn-comment" data-postid="'.$post->getId().'">Add comment</a>
+                    <a href="" class="btn btn-comment" data-postid="'.$post->getId().'">Add comment</a>
                 </div>
                 <div id="comment_' . $post->getId() . '">
                     '. $htmlPostOutput .'
