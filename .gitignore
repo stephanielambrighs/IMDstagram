@@ -1,0 +1,5 @@
+settings*
+.docker*
+docker-compose*
+test*.php
+data*
