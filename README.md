@@ -2,17 +2,11 @@
 
 
 ## Team:
-- Stephanie Lambrighs 
+- Stephanie Lambrighs
 - Mats Thys
 - Morgane Van Achter
-- Deborah Beaten 
 
 
 ## About
 
-
-## Todo
-
-
-## Known issues
-
+Project for Interactive Multimedia Design
