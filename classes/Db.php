@@ -89,8 +89,11 @@ class Db {
     public static function getAllPosts($limit, $userId){
         $conn = self::getConnection();
         $statement = $conn->prepare("
-            SELECT *
-            FROM posts JOIN post_filter pf ON filter_id = pf.id
+            SELECT posts.id, posts.user_id, posts.genre_id,
+            posts.title, posts.description, posts.upload_date,
+            posts.type_id, posts.file_path, posts.location,
+            post_filter.class
+            FROM posts JOIN post_filter ON posts.filter_id = post_filter.id
 
             /* Only posts with < 3 reports */
             WHERE (
@@ -157,7 +160,6 @@ class Db {
 
             $post->setLocation($db_post['location']);
             array_push($postList, $post);
-            // var_dump($postList);
         }
         return $postList;
     }
@@ -178,7 +180,7 @@ class Db {
             $filter->setClass($db_filter['class']);
 
             array_push($filterList, $filter);
-            
+
         }
         return $filterList;
     }
@@ -397,6 +399,7 @@ class Db {
         ");
         $statement->bindValue(':user_id', $userId);
         $statement->bindValue(':post_id', $postId);
+        // var_dump($statement->errorInfo());
         return $statement->execute();
     }
 
