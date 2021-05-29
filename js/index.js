@@ -128,7 +128,7 @@ function addEntryToReportsTable(postId){
 
 //Comments
 
-document.querySelectorAll(".btn-comment").forEach(item => {
+document.querySelectorAll(".btn.btn-comment").forEach(item => {
     item.addEventListener("click", function(e){
         e.preventDefault();
         //console.log("Morgane");
