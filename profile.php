@@ -11,6 +11,8 @@ if(isset($_SESSION["legato-user"])){
     $userProfile = Profile::loadMyProfile($userEmail);
 
     $user = new User();
+
+    $followers = $user->loadFollowers();
     $user = DB::getUserByEmail($userEmail);
     $userId = $user->getId();
     if ($user->getAdmin()){
@@ -125,7 +127,7 @@ if(isset($_SESSION["legato-user"])){
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex flex-column align-items-left text-left">
-                  <h6 class="mb-0">Followers</h6>
+                  <h6 class="mb-0">Following</h6>
                     <div class="mt-3">
                       <?php foreach ($followers as $key => $f): ?>
                         <section>

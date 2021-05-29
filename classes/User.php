@@ -566,6 +566,18 @@ class User
         return $result;
     }
 
+    public function loadFollowers() {
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("select follower_id from followers where user_id=(select id from users where email=:userMail)");
+
+        $userId = $_SESSION['legato-user']->getEmail();
+
+        $statement->bindValue(":userMail", $userId);
+
+        $statement->execute();
+        $result[] = $statement->fetchall();
+        return $result;
+    }
 
     public static function completeProfile($user){
         $conn = Db::getConnection();
