@@ -10,7 +10,7 @@ let followButton = document.getElementById("btn-follow");
 
 followButton.addEventListener('click', function(e) {
     clickFollowButton();
-})
+});
 
 window.addEventListener('load', (event) => {
     getFollowStatus();

@@ -7,7 +7,7 @@ session_start();
 
 if(isset($_SESSION["legato-user"])){
   // var_dump($_SESSION['legato-user']);
-  //$someonesMail = $_GET["email"];
+  // $someonesMail = $_GET["email"];
   // var_dump($someonesMail);
 
 
@@ -20,9 +20,17 @@ if(isset($_SESSION["legato-user"])){
 
   //$someonesProfile = Profile::loadProfile($someonesMail);
 
-  $user = $_SESSION['legato-user'];
+  $sessionUser = $_SESSION['legato-user'];
+  $userEmail = $sessionUser->getEmail();
+
+  // Fully update user from DB
+  $user = DB::getUserByEmail($userEmail);
+
+  // Get user from session (updated user)
   $userId = $user->getId();
-  // var_dump($user);
+
+  // $user = $_SESSION['legato-user'];
+  // $userId = $user->getId();
 
 }else{
   header("Location: login.php");
