@@ -11,6 +11,8 @@ if(isset($_SESSION["legato-user"])){
     $userProfile = Profile::loadMyProfile($userEmail);
 
     $user = new User();
+
+    $followers = $user->loadFollowers();
     $user = DB::getUserByEmail($userEmail);
     $userId = $user->getId();
     if ($user->getAdmin()){
@@ -117,6 +119,47 @@ if(isset($_SESSION["legato-user"])){
                 <div class="col-md-2">
                     <!--<input id="editProfile" type="submit" class="btn btn-primary" name="btnAddMore" value="Edit Profile"/>-->
                     <a href="#" id="editProfile" class="btn btn-primary" name="btnAddMore" value="Edit Profile">Edit Profile</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-left text-left">
+                  <h6 class="mb-0">Following</h6>
+                    <div class="mt-3">
+                      <?php foreach ($followers as $key => $f): ?>
+                        <section>
+                          <a href="someonesProfile.php?email=<?php echo $followers[$key]['follower_id'] ?>"><p style="color: black;"><?php echo $followers[$key]['username'] ?></p></a>
+                        </section>
+                      <?php endforeach; ?>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Posted by me</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <?php echo ($userProfile["firstname"] . " " . $userProfile["lastname"]); ?>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row profile">
+                  <div class="container-edit">
+                    <div class="row-edit">
+
+                      <?php include 'ajax/loadMyPosts.php';?>
+
+                    </div>
+                  </div>
+                  </div>
                 </div>
               </div>
             </div>
