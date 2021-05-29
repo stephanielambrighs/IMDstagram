@@ -3,8 +3,9 @@
 include_once(__DIR__ . "/../classes/Db.php");
 
 if(!empty($_POST)){
-    $postId = $_POST['postId'];
-    $userId = $_POST['userId'];
+    $postId = intval($_POST['postId']);
+    $userId = intval($_POST['userId']);
+
 
     if (Db::checkIfReportExists($postId, $userId)){
         $response = [
